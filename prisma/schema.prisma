@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model project {
+  id          Int           @id @default(autoincrement())
+  title       String?       @db.VarChar
+  projectUrl  String?       @db.VarChar
+  description String?       @db.VarChar
+  publishDate DateTime?     @db.Date
+  image       String?       @db.VarChar
+  upVote      Int?
+  downVote    Int?
+  projectTag  projectTag[]
+  projectUser projectUser[]
+}
+
+model projectTag {
+  id        Int      @id @default(autoincrement())
+  peojectId Int?
+  tagId     Int?
+  project   project? @relation(fields: [peojectId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  tag       tag?     @relation(fields: [tagId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model projectUser {
+  id        Int      @id @default(autoincrement())
+  userId    Int?
+  projectId Int?
+  project   project? @relation(fields: [projectId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user      user?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model tag {
+  id         Int          @id @default(autoincrement())
+  name       String?      @db.VarChar
+  projectTag projectTag[]
+  userTag    userTag[]
+}
+
+model user {
+  id               Int           @id @default(autoincrement())
+  pseudo           String?       @db.VarChar
+  avatar           String?       @db.VarChar
+  firstname        String?       @db.VarChar
+  lastname         String?       @db.VarChar
+  password         String?       @db.VarChar
+  email            String?       @db.VarChar
+  birthDate        DateTime?     @db.Date
+  githubProfileURL String?       @db.VarChar
+  projectUser      projectUser[]
+  userTag          userTag[]
+}
+
+model userTag {
+  id     Int   @id @default(autoincrement())
+  userId Int?
+  tagId  Int?
+  tag    tag?  @relation(fields: [tagId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user   user? @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}

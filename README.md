@@ -14,3 +14,9 @@ then start the server with
 ```bash
 npm run dev
 ```
+
+## Prisma
+
+Create a .env file with the .env.template
+
+Run `npx prisma generate`
