@@ -19,4 +19,7 @@ npm run dev
 
 Create a .env file with the .env.template
 
+Run `npx prisma migrate dev`
+
 Run `npx prisma generate`
+

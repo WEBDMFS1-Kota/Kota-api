@@ -79,5 +79,3 @@ ALTER TABLE "userTag" ADD CONSTRAINT "userTag_tagId_fkey" FOREIGN KEY ("tagId") 
 
 -- AddForeignKey
 ALTER TABLE "userTag" ADD CONSTRAINT "userTag_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE user add fullname;
