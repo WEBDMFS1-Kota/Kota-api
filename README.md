@@ -27,3 +27,9 @@ npm run dev
 Create a .env file with the .env.template
 
 Run `npx prisma generate`
+
+Use prisma studio with
+
+```bash
+npx prisma studio
+```
