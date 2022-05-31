@@ -12,7 +12,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "fastify": "^3.29.0"
+    "@prisma/client": "^3.14.0",
+    "fastify": "^3.29.0",
+    "prisma": "^3.14.0"
   },
   "devDependencies": {
     "@tsconfig/node18": "^1.0.0",
