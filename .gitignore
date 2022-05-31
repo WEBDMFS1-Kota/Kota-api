@@ -130,3 +130,6 @@ dist
 .pnp.*
 
 build
+# Mac
+.history
+.DS_Store
