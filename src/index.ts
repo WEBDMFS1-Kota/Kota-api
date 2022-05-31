@@ -4,7 +4,7 @@ const server = fastify();
 
 server.get('/ping', async (request, reply) => {
   console.log(request);
-  // console.log(reply);
+  console.log(reply);
   return 'pong!!\n';
 });
 
