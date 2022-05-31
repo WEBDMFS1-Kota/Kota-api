@@ -3,7 +3,14 @@
 ## Getting started
 
 Install nodejs 18.2.0
-Install modules with
+Install docker
+Run the database with:
+
+```
+docker-compose up -d
+```
+
+Install node modules with
 
 ```bash
 npm i
