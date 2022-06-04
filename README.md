@@ -32,6 +32,4 @@ Run `npx prisma db pull`
 
 Run `npx prisma generate`
 
-Run `npx prisma generate`
-
 Run `npx prisma migrate dev` if database doesn't exist or isn't up to date
