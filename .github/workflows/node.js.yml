@@ -38,16 +38,20 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: 
-        actions/checkout@v3
-        tj-actions/verify-changed-files@v9.1
-    - name: Use Node.js ${{ matrix.node-version }}
+    - uses: actions/checkout@v3
+    - name: Verify if schema.prisma has been changed
+      uses: tj-actions/verify-changed-files@v9.1
+      id: verify-prisma-schema
+      with:
+        files: |
+          ./prisma/schema.prisma
+    - name: Migrate production database
     - id: migrate-database
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-      if: contains(steps.migrate-database.outputs.changed_files, './prisma/schema.prisma')
+      if: contains(steps.verify-prisma-schema.outputs.changed_files, './prisma/schema.prisma')
     - run: npm ci
     - run: npx prisma migrate deploy
     
