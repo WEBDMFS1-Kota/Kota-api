@@ -42,9 +42,6 @@ jobs:
     - name: Verify if schema.prisma has been changed
       uses: tj-actions/verify-changed-files@v9.1
       id: verify-prisma-schema
-      with:
-        files: |
-          ./prisma/schema.prisma
     - name: Migrate production database
       uses: actions/setup-node@v3
       if: contains(steps.verify-prisma-schema.outputs.changed_files, './prisma/schema.prisma')
@@ -52,7 +49,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-      - run: npm ci
-      - run: npx prisma migrate deploy
+    - run: npm ci
+    - run: npx prisma migrate deploy
 
 
