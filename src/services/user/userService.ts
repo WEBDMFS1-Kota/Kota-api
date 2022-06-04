@@ -3,7 +3,7 @@
 import prisma from '../globalService';
 
 async function createUser(query: any) {
-  return prisma.user.create({
+  return prisma.users.create({
     data: {
       email: query.email,
       password: query.password,
@@ -12,11 +12,11 @@ async function createUser(query: any) {
 }
 
 async function getUser(query: any) {
-  return prisma.$queryRaw`SELECT * FROM public.user WHERE email=${query.email}`;
+  return prisma.$queryRaw`SELECT * FROM users WHERE email=${query.email}`;
 }
 
 async function updateUser(params:any, query: any) {
-  return prisma.user.update({
+  return prisma.users.update({
     where: {
       id: Number(params.id),
     },
@@ -27,7 +27,7 @@ async function updateUser(params:any, query: any) {
 }
 
 async function deleteUser(query:any) {
-  return prisma.user.delete({
+  return prisma.users.delete({
     where: {
       id: Number(query.id),
     },

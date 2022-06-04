@@ -26,7 +26,12 @@ npm run dev
 
 Create a .env file with the .env.template
 
-Run `npx prisma migrate dev`
+Change postgres database schema (with editor for example)
+
+Run `npx prisma db pull`
 
 Run `npx prisma generate`
 
+Run `npx prisma generate`
+
+Run `npx prisma migrate dev` if database doesn't exist or isn't up to date
