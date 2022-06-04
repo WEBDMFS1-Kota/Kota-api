@@ -31,28 +31,29 @@ jobs:
     - run: npm run lint
   migrate-database:
     runs-on: ubuntu-latest
-    
+
     strategy:
       matrix:
         node-version: [18.2.0]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v3
     - name: Verify if schema.prisma has been changed
-      uses: tj-actions/verify-changed-files@v9.1
+    - uses: actions/checkout@v3
+    - uses: tj-actions/verify-changed-files@v9.1
       id: verify-prisma-schema
       with:
         files: |
           ./prisma/schema.prisma
     - name: Migrate production database
-    - id: migrate-database
-      uses: actions/setup-node@v3
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      if: contains(steps.verify-prisma-schema.outputs.changed_files, './prisma/schema.prisma')
+      id: migrate-database
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-      if: contains(steps.verify-prisma-schema.outputs.changed_files, './prisma/schema.prisma')
-    - run: npm ci
-    - run: npx prisma migrate deploy
-    
-  
+      - run: npm ci
+      - run: npx prisma migrate deploy
+
+
