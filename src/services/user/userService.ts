@@ -15,7 +15,7 @@ async function getUser(query: any) {
   return prisma.$queryRaw`SELECT * FROM users WHERE email=${query.email}`;
 }
 
-async function updateUser(params:any, query: any) {
+async function updateUser(params: any, query: any) {
   return prisma.users.update({
     where: {
       id: Number(params.id),
@@ -26,7 +26,7 @@ async function updateUser(params:any, query: any) {
   });
 }
 
-async function deleteUser(query:any) {
+async function deleteUser(query: any) {
   return prisma.users.delete({
     where: {
       id: Number(query.id),

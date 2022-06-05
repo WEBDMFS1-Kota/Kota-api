@@ -3,39 +3,42 @@ import fastify from 'fastify';
 // eslint-disable-next-line import/no-unresolved
 import {
   createUser, updateUser, getUser, deleteUser,
-// eslint-disable-next-line import/extensions
+  // eslint-disable-next-line import/extensions
 } from './services/user/userService';
 // eslint-disable-next-line import/extensions
 
-const server = fastify();
+import projetRoutes from './routes/projet/projetRoute';
 
-server.get('/ping', async (request:any, reply:any) => {
+const server = fastify({ logger: true });
+server.register(projetRoutes);
+
+server.get('/ping', async (request: any, reply: any) => {
   console.log(request);
   console.log(reply);
   return 'pong!!\n';
 });
 
-server.delete('/users/deleteUser', async (request:any) => {
+server.delete('/users/deleteUser', async (request: any) => {
   const { query } = request;
   const user = await deleteUser(query);
   return user;
 });
 
-server.get('/users/getUser', async (request:any) => {
+server.get('/users/getUser', async (request: any) => {
   console.log(request);
   const { query } = request;
   const user = await getUser(query);
   return user;
 });
 
-server.patch('/users/updateUser/:id', async (request:any) => {
+server.patch('/users/updateUser/:id', async (request: any) => {
   const { params } = request;
   const { query } = request;
   const updatedUser = await updateUser(params, query);
   return updatedUser;
 });
 
-server.post('/users/newUser', async (request:any) => {
+server.post('/users/newUser', async (request: any) => {
   const { query } = request;
   const newUser = await createUser(query);
   return newUser;
