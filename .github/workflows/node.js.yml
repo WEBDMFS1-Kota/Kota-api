@@ -32,6 +32,9 @@ jobs:
   migrate-database:
     runs-on: ubuntu-latest
 
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
     strategy:
       matrix:
         node-version: [18.2.0]
@@ -43,13 +46,8 @@ jobs:
       uses: tj-actions/verify-changed-files@v9.1
       id: verify-prisma-schema
     - name: Migrate production database
-      uses: actions/setup-node@v3
       if: contains(steps.verify-prisma-schema.outputs.changed_files, './prisma/schema.prisma')
       id: migrate-database
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npx prisma migrate deploy
+      run: npx prisma migrate deploy
 
 
