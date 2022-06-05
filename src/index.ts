@@ -7,10 +7,12 @@ import {
 } from './services/user/userService';
 // eslint-disable-next-line import/extensions
 
+// Modif Alice
 import projetRoutes from './routes/projet/projetRoute';
 
 const server = fastify({ logger: true });
 server.register(projetRoutes);
+// fin modif
 
 server.get('/ping', async (request: any, reply: any) => {
   console.log(request);

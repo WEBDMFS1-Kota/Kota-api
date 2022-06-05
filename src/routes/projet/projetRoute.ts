@@ -1,27 +1,45 @@
 import {
   getProjetsSchema,
   addProjetSchema,
-  // getProjetSchema,
-  // updateProjetSchema,
-  // deleteProjetSchema,
+  getProjetByIdSchema,
+  updateProjetSchema,
+  deleteProjetSchema,
 } from '../../schema/projetSchema';
 
 import {
   addProjet,
   getProjets,
+  getProjetById,
+  updateProjet,
+  deleteProjet,
 } from '../../services/projet/projetService';
 
 const projetRoutes = (fastify: any, opts: any, done: () => void) => {
-  fastify.get('/api/projet', {
+  fastify.get('/api/projets', {
     schema: getProjetsSchema,
     handler: getProjets,
   });
-  fastify.post('/api/projet/add', {
+
+  fastify.get('/api/projets/:id', {
+    schema: getProjetByIdSchema,
+    handler: getProjetById,
+  });
+
+  fastify.post('/api/projets/add', {
     schema: addProjetSchema,
     handler: addProjet,
   });
 
-  console.log('typeof done:', (typeof done), JSON.stringify(done));
+  fastify.put('/api/projets/edit/:id', {
+    schema: updateProjetSchema,
+    handler: updateProjet,
+  });
+
+  fastify.delete('/api/projets/delete/:id', {
+    schema: deleteProjetSchema,
+    handler: deleteProjet,
+  });
+
   done();
 };
 

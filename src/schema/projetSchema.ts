@@ -1,12 +1,13 @@
 const typeString = { type: 'string' };
 const typeNumber = { type: 'number' };
-const typeDate = { type: 'object' };
+const typeObject = { type: 'object' };
+
 const typeProperties = {
   id: typeNumber,
   title: typeString,
   projectUrl: typeString,
   description: typeString,
-  publishDate: typeDate,
+  publishDate: typeObject,
   image: typeString,
   upVote: typeNumber,
   usersVotes: typeNumber,
@@ -26,7 +27,7 @@ const getProjetsSchema = {
   },
 };
 
-const getProjetSchema = {
+const getProjetByIdSchema = {
   params: {
     id: typeNumber,
   },
@@ -74,7 +75,7 @@ const deleteProjetSchema = {
 
 export {
   getProjetsSchema,
-  getProjetSchema,
+  getProjetByIdSchema,
   addProjetSchema,
   updateProjetSchema,
   deleteProjetSchema,
