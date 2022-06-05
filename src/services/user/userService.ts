@@ -7,12 +7,17 @@ async function createUser(query: any) {
     data: {
       email: query.email,
       password: query.password,
+      pseudo: query.pseudo,
     },
   });
 }
 
 async function getUser(query: any) {
-  return prisma.$queryRaw`SELECT * FROM users WHERE email=${query.email}`;
+  return prisma.users.findMany({
+    where: {
+      email: query.email,
+    },
+  });
 }
 
 async function updateUser(params:any, query: any) {

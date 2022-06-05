@@ -15,27 +15,30 @@ server.get('/ping', async (request:any, reply:any) => {
   return 'pong!!\n';
 });
 
-server.delete('/users/deleteUser', async (request:any) => {
+server.delete('/users', async (request:any) => {
   const { query } = request;
-  const user = await deleteUser(query);
-  return user;
+  try {
+    await deleteUser(query);
+    return 'User successfully deleted';
+  } catch (error) {
+    return error;
+  }
 });
 
-server.get('/users/getUser', async (request:any) => {
-  console.log(request);
+server.get('/users', async (request:any) => {
   const { query } = request;
   const user = await getUser(query);
   return user;
 });
 
-server.patch('/users/updateUser/:id', async (request:any) => {
+server.patch('/users/:id', async (request:any) => {
   const { params } = request;
   const { query } = request;
   const updatedUser = await updateUser(params, query);
   return updatedUser;
 });
 
-server.post('/users/newUser', async (request:any) => {
+server.post('/users', async (request:any) => {
   const { query } = request;
   const newUser = await createUser(query);
   return newUser;
