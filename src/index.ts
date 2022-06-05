@@ -18,8 +18,8 @@ server.get('/ping', async (request:any, reply:any) => {
 server.delete('/users', async (request:any) => {
   const { query } = request;
   try {
-    await deleteUser(query);
-    return 'User successfully deleted';
+    const user = await deleteUser(query);
+    return `User ${user.pseudo} successfully deleted`;
   } catch (error) {
     return error;
   }
@@ -27,21 +27,33 @@ server.delete('/users', async (request:any) => {
 
 server.get('/users', async (request:any) => {
   const { query } = request;
-  const user = await getUser(query);
-  return user;
+  try {
+    const user = await getUser(query);
+    return user;
+  } catch (error) {
+    return error;
+  }
 });
 
 server.patch('/users/:id', async (request:any) => {
   const { params } = request;
   const { query } = request;
-  const updatedUser = await updateUser(params, query);
-  return updatedUser;
+  try {
+    const updatedUser = await updateUser(params, query);
+    return `User ${updatedUser.pseudo} successfully updated`;
+  } catch (error) {
+    return error;
+  }
 });
 
 server.post('/users', async (request:any) => {
   const { query } = request;
-  const newUser = await createUser(query);
-  return newUser;
+  try {
+    const newUser = await createUser(query);
+    return `User ${newUser.pseudo} successfully created`;
+  } catch (error) {
+    return error;
+  }
 });
 
 server.listen(8080, (err, address) => {
