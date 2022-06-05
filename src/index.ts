@@ -1,59 +1,17 @@
+/* eslint-disable import/extensions */
 import fastify from 'fastify';
-/* eslint-disable import/no-unresolved */
 // eslint-disable-next-line import/no-unresolved
-import {
-  createUser, updateUser, getUser, deleteUser,
-// eslint-disable-next-line import/extensions
-} from './services/user/userService';
-// eslint-disable-next-line import/extensions
+import userRoutes from './routes/user/userRoute';
 
 const server = fastify();
+server.register(userRoutes);
+
+export default server;
 
 server.get('/ping', async (request:any, reply:any) => {
   console.log(request);
   console.log(reply);
   return 'pong!!\n';
-});
-
-server.delete('/users', async (request:any) => {
-  const { query } = request;
-  try {
-    const user = await deleteUser(query);
-    return `User ${user.pseudo} successfully deleted`;
-  } catch (error) {
-    return error;
-  }
-});
-
-server.get('/users', async (request:any) => {
-  const { query } = request;
-  try {
-    const user = await getUser(query);
-    return user;
-  } catch (error) {
-    return error;
-  }
-});
-
-server.patch('/users/:id', async (request:any) => {
-  const { params } = request;
-  const { query } = request;
-  try {
-    const updatedUser = await updateUser(params, query);
-    return `User ${updatedUser.pseudo} successfully updated`;
-  } catch (error) {
-    return error;
-  }
-});
-
-server.post('/users', async (request:any) => {
-  const { query } = request;
-  try {
-    const newUser = await createUser(query);
-    return `User ${newUser.pseudo} successfully created`;
-  } catch (error) {
-    return error;
-  }
 });
 
 server.listen(8080, (err, address) => {
