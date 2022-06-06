@@ -34,8 +34,12 @@ Run `npx prisma generate`
 
 Run `npx prisma migrate dev` if database doesn't exist or isn't up to date
 
-# Erreur date 2022-06-06T00:00:00.000Z
+## ESLINT
+
+Mise à jour fichier Eslint
+
+## Erreur date 2022-06-06T00:00:00.000Z
 
 publishDate DateTime? @db.Date
--> à modifier
+-> à modifier par
 publishDate String? @db.Date
