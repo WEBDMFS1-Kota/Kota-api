@@ -1,8 +1,16 @@
 import fastify from 'fastify';
 import userRoutes from './routes/user/userRoute';
 
+const dotenv = require('dotenv');
+
+dotenv.config();
+
 const server = fastify();
+
 server.register(userRoutes);
+
+const port = process.env.PORT || 8080;
+const host = process.env.HOST || '0.0.0.0';
 
 export default server;
 
