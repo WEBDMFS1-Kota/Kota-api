@@ -7,7 +7,7 @@
     "build": "tsc",
     "dev": "nodemon src/index.ts",
     "start": "node build/index.js",
-    "lint": "npx eslint src/**/*",
+    "lint": "npx eslint \"src/**/*\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
