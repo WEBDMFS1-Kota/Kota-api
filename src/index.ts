@@ -12,9 +12,7 @@ server.register(userRoutes);
 const port = process.env.PORT || 8080;
 const host = process.env.HOST || '0.0.0.0';
 
-export default server;
-
-server.listen(8080, (err, address) => {
+server.listen(port, host, (err, address) => {
   if (err) {
     console.error(err);
     process.exit(1);
