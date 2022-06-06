@@ -26,11 +26,11 @@ async function getUser(query: any) {
   return user;
 }
 
-async function updateUser(userChecked:any, body: any) {
+async function updateUser(userCheckedId:any, body: any) {
   const birthdate = new Date(body.birthDate);
   return prisma.users.update({
     where: {
-      id: Number(userChecked),
+      id: Number(userCheckedId),
     },
     data: {
       pseudo: body.pseudo,
