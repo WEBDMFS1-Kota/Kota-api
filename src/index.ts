@@ -1,20 +1,20 @@
 import fastify from 'fastify';
+import userRoutes from './routes/user/userRoute';
 
 const dotenv = require('dotenv');
 
 dotenv.config();
 
 const server = fastify();
+
+server.register(userRoutes);
+
 const port = process.env.PORT || 8080;
 const host = process.env.HOST || '0.0.0.0';
 
-server.get('/ping', async (request, reply) => {
-  console.log(request);
-  console.log(reply);
-  return 'pong!!\n';
-});
+export default server;
 
-server.listen(port, host, (err, address) => {
+server.listen(8080, (err, address) => {
   if (err) {
     console.error(err);
     process.exit(1);

@@ -1,4 +1,4 @@
-CREATE TABLE "user" (
+CREATE TABLE "users" (
   "id" SERIAL UNIQUE PRIMARY KEY,
   "pseudo" varchar,
   "avatar" varchar,
@@ -10,7 +10,7 @@ CREATE TABLE "user" (
   "githubProfileURL" varchar
 );
 
-CREATE TABLE "project" (
+CREATE TABLE "projects" (
   "id" SERIAL UNIQUE PRIMARY KEY,
   "title" varchar,
   "projectUrl" varchar,
@@ -21,13 +21,13 @@ CREATE TABLE "project" (
   "downVote" int
 );
 
-CREATE TABLE "projectUser" (
+CREATE TABLE "projectsUsers" (
   "id" SERIAL UNIQUE PRIMARY KEY,
   "userId" int,
   "projectId" int
 );
 
-CREATE TABLE "tag" (
+CREATE TABLE "tags" (
   "id" SERIAL UNIQUE PRIMARY KEY,
   "name" varchar
 );
@@ -40,18 +40,29 @@ CREATE TABLE "userTag" (
 
 CREATE TABLE "projectTag" (
   "id" SERIAL PRIMARY KEY,
-  "peojectId" int,
+  "projectId" int,
   "tagId" int
 );
 
-ALTER TABLE "projectUser" ADD FOREIGN KEY ("userId") REFERENCES "user" ("id");
+CREATE TABLE "usersVotes" (
+  "id" SERIAL PRIMARY KEY,
+  "userId" int,
+  "projectId" int,
+  "voteValue" int
+);
 
-ALTER TABLE "projectUser" ADD FOREIGN KEY ("projectId") REFERENCES "project" ("id");
+ALTER TABLE "projectsUsers" ADD FOREIGN KEY ("userId") REFERENCES "users" ("id");
 
-ALTER TABLE "userTag" ADD FOREIGN KEY ("userId") REFERENCES "user" ("id");
+ALTER TABLE "projectsUsers" ADD FOREIGN KEY ("projectId") REFERENCES "projects" ("id");
 
-ALTER TABLE "userTag" ADD FOREIGN KEY ("tagId") REFERENCES "tag" ("id");
+ALTER TABLE "userTag" ADD FOREIGN KEY ("userId") REFERENCES "users" ("id");
 
-ALTER TABLE "projectTag" ADD FOREIGN KEY ("peojectId") REFERENCES "project" ("id");
+ALTER TABLE "userTag" ADD FOREIGN KEY ("tagId") REFERENCES "tags" ("id");
 
-ALTER TABLE "projectTag" ADD FOREIGN KEY ("tagId") REFERENCES "tag" ("id");
+ALTER TABLE "projectTag" ADD FOREIGN KEY ("projectId") REFERENCES "projects" ("id");
+
+ALTER TABLE "projectTag" ADD FOREIGN KEY ("tagId") REFERENCES "tags" ("id");
+
+ALTER TABLE "usersVotes" ADD FOREIGN KEY ("userId") REFERENCES "users" ("id");
+
+ALTER TABLE "usersVotes" ADD FOREIGN KEY ("projectId") REFERENCES "projects" ("id");
