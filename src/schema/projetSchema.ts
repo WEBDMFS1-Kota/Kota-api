@@ -1,13 +1,12 @@
 const typeString = { type: 'string' };
 const typeNumber = { type: 'number' };
-const typeObject = { type: 'object' };
 
 const typeProperties = {
   id: typeNumber,
   title: typeString,
   projectUrl: typeString,
   description: typeString,
-  publishDate: typeObject,
+  publishDate: typeString,
   image: typeString,
   upVote: typeNumber,
   usersVotes: typeNumber,
@@ -32,7 +31,10 @@ const getProjetByIdSchema = {
     id: typeNumber,
   },
   response: {
-    200: projet,
+    200: {
+      type: 'object',
+      properties: typeProperties,
+    },
   },
 };
 
@@ -42,11 +44,16 @@ const addProjetSchema = {
     required: ['title', 'description'],
     properties: {
       title: typeString,
+      projectUrl: typeString,
       description: typeString,
+      image: typeString,
     },
   },
   response: {
-    200: typeString,
+    201: {
+      type: 'object',
+      properties: typeProperties,
+    },
   },
 };
 
@@ -60,7 +67,10 @@ const updateProjetSchema = {
     id: typeNumber,
   },
   response: {
-    200: typeString,
+    200: {
+      type: 'object',
+      properties: typeProperties,
+    },
   },
 };
 
@@ -69,7 +79,10 @@ const deleteProjetSchema = {
     id: typeNumber,
   },
   response: {
-    200: typeString,
+    204: {
+      type: 'null',
+      description: 'No Content',
+    },
   },
 };
 

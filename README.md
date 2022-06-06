@@ -16,7 +16,7 @@ Install node modules with
 npm i
 ```
 
-then start the server with 
+then start the server with
 
 ```bash
 npm run dev
@@ -33,3 +33,9 @@ Run `npx prisma db pull`
 Run `npx prisma generate`
 
 Run `npx prisma migrate dev` if database doesn't exist or isn't up to date
+
+# Erreur date 2022-06-06T00:00:00.000Z
+
+publishDate DateTime? @db.Date
+-> à modifier
+publishDate String? @db.Date

@@ -1,15 +1,13 @@
 import prisma from '../globalService';
 
-const addProjet = async (req: any, res: any, reply: any) => {
-  const { title, description } = req.body;
+const addProjet = async (req: any, res: any) => {
   const projet = await prisma.projects.create({
     data: {
-      title,
-      description,
+      ...req.body,
+      publishDate: new Date(),
     },
   });
-  res.send(projet);
-  return reply.reply('Projet added!');
+  return res.send(projet);
 };
 
 const getProjets = async (req: any, res: any) => {
@@ -19,12 +17,23 @@ const getProjets = async (req: any, res: any) => {
 
 const getProjetById = async (req: any, res: any) => {
   const { id } = req.params;
-  const projetById = await prisma.projects.findUnique(
-    {
-      where: { id: Number(id) },
-    },
-  );
-  return res.send(projetById);
+  try {
+    const projetById = await prisma.projects.findUnique(
+      {
+        where: { id: Number(id) },
+      },
+    );
+    if (!projetById) {
+      return res.status(404).send({
+        errorMsg: `No project with ${id}`,
+      });
+    }
+    return res.send(projetById);
+  } catch (e: any) {
+    return res.status(404).send({
+      errorMsg: `Cannot get project with ${id}. Error : ${e.message}`,
+    });
+  }
 };
 
 const updateProjet = async (req: any, res: any) => {
@@ -35,25 +44,28 @@ const updateProjet = async (req: any, res: any) => {
     description,
     image,
   } = req.body;
+  try {
+    const projetById = await prisma.projects.update({
+      where: { id: Number(id) },
+      data: {
+        title,
+        projectUrl,
+        description,
+        image,
+      },
+    });
 
-  const projetById = await prisma.projects.update({
-    where: { id: Number(id) },
-    data: {
-      title,
-      projectUrl,
-      description,
-      image,
-    },
-  });
-
-  if (!projetById) {
+    if (!projetById) {
+      return res.status(404).send({
+        errorMsg: 'Update failed',
+      });
+    }
+    return res.send(projetById);
+  } catch (e: any) {
     return res.status(404).send({
-      errorMsg: 'Delete failed',
+      errorMsg: `Delete failed. Error : ${e.message}`,
     });
   }
-
-  res.send(projetById);
-  return res.reply('Project updated');
 };
 
 const deleteProjet = async (req: any, res: any) => {
@@ -62,8 +74,7 @@ const deleteProjet = async (req: any, res: any) => {
     const deleted = await prisma.projects.delete({
       where: { id: Number(id) },
     });
-    res.send(deleted);
-    return res.reply('Project deleted');
+    return deleted;
   } catch (err: any) {
     return res.status(404).send({
       errorMsg: `Delete failed : ${err.message}`,
