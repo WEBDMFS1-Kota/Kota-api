@@ -27,7 +27,7 @@ const userRoutes = (server:any, opts: any, done :()=>void) => {
     const { query } = request;
     const { body } = request;
     try {
-      if (body.pseudo || body.email) {              // On check si un utilisateur avec ce mail ou 
+      if (body.pseudo || body.email) {              // On check si un utilisateur avec ce mail ou
         const checkUser = (await getUser(body))[0]; // ce pseudo existe déjà pour empêcher des duplicatas
         if (checkUser) {
           return `User with pseudo "${checkUser.pseudo}" and mail "${checkUser.email}" already exists`;

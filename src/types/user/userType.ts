@@ -1,4 +1,4 @@
-interface Users{
+interface Users {
   pseudo?:string;
   avatar?:string;
   firstname?:string;

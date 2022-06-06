@@ -17,6 +17,8 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "no-console": 0
+        "no-console": 0,
+        "no-multi-spaces": "off",
+        "max-len": ["error", { "ignoreTrailingComments": true, "code": 100, "ignoreTemplateLiterals": true }]
     }
 }
