@@ -2,17 +2,19 @@
   "name": "kota-api",
   "version": "1.0.0",
   "description": "Kota's api",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "build": "tsc -w tsc -p tsconfig.json",
     "dev": "nodemon src/index.ts",
     "start": "node build/index.js",
+    "lint": "npx eslint ./src/*",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^3.14.0",
+    "dotenv": "^16.0.1",
     "fastify": "^3.29.0",
     "prisma": "^3.14.0"
   },
