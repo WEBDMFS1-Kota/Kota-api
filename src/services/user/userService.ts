@@ -2,31 +2,47 @@
 // eslint-disable-next-line import/extensions
 import prisma from '../globalService';
 
-async function createUser(query: any) {
+async function createUser(body: any) {
+  const birthdate = new Date(body.birthDate);
   return prisma.users.create({
     data: {
-      email: query.email,
-      password: query.password,
-      pseudo: query.pseudo,
+      pseudo: body.pseudo,
+      avatar: body.avatar,
+      firstname: body.firstname,
+      lastname: body.lastname,
+      password: body.password,
+      email: body.email,
+      birthDate: birthdate,
+      githubProfileURL: body.githubProfileURL,
     },
   });
 }
 
 async function getUser(query: any) {
-  return prisma.users.findMany({
+  const user = await prisma.users.findMany({
     where: {
+      pseudo: query.pseudo,
       email: query.email,
     },
   });
+  return user;
 }
 
-async function updateUser(params:any, query: any) {
+async function updateUser(userChecked:any, body: any) {
+  const birthdate = new Date(body.birthDate);
   return prisma.users.update({
     where: {
-      id: Number(params.id),
+      id: Number(userChecked),
     },
     data: {
-      email: query.email,
+      pseudo: body.pseudo,
+      avatar: body.avatar,
+      firstname: body.firstname,
+      lastname: body.lastname,
+      password: body.password,
+      email: body.email,
+      birthDate: birthdate,
+      githubProfileURL: body.githubProfileURL,
     },
   });
 }
@@ -40,5 +56,5 @@ async function deleteUser(query:any) {
 }
 
 export {
-  createUser, updateUser, getUser, deleteUser,
+  createUser, updateUser, deleteUser, getUser,
 };

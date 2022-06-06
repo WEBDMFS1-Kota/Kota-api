@@ -1,4 +1,4 @@
-interface User{
+interface Users{
   pseudo?:string;
   avatar?:string;
   firstname?:string;
@@ -9,4 +9,4 @@ interface User{
   githubProfileURL?:string;
 }
 
-export default User;
+export default Users;

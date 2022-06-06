@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unresolved */
 // eslint-disable-next-line import/no-unresolved
 import {
-  createUser, updateUser, getUser, deleteUser,
+  createUser, updateUser, deleteUser, getUser,
   // eslint-disable-next-line import/extensions
 } from '../../services/user/userService';
 
@@ -10,7 +10,7 @@ const userRoutes = (server:any, opts: any, done :()=>void) => {
     const { query } = request;
     try {
       const user = await deleteUser(query);
-      return `User ${user.pseudo} successfully deleted`;
+      return `User "${user.pseudo}" successfully deleted`;
     } catch (error) {
       return error;
     }
@@ -26,22 +26,40 @@ const userRoutes = (server:any, opts: any, done :()=>void) => {
     }
   });
 
-  server.patch('/users/:id', async (request:any) => {
-    const { params } = request;
+  server.patch('/users', async (request:any) => {
     const { query } = request;
+    const { body } = request;
     try {
-      const updatedUser = await updateUser(params, query);
-      return `User ${updatedUser.pseudo} successfully updated`;
+      if (body.pseudo || body.email) { // On check si un utilisateur avec ce mail ou ce pseudo
+        const checkUser = (await getUser(body))[0]; // existe déjà pour empêcher des duplicatas
+        if (checkUser) {
+          return `User with pseudo "${checkUser.pseudo}" and mail "${checkUser.email}" already exists`;
+        }
+      }
+      const checkedUser = (await getUser(query))[0]; // on recherche l'id de l'utilisateur à
+      if (checkedUser === undefined) { // modifier pour le passer en paramètre de la
+        return `The user "${query.pseudo}" that you try to update doesn't exist`; // fonction du service
+      }
+      const updatedUser = await updateUser(checkedUser.id, body);
+      return `User "${updatedUser.pseudo}" successfully updated`;
     } catch (error) {
       return error;
     }
   });
 
   server.post('/users', async (request:any) => {
-    const { query } = request;
+    const { body } = request;
     try {
-      const newUser = await createUser(query);
-      return `User ${newUser.pseudo} successfully created`;
+      const checkUserPseudo = (await getUser(body))[0]; // On check si un utilisateur avec ce mail
+      if (checkUserPseudo) { // ou ce pseudo existe déjà pour empêcher des duplicatas
+        return `User with pseudo "${checkUserPseudo.pseudo}" already exists`;
+      }
+      const checkUserEmail = (await getUser(body))[0];
+      if (checkUserEmail) {
+        return `User with email "${checkUserEmail.email}" already exists`;
+      }
+      const newUser = await createUser(body);
+      return `User "${newUser.pseudo}" successfully created`;
     } catch (error) {
       return error;
     }
