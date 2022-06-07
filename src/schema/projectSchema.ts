@@ -1,7 +1,7 @@
 const typeString = { type: 'string' };
 const typeNumber = { type: 'number' };
 
-const typeProperties = {
+const projectProperties = {
   id: typeNumber,
   title: typeString,
   projectUrl: typeString,
@@ -9,39 +9,39 @@ const typeProperties = {
   publishDate: typeString,
   image: typeString,
   upVote: typeNumber,
+  downVote: typeNumber,
   usersVotes: typeNumber,
 };
 
-const projet = {
+const Project = {
   type: 'object',
-  properties: typeProperties,
+  properties: projectProperties,
 };
 
-const getProjetsSchema = {
+const getProjectsSchema = {
   response: {
     200: {
       type: 'array',
-      items: projet,
+      items: Project,
     },
   },
 };
 
-const getProjetByIdSchema = {
+const getProjectByIdSchema = {
   params: {
     id: typeNumber,
   },
   response: {
     200: {
       type: 'object',
-      properties: typeProperties,
+      properties: projectProperties,
     },
   },
 };
 
-const addProjetSchema = {
+const addProjectSchema = {
   body: {
     type: 'object',
-    required: ['title', 'description'],
     properties: {
       title: typeString,
       projectUrl: typeString,
@@ -52,16 +52,15 @@ const addProjetSchema = {
   response: {
     201: {
       type: 'object',
-      properties: typeProperties,
+      properties: projectProperties,
     },
   },
 };
 
-const updateProjetSchema = {
+const updateProjectSchema = {
   body: {
     type: 'object',
-    required: ['title', 'description'],
-    properties: typeProperties,
+    properties: projectProperties,
   },
   params: {
     id: typeNumber,
@@ -69,12 +68,12 @@ const updateProjetSchema = {
   response: {
     200: {
       type: 'object',
-      properties: typeProperties,
+      properties: projectProperties,
     },
   },
 };
 
-const deleteProjetSchema = {
+const deleteProjectSchema = {
   params: {
     id: typeNumber,
   },
@@ -87,9 +86,9 @@ const deleteProjetSchema = {
 };
 
 export {
-  getProjetsSchema,
-  getProjetByIdSchema,
-  addProjetSchema,
-  updateProjetSchema,
-  deleteProjetSchema,
+  getProjectsSchema,
+  getProjectByIdSchema,
+  addProjectSchema,
+  updateProjectSchema,
+  deleteProjectSchema,
 };

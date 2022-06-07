@@ -1,8 +1,8 @@
 import fastify from 'fastify';
-import projetRoutes from './routes/projet/projetRoute';
+import projectRoutes from './routes/project/projectRoute';
 
 const server = fastify({ logger: true });
-server.register(projetRoutes);
+server.register(projectRoutes);
 
 server.get('/ping', async (request: any, reply: any) => {
   console.log(request);

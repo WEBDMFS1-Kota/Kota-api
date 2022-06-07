@@ -1,4 +1,4 @@
-interface ProjetType {
+interface ProjectType {
   title?: string;
   projectUrl?: string;
   description?: string;
@@ -8,4 +8,4 @@ interface ProjetType {
   usersVotes?: number;
 }
 
-export default ProjetType;
+export default ProjectType;
