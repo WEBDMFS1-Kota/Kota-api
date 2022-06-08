@@ -4,7 +4,7 @@
   "description": "Kota's api",
   "main": "index.ts",
   "scripts": {
-    "build": "tsc -w tsc -p tsconfig.json",
+    "build": "tsc",
     "dev": "nodemon src/index.ts",
     "start": "node build/index.js",
     "lint": "npx eslint \"src/**/*\"",
