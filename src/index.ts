@@ -1,13 +1,9 @@
 import fastify from 'fastify';
-import userRoutes from './routes/user/userRoute';
+import projectRoutes from './routes/project/projectRoute';
 
-const dotenv = require('dotenv');
+const server = fastify({ logger: true });
 
-dotenv.config();
-
-const server = fastify();
-
-server.register(userRoutes);
+server.register(projectRoutes);
 
 const port = process.env.PORT || 8080;
 const host = process.env.HOST || '0.0.0.0';

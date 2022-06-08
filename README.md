@@ -16,7 +16,7 @@ Install node modules with
 npm i
 ```
 
-then start the server with 
+then start the server with
 
 ```bash
 npm run dev
