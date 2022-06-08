@@ -14,7 +14,7 @@ import {
   getProjectById,
   updateProject,
   deleteProject,
-} from '../../services/projet/projectService';
+} from '../../services/project/projectService';
 
 const ProjectRoutes = (fastify: any, opts: any, done: () => void) => {
   fastify.get('/projects', {
