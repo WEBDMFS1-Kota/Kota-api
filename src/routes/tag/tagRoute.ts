@@ -14,22 +14,6 @@ import {
         return error;
       }
     });
-
-    server.post('/tags', async (request:any) => {
-      const { body } = request;
-      try {
-        const checkTag = (await getTag(body))[0];
-        if (checkTag) {
-          return `Tag with name "${checkTag.name}" already exists`;
-        }
-        
-        const newTag = await createTag(body);
-        return `Tag "${newTag.name}" successfully created`;
-      } catch (error) {
-        return error;
-      }
-    });
-
     
   done();
 };
