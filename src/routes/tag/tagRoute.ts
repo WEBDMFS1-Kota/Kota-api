@@ -10,8 +10,7 @@ const tagRoutes = (server:any, opts: any, done :()=>void) => {
       return tags;
     } catch (error) {
       return error;
-    }
-  });  
+    }});  
   done();
 };
 
