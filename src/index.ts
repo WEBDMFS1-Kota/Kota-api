@@ -1,11 +1,13 @@
 import fastify from 'fastify';
 import projectRoutes from './routes/project/projectRoute';
+import projectUserRoutes from './routes/projectUser/projectUserRoute';
 import userRoutes from './routes/user/userRoute';
 
 const server = fastify({ logger: true });
 
 server.register(projectRoutes);
 server.register(userRoutes);
+server.register(projectUserRoutes);
 
 const port = process.env.PORT || 8080;
 const host = process.env.HOST || '0.0.0.0';
