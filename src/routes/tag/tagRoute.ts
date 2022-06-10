@@ -1,19 +1,17 @@
 import {
-    getTag
-  } from '../../services/tag/tagService';
-  
-  const tagRoutes = (server:any, opts: any, done :()=>void) => {
+  getTag
+} from '../../services/tag/tagService';
 
-    server.get('/tags', async (request:any) => {
-      const { query } = request;
-      try {
-        const tags = await getTag(query);
-        return tags;
-      } catch (error) {
-        return error;
-      }
-    });
-    
+const tagRoutes = (server:any, opts: any, done :()=>void) => {
+  server.get('/tags', async (request:any) => {
+    const { query } = request;
+    try {
+      const tags = await getTag(query);
+      return tags;
+    } catch (error) {
+      return error;
+    }
+  });  
   done();
 };
 
