@@ -1,6 +1,5 @@
 import {
-    getTag,
-    createTag
+    getTag
   } from '../../services/tag/tagService';
   
   const tagRoutes = (server:any, opts: any, done :()=>void) => {

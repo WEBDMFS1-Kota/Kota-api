@@ -10,17 +10,6 @@ async function getTag(query: any) {
   return user;
 }
 
-async function createTag(body: any) {
-  return prisma.tags.create({
-    data: {
-      name:body.name,
-    },
-  });
-}
-
-
-
 export {
-  getTag,
-  createTag
+  getTag
 };
