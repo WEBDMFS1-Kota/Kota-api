@@ -2,8 +2,8 @@ import {
   createUser, updateUser, deleteUser, getUser,
 } from '../../services/user/userService';
 
-const userRoutes = (server:any, opts: any, done :()=>void) => {
-  server.delete('/users', async (request:any) => {
+const userRoutes = (server: any, opts: any, done: () => void) => {
+  server.delete('/users', async (request: any) => {
     const { query } = request;
     try {
       const user = await deleteUser(query);
@@ -13,7 +13,7 @@ const userRoutes = (server:any, opts: any, done :()=>void) => {
     }
   });
 
-  server.get('/users', async (request:any) => {
+  server.get('/users', async (request: any) => {
     const { query } = request;
     try {
       const user = await getUser(query);
@@ -23,7 +23,7 @@ const userRoutes = (server:any, opts: any, done :()=>void) => {
     }
   });
 
-  server.patch('/users', async (request:any) => {
+  server.patch('/users', async (request: any) => {
     const { query } = request;
     const { body } = request;
     try {
@@ -46,7 +46,7 @@ const userRoutes = (server:any, opts: any, done :()=>void) => {
     }
   });
 
-  server.post('/users', async (request:any) => {
+  server.post('/users', async (request: any) => {
     const { body } = request;
     try {
       const checkUserPseudo = (await getUser(body))[0]; // On check si un utilisateur avec ce mail
