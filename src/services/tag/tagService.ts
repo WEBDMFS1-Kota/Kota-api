@@ -10,6 +10,7 @@ async function getTag(query: any) {
   return user;
 }
 
-export {
-  getTag
+export { // disable eslint ici car même format que les autres services mais erreur
+  // eslint-disable-next-line import/prefer-default-export
+  getTag,
 };
