@@ -44,7 +44,7 @@ const ProjectRoutes = (fastify: any, opts: any, done: () => void) => {
     schema: addProjectSchema,
     handler: async (req: any, res: any) => {
       try {
-        return await addProject(req.body);
+        return await addProject(req.body, req.query.userId);
       } catch (error) {
         return formatServiceError(res, error);
       }
