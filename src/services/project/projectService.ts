@@ -3,14 +3,14 @@ import ServiceError from '../error';
 import prisma from '../globalService';
 import ProjectType from '../../types/project/projectType';
 
-const addProject = async (record: ProjectType, creatorId: any) => {
+const addProject = async (record: ProjectType, userId: any) => {
   const project = await prisma.projects.create({
     data: {
       ...record,
       publishDate: new Date(),
       projectsUsers: {
         create: {
-          userId: Number(creatorId),
+          userId: Number(userId),
         },
       },
     },
