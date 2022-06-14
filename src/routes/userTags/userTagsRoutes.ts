@@ -30,10 +30,11 @@ const userTagsRoutes = (server: any, opts: any, done: () => void) => {
           const checkUserTags: any = await getUserTag(query, identifiedTag);
           if (checkUserTags[0]) {
             nonAddedTags.push(identifiedTag.name);
+          } else {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const updatedUserTags = await addUserTags(query, identifiedTag);
+            addedTags.push(identifiedTag.name);
           }
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const updatedUserTags = await addUserTags(query, identifiedTag);
-          addedTags.push(identifiedTag.name);
         }));
       } else {
         const identifiedTag: any = (await getTagsByName(body))[0];
@@ -51,14 +52,27 @@ const userTagsRoutes = (server: any, opts: any, done: () => void) => {
   });
 
   server.delete('/users/tags', async (request: any) => {
-    const { query } = request;
+    const { query, body } = request;
+    const deletedTags: any[] = [];
     try {
-      const identifiedTag = (await getTagsByName(query))[0];
-      const userTagToDelete = (await getUserTag(query, identifiedTag))[0];
-      // A voir quoi faire du retour d'une relation supprimée
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const updatedUserTags = await deleteUserTag(userTagToDelete);
-      return `Tag "${identifiedTag.name}" deleted from user's tags.`;
+      if (body[0]) {
+        await Promise.all(body.map(async (tag: any) => {
+          const identifiedTag = (await getTagsByName(tag))[0];
+          const userTagToDelete = (await getUserTag(query, identifiedTag))[0];
+          // A voir quoi faire du retour d'une relation supprimée
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const updatedUserTags = await deleteUserTag(userTagToDelete);
+          deletedTags.push(identifiedTag.name);
+        }));
+      } else {
+        const identifiedTag = (await getTagsByName(body))[0];
+        const userTagToDelete = (await getUserTag(query, identifiedTag))[0];
+        // A voir quoi faire du retour d'une relation supprimée
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const updatedUserTags = await deleteUserTag(userTagToDelete);
+        return `Tag "${identifiedTag.name}" deleted from user's tags.`;
+      }
+      return `Deleted user's "${deletedTags}" tags.`;
     } catch (error) {
       return error;
     }
