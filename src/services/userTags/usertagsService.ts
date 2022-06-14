@@ -18,7 +18,7 @@ async function addUserTags(query: any, tagToAdd: any) {
 async function getUserTag(query: any, identifiedTag: any) {
   const userTagsId = await prisma.userTag.findMany({
     where: {
-      userId: Number(query.userId) || Number(query.id),
+      userId: Number(query.userId),
       tagId: Number(identifiedTag.id),
     },
   });
@@ -34,10 +34,10 @@ async function getAllUserTags(query: any) {
   return userTagsId;
 }
 
-async function deleteUserTag(userTagToDelete:any) {
+async function deleteUserTag(userTagToDelete: any) {
   return prisma.userTag.delete({
     where: {
-      id: userTagToDelete.id,
+      id: userTagToDelete.userId,
     },
   });
 }

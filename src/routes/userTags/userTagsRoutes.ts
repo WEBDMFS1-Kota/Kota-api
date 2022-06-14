@@ -1,5 +1,4 @@
 import { getTagsByName } from '../../services/tag/tagService';
-import { getUser } from '../../services/user/userService';
 import {
   addUserTags, getUserTag, getAllUserTags, deleteUserTag,
 } from '../../services/userTags/usertagsService';
@@ -33,13 +32,12 @@ const userTagsRoutes = (server: any, opts: any, done: () => void) => {
   server.delete('/users/tags', async (request: any) => {
     const { query } = request;
     try {
-      const userToModify = (await getUser(query))[0];
       const identifiedTag = (await getTagsByName(query))[0];
-      const userTagToDelete = (await getUserTag(userToModify, identifiedTag))[0];
+      const userTagToDelete = (await getUserTag(query, identifiedTag))[0];
       // A voir quoi faire du retour d'une relation supprimée
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const updatedUserTags = await deleteUserTag(userTagToDelete);
-      return `Tag "${query.name}" deleted from ${userToModify.pseudo}'s tags.`;
+      return `Tag "${identifiedTag}" deleted from user's tags.`;
     } catch (error) {
       return error;
     }
