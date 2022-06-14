@@ -2,7 +2,6 @@ import fastify from 'fastify';
 import cors from '@fastify/cors';
 import projectRoutes from './routes/project/projectRoute';
 import tagRoutes from './routes/tag/tagRoute';
-
 import userRoutes from './routes/user/userRoute';
 import userTagsRoutes from './routes/userTags/userTagsRoutes';
 
