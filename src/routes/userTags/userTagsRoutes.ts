@@ -21,14 +21,30 @@ const userTagsRoutes = (server: any, opts: any, done: () => void) => {
 
   server.post('/users/tags', async (request: any) => {
     const { query, body } = request;
+    const addedTags: any[] = [];
+    const nonAddedTags: any[] = [];
     try {
-      const identifiedTag: any = (await getTagsByName(body))[0];
-      const checkUserTags: any = await getUserTag(query, identifiedTag);
-      if (checkUserTags[0]) {
-        return `User already has the "${identifiedTag.name}" tag.`;
+      if (body[0]) {
+        await Promise.all(body.map(async (tag: any) => {
+          const identifiedTag: any = (await getTagsByName(tag))[0];
+          const checkUserTags: any = await getUserTag(query, identifiedTag);
+          if (checkUserTags[0]) {
+            nonAddedTags.push(identifiedTag.name);
+          }
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const updatedUserTags = await addUserTags(query, identifiedTag);
+          addedTags.push(identifiedTag.name);
+        }));
+      } else {
+        const identifiedTag: any = (await getTagsByName(body))[0];
+        const checkUserTags: any = await getUserTag(query, identifiedTag);
+        if (checkUserTags[0]) {
+          return `User already has the "${identifiedTag.name}" tag.`;
+        }
+        const updatedUserTags = await addUserTags(query, identifiedTag);
+        return `Added tag(s) "${identifiedTag.name}" to ${updatedUserTags.pseudo}'s tags.`;
       }
-      const updatedUserTags = await addUserTags(query, identifiedTag);
-      return `Added tag(s) "${identifiedTag.name}" to ${updatedUserTags.pseudo}'s tags.`;
+      return `Added tag(s) "${addedTags}" to user, already had "${nonAddedTags}".`;
     } catch (error) {
       return error;
     }
