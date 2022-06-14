@@ -10,6 +10,15 @@ async function getTags(query: any, body?: any) {
   return tags;
 }
 
+async function getTagsById(query: any) {
+  const tag = await prisma.tags.findUnique({
+    where: {
+      id: query.tagId,
+    },
+  });
+  return tag;
+}
+
 async function getTagsByName(query: any) {
   const tag = await prisma.tags.findMany({
     where: {
@@ -19,5 +28,5 @@ async function getTagsByName(query: any) {
   return tag;
 }
 export {
-  getTags, getTagsByName,
+  getTags, getTagsByName, getTagsById,
 };
