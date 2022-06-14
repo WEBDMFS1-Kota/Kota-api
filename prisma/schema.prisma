@@ -11,16 +11,16 @@ model projectTag {
   id        Int       @id @default(autoincrement())
   projectId Int?
   tagId     Int?
-  projects  projects? @relation(fields: [projectId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  tags      tags?     @relation(fields: [tagId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  projects  projects? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  tags      tags?     @relation(fields: [tagId], references: [id], onDelete: Cascade)
 }
 
 model userTag {
   id     Int    @id @default(autoincrement())
   userId Int?
   tagId  Int?
-  tags   tags?  @relation(fields: [tagId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  users  users? @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  tags   tags?  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  users  users? @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model projects {
@@ -41,8 +41,8 @@ model projectsUsers {
   id        Int       @id @default(autoincrement())
   userId    Int?
   projectId Int?
-  projects  projects? @relation(fields: [projectId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  users     users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  projects  projects? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  users     users?    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model tags {
@@ -72,6 +72,6 @@ model usersVotes {
   userId    Int?
   projectId Int?
   voteValue Int?
-  projects  projects? @relation(fields: [projectId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  users     users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  projects  projects? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  users     users?    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
