@@ -1,4 +1,4 @@
-import { getTagsByName } from '../../services/tag/tagService';
+import { getTagsByName, getTagsById } from '../../services/tag/tagService';
 import {
   addUserTags, getUserTag, getAllUserTags, deleteUserTag,
 } from '../../services/userTags/usertagsService';
@@ -7,8 +7,13 @@ const userTagsRoutes = (server: any, opts: any, done: () => void) => {
   server.get('/users/tags', async (request: any) => {
     const { query } = request;
     try {
-      const user = await getAllUserTags(query);
-      return user;
+      const userTagsRelations = await getAllUserTags(query);
+      const userTags: any[] = [];
+      await Promise.all(userTagsRelations.map(async (userTagRelation) => {
+        const tagId = await getTagsById(userTagRelation);
+        userTags.push(tagId);
+      }));
+      return userTags;
     } catch (error) {
       return error;
     }
@@ -17,8 +22,8 @@ const userTagsRoutes = (server: any, opts: any, done: () => void) => {
   server.post('/users/tags', async (request: any) => {
     const { query, body } = request;
     try {
-      const identifiedTag:any = (await getTagsByName(body))[0];
-      const checkUserTags:any = await getUserTag(query, identifiedTag);
+      const identifiedTag: any = (await getTagsByName(body))[0];
+      const checkUserTags: any = await getUserTag(query, identifiedTag);
       if (checkUserTags[0]) {
         return `User already has the "${identifiedTag.name}" tag.`;
       }
@@ -37,7 +42,7 @@ const userTagsRoutes = (server: any, opts: any, done: () => void) => {
       // A voir quoi faire du retour d'une relation supprimée
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const updatedUserTags = await deleteUserTag(userTagToDelete);
-      return `Tag "${identifiedTag}" deleted from user's tags.`;
+      return `Tag "${identifiedTag.name}" deleted from user's tags.`;
     } catch (error) {
       return error;
     }

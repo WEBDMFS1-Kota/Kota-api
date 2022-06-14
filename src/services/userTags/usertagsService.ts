@@ -37,7 +37,7 @@ async function getAllUserTags(query: any) {
 async function deleteUserTag(userTagToDelete: any) {
   return prisma.userTag.delete({
     where: {
-      id: userTagToDelete.userId,
+      id: userTagToDelete.id,
     },
   });
 }
