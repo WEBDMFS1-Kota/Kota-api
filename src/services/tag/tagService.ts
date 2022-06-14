@@ -1,16 +1,23 @@
 import prisma from '../globalService';
 
-async function getTags(query: any) {
-  const user = await prisma.tags.findMany({
+async function getTags(query: any, body?: any) {
+  const tags = await prisma.tags.findMany({
     where: {
-      id: query.id,
+      id: Number(query.tagId),
+      name: body.name,
+    },
+  });
+  return tags;
+}
+
+async function getTagsByName(query: any) {
+  const tag = await prisma.tags.findMany({
+    where: {
       name: query.name,
     },
   });
-  return user;
+  return tag;
 }
-
-export { // disable eslint ici car même format que les autres services mais erreur
-  // eslint-disable-next-line import/prefer-default-export
-  getTags,
+export {
+  getTags, getTagsByName,
 };
