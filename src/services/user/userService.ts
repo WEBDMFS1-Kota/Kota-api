@@ -16,7 +16,7 @@ async function createUser(body: any) {
   });
 }
 
-async function getUser(query: any) {
+async function getUsers(query: any) {
   const user = await prisma.users.findMany({
     where: {
       pseudo: query.pseudo,
@@ -54,5 +54,5 @@ async function deleteUser(query:any) {
 }
 
 export {
-  createUser, updateUser, deleteUser, getUser,
+  createUser, updateUser, deleteUser, getUsers,
 };

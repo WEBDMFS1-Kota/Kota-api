@@ -1,5 +1,5 @@
 import {
-  createUser, updateUser, deleteUser, getUser,
+  createUser, updateUser, deleteUser, getUsers,
 } from '../../services/user/userService';
 
 const userRoutes = (server: any, opts: any, done: () => void) => {
@@ -9,7 +9,16 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
     response.send({ token });
   });
 
-  server.delete('/users', async (request: any) => {
+  server.post('/signup', async (request: any, response: any) => {
+    const { body } = request;
+    // CREATE USER
+    const token = server.jwt.sign({ userId: body.userId });
+    response.send({ token });
+  });
+
+  server.delete('/users', {
+    onRequest: [server.authenticate],
+  }, async (request: any) => {
     const { query } = request;
     try {
       const user = await deleteUser(query);
@@ -19,28 +28,32 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
     }
   });
 
-  server.get('/users', async (request: any) => {
+  server.get('/users', {
+    onRequest: [server.authenticate],
+  }, async (request: any) => {
     const { query } = request;
     try {
-      const user = await getUser(query);
+      const user = await getUsers(query);
       return user;
     } catch (error) {
       return error;
     }
   });
 
-  server.patch('/users', async (request: any) => {
+  server.patch('/users', {
+    onRequest: [server.authenticate],
+  }, async (request: any) => {
     const { query, body } = request;
     try {
       // Checking if user pseudo/mail already exists to avoid duplication
       if (body.pseudo || body.email) {
-        const checkUser = (await getUser(body))[0];
+        const checkUser = (await getUsers(body))[0];
         if (checkUser) {
           return `User with pseudo "${checkUser.pseudo}" and mail "${checkUser.email}" already exists`;
         }
       }
       // Fetching userId to update the right one
-      const checkedUser = (await getUser(query))[0];
+      const checkedUser = (await getUsers(query))[0];
       if (checkedUser === undefined) {
         return `The user "${query.pseudo}" that you try to update doesn't exist`;
       }
@@ -54,11 +67,11 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
   server.post('/users', async (request: any) => {
     const { body } = request;
     try {
-      const checkUserPseudo = (await getUser(body))[0]; // On check si un utilisateur avec ce mail
+      const checkUserPseudo = (await getUsers(body))[0]; // On check si un utilisateur avec ce mail
       if (checkUserPseudo) { // ou ce pseudo existe déjà pour empêcher des duplicatas
         return `User with pseudo "${checkUserPseudo.pseudo}" already exists`;
       }
-      const checkUserEmail = (await getUser(body))[0];
+      const checkUserEmail = (await getUsers(body))[0];
       if (checkUserEmail) {
         return `User with email "${checkUserEmail.email}" already exists`;
       }
