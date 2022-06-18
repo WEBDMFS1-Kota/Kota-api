@@ -3,6 +3,12 @@ import {
 } from '../../services/user/userService';
 
 const userRoutes = (server: any, opts: any, done: () => void) => {
+  server.post('/signin', async (request: any, response: any) => {
+    const { body } = request;
+    const token = server.jwt.sign({ userId: body.userId });
+    response.send({ token });
+  });
+
   server.delete('/users', async (request: any) => {
     const { query } = request;
     try {

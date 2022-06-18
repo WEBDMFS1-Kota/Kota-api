@@ -8,8 +8,20 @@ import ProjectUserRoutes from './routes/projectUser/projectUserRoute';
 
 const server = fastify({ logger: true });
 
+server.register(require('@fastify/jwt'), {
+  secret: 'supersecret',
+});
+
 server.register(cors, {
   origin: '*',
+});
+
+server.decorate('authenticate', async (request: any, reply: any) => {
+  try {
+    await request.jwtVerify();
+  } catch (err) {
+    reply.send(err);
+  }
 });
 
 server.register(projectRoutes);
