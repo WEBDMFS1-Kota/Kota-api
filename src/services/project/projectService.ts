@@ -23,6 +23,24 @@ const getProjects = async () => {
   return projects;
 };
 
+const getHotProjects = async () => {
+  const projects = await prisma.projects.findMany({
+    orderBy: {
+      publishDate: 'desc',
+    },
+  });
+  return projects;
+};
+
+const getTopProjects = async () => {
+  const projects = await prisma.projects.findMany({
+    orderBy: {
+      upVote: 'desc',
+    },
+  });
+  return projects;
+};
+
 const getProjectById = async (id: number) => {
   const projectById = await prisma.projects.findUnique(
     {
@@ -66,4 +84,6 @@ export {
   getProjectById,
   updateProject,
   deleteProject,
+  getHotProjects,
+  getTopProjects,
 };
