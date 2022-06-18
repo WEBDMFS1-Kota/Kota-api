@@ -51,18 +51,18 @@ CREATE TABLE "usersVotes" (
   "voteValue" int
 );
 
-ALTER TABLE "projectsUsers" ADD FOREIGN KEY ("userId") REFERENCES "users" ("id");
+ALTER TABLE "projectsUsers" ADD FOREIGN KEY ("userId") REFERENCES "users" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "projectsUsers" ADD FOREIGN KEY ("projectId") REFERENCES "projects" ("id");
+ALTER TABLE "projectsUsers" ADD FOREIGN KEY ("projectId") REFERENCES "projects" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "userTag" ADD FOREIGN KEY ("userId") REFERENCES "users" ("id");
+ALTER TABLE "userTag" ADD FOREIGN KEY ("userId") REFERENCES "users" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "userTag" ADD FOREIGN KEY ("tagId") REFERENCES "tags" ("id");
+ALTER TABLE "userTag" ADD FOREIGN KEY ("tagId") REFERENCES "tags" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "projectTag" ADD FOREIGN KEY ("projectId") REFERENCES "projects" ("id");
+ALTER TABLE "projectTag" ADD FOREIGN KEY ("projectId") REFERENCES "projects" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "projectTag" ADD FOREIGN KEY ("tagId") REFERENCES "tags" ("id");
+ALTER TABLE "projectTag" ADD FOREIGN KEY ("tagId") REFERENCES "tags" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "usersVotes" ADD FOREIGN KEY ("userId") REFERENCES "users" ("id");
+ALTER TABLE "usersVotes" ADD FOREIGN KEY ("userId") REFERENCES "users" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "usersVotes" ADD FOREIGN KEY ("projectId") REFERENCES "projects" ("id");
+ALTER TABLE "usersVotes" ADD FOREIGN KEY ("projectId") REFERENCES "projects" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
