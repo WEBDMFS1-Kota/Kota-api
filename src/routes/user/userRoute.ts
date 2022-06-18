@@ -24,8 +24,7 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
   });
 
   server.patch('/users', async (request: any) => {
-    const { query } = request;
-    const { body } = request;
+    const { query, body } = request;
     try {
       // Checking if user pseudo/mail already exists to avoid duplication
       if (body.pseudo || body.email) {
