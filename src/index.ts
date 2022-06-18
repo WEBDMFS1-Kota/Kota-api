@@ -4,6 +4,7 @@ import projectRoutes from './routes/project/projectRoute';
 import tagRoutes from './routes/tag/tagRoute';
 
 import userRoutes from './routes/user/userRoute';
+import ProjectUserRoutes from './routes/projectUser/projectUserRoute';
 
 const server = fastify({ logger: true });
 
@@ -13,6 +14,7 @@ server.register(cors, {
 
 server.register(projectRoutes);
 server.register(userRoutes);
+server.register(ProjectUserRoutes);
 server.register(tagRoutes);
 
 const port = Number(process.env.PORT || 8080);
