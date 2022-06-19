@@ -23,7 +23,7 @@ server.register(require('@fastify/swagger'), {
       url: 'https://kota-api-prod.herokuapp.com/',
     }],
   },
-  hideUntagged: false,
+  hideUntagged: true,
   exposeRoute: true,
 });
 
