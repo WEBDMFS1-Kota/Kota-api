@@ -8,7 +8,7 @@ import {
 } from '../../services/userVotes/userVotesService';
 
 const userVotesRoutes = (server: any, opts: any, done: () => void) => {
-  server.patch('/project/vote/:idProject', async (request: any) => {
+  server.patch('/projects/vote/:idProject', async (request: any) => {
     const { body, params } = request;
     try {
       if (Number(body.value) === 1 || Number(body.value) === -1) {
