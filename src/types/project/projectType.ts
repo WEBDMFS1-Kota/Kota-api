@@ -6,6 +6,7 @@ interface ProjectType {
   image?: string;
   upVote?: number;
   usersVotes?: number;
+  projectsUsers?: any[];
 }
 
 export default ProjectType;

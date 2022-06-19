@@ -11,6 +11,7 @@ const projectProperties = {
   upVote: typeNumber,
   downVote: typeNumber,
   usersVotes: typeNumber,
+  projectsUsers: 'any',
 };
 
 const Project = {

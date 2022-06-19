@@ -59,6 +59,10 @@ const ProjectRoutes = (server: any, opts: any, done: () => void) => {
     handler: async (req: any, res: any) => {
       try {
         const { id } = req.params;
+        const project = await getProjectById(id);
+        if (project.projectsUsers.userId === req.user.userId) {
+          console.log('coucou');
+        }
         return await updateProject(id, req.body);
       } catch (error) {
         return formatServiceError(res, error);
