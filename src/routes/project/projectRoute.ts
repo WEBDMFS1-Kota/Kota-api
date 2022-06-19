@@ -14,6 +14,8 @@ import {
   getProjectById,
   updateProject,
   deleteProject,
+  getHotProjects,
+  getTopProjects,
 } from '../../services/project/projectService';
 
 const ProjectRoutes = (fastify: any, opts: any, done: () => void) => {
@@ -22,6 +24,28 @@ const ProjectRoutes = (fastify: any, opts: any, done: () => void) => {
     handler: async (req: any, res: any) => {
       try {
         return await getProjects();
+      } catch (error: any) {
+        return formatServiceError(res, error);
+      }
+    },
+  });
+
+  fastify.get('/projects/top', {
+    schema: getProjectsSchema,
+    handler: async (req: any, res: any) => {
+      try {
+        return await getTopProjects();
+      } catch (error: any) {
+        return formatServiceError(res, error);
+      }
+    },
+  });
+
+  fastify.get('/projects/hot', {
+    schema: getProjectsSchema,
+    handler: async (req: any, res: any) => {
+      try {
+        return await getHotProjects();
       } catch (error: any) {
         return formatServiceError(res, error);
       }
