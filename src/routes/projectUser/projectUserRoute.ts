@@ -22,6 +22,9 @@ const ProjectUserRoutes = (server: any, opts: any, done: () => void) => {
     const { params, query } = request;
     try {
       const projectsUserRelations = (await getProjectsUserByProject(params.projectId, query))[0];
+      if (projectsUserRelations === undefined) {
+        return 'Wrong project ID';
+      }
       const ownerInfos = (await getUser(projectsUserRelations))[0];
       return ownerInfos;
     } catch (error) {
