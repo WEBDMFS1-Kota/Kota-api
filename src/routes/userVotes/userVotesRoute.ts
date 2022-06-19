@@ -9,7 +9,7 @@ import {
 import { patchUserVote } from '../../schema/userSchema';
 
 const userVotesRoutes = (server: any, opts: any, done: () => void) => {
-  server.patch('/project/vote/:idProject', {
+  server.patch('/projects/vote/:idProject', {
     schema: patchUserVote,
     handler: async (request: any) => {
       const { body, params } = request;
