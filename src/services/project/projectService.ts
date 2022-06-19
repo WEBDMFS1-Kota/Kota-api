@@ -7,6 +7,8 @@ const addProject = async (record: ProjectType, userId: any) => {
   const project = await prisma.projects.create({
     data: {
       ...record,
+      upVote: 0,
+      downVote: 0,
       publishDate: new Date(),
       projectsUsers: {
         create: {
@@ -20,6 +22,24 @@ const addProject = async (record: ProjectType, userId: any) => {
 
 const getProjects = async () => {
   const projects = await prisma.projects.findMany();
+  return projects;
+};
+
+const getHotProjects = async () => {
+  const projects = await prisma.projects.findMany({
+    orderBy: {
+      publishDate: 'desc',
+    },
+  });
+  return projects;
+};
+
+const getTopProjects = async () => {
+  const projects = await prisma.projects.findMany({
+    orderBy: {
+      upVote: 'desc',
+    },
+  });
   return projects;
 };
 
@@ -66,4 +86,6 @@ export {
   getProjectById,
   updateProject,
   deleteProject,
+  getHotProjects,
+  getTopProjects,
 };
