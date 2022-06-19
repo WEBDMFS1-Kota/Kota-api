@@ -9,6 +9,27 @@ import userVotesRoutes from './routes/userVotes/userVotesRoute';
 
 const server = fastify({ logger: true });
 
+server.register(require('@fastify/swagger'), {
+  routePrefix: '/docs',
+  openapi: {
+    info: {
+      title: 'Kota API Documentation',
+      version: '1.0.0',
+    },
+    servers: [{
+      url: `http://localhost:${process.env.PORT || 8080}`,
+      description: 'Local API',
+      port: 8080,
+    },
+    {
+      url: 'https://kota-api-prod.herokuapp.com/',
+      description: 'Production API',
+    }],
+  },
+  hideUntagged: true,
+  exposeRoute: true,
+});
+
 server.register(cors, {
   origin: '*',
 });

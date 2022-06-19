@@ -19,6 +19,7 @@ const Project = {
 };
 
 const getProjectsSchema = {
+  tags: ['Projects'],
   response: {
     200: {
       type: 'array',
@@ -28,18 +29,35 @@ const getProjectsSchema = {
 };
 
 const getProjectByIdSchema = {
+  description: 'Get project with his ID',
+  tags: ['Projects'],
   params: {
-    id: typeNumber,
+    id: {
+      type: 'number',
+      description: 'ID of the project',
+    },
   },
   response: {
     200: {
+      description: 'Successful response',
       type: 'object',
       properties: projectProperties,
+    },
+    404: {
+      description: 'Project not found response',
+      type: 'object',
+      properties: {
+        errorMsg: {
+          type: 'string',
+          default: 'Project not found with id {id}',
+        },
+      },
     },
   },
 };
 
 const addProjectSchema = {
+  tags: ['Projects'],
   body: {
     type: 'object',
     properties: {
@@ -58,6 +76,8 @@ const addProjectSchema = {
 };
 
 const updateProjectSchema = {
+  description: 'Update a project with his ID',
+  tags: ['Projects'],
   body: {
     type: 'object',
     properties: projectProperties,
@@ -67,20 +87,93 @@ const updateProjectSchema = {
   },
   response: {
     200: {
+      description: 'Successful response',
       type: 'object',
       properties: projectProperties,
+    },
+    404: {
+      description: 'Project not found response',
+      type: 'object',
+      properties: {
+        errorMsg: {
+          type: 'string',
+          default: 'Update failed, record {id} not found',
+        },
+      },
     },
   },
 };
 
 const deleteProjectSchema = {
+  description: 'Delete a project with his ID',
+  tags: ['Projects'],
   params: {
-    id: typeNumber,
+    id: {
+      type: 'number',
+      description: 'ID of the project',
+    },
   },
   response: {
     204: {
       type: 'null',
-      description: 'No Content',
+      description: 'Successful response',
+    },
+    404: {
+      type: 'object',
+      description: 'Project not found response',
+      properties: {
+        errorMsg: {
+          type: 'string',
+          default: 'Delete failed',
+        },
+      },
+    },
+  },
+};
+
+const getTopProjectsSchema = {
+  description: 'Get top projects',
+  tags: ['Projects'],
+  response: {
+    200: {
+      description: 'Successful response',
+      type: 'array',
+      items: Project,
+    },
+  },
+};
+
+const getHotProjectsSchema = {
+  description: 'Get hot projects',
+  tags: ['Projects'],
+  response: {
+    200: {
+      description: 'Successful response',
+      type: 'array',
+      items: Project,
+    },
+  },
+};
+
+const getProjectCreatorSchema = {
+  description: 'Get the creator of a project with his ID',
+  tags: ['Users', 'Projects'],
+  params: {
+    projectId: { type: 'number' },
+  },
+  response: {
+    200: {
+      type: 'object',
+      properties: {
+        pseudo: { type: 'string' },
+        avatar: { type: 'string' },
+        firstname: { type: 'string' },
+        lastname: { type: 'string' },
+        password: { type: 'string' },
+        email: { type: 'string' },
+        birthDate: { type: 'string' },
+        githubProfileURL: { type: 'string' },
+      },
     },
   },
 };
@@ -91,4 +184,7 @@ export {
   addProjectSchema,
   updateProjectSchema,
   deleteProjectSchema,
+  getTopProjectsSchema,
+  getHotProjectsSchema,
+  getProjectCreatorSchema,
 };

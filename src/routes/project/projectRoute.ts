@@ -4,6 +4,8 @@ import {
   getProjectByIdSchema,
   updateProjectSchema,
   deleteProjectSchema,
+  getTopProjectsSchema,
+  getHotProjectsSchema,
 } from '../../schema/projectSchema';
 
 import { formatServiceError } from '../../services/error';
@@ -31,7 +33,7 @@ const ProjectRoutes = (fastify: any, opts: any, done: () => void) => {
   });
 
   fastify.get('/projects/top', {
-    schema: getProjectsSchema,
+    schema: getTopProjectsSchema,
     handler: async (req: any, res: any) => {
       try {
         return await getTopProjects();
@@ -42,7 +44,7 @@ const ProjectRoutes = (fastify: any, opts: any, done: () => void) => {
   });
 
   fastify.get('/projects/hot', {
-    schema: getProjectsSchema,
+    schema: getHotProjectsSchema,
     handler: async (req: any, res: any) => {
       try {
         return await getHotProjects();
