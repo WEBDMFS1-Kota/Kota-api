@@ -1,5 +1,6 @@
 const typeString = { type: 'string' };
 const typeNumber = { type: 'number' };
+const typeArray = { type: 'array' };
 
 const projectProperties = {
   id: typeNumber,
@@ -10,6 +11,8 @@ const projectProperties = {
   image: typeString,
   upVote: typeNumber,
   downVote: typeNumber,
+  projectTag: typeArray,
+  projectsUsers: typeArray,
   usersVotes: typeNumber,
 };
 
@@ -47,6 +50,8 @@ const addProjectSchema = {
       projectUrl: typeString,
       description: typeString,
       image: typeString,
+      projectTag: typeArray,
+      projectsUsers: typeArray,
     },
   },
   response: {
