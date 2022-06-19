@@ -1,6 +1,6 @@
 const postUserSchema = {
   description: 'Add an user',
-  tags: ['Users', 'POST'],
+  tags: ['Users'],
   body: {
     type: 'object',
     properties: {
@@ -24,7 +24,7 @@ const postUserSchema = {
 
 const getUserSchema = {
   description: 'Get an user with his ID',
-  tags: ['Users', 'GET'],
+  tags: ['Users'],
   query: {
     pseudo: { type: 'string' },
     email: { type: 'string' },
@@ -39,7 +39,7 @@ const getUserSchema = {
 
 const patchUserSchema = {
   description: 'Update user data with his ID',
-  tags: ['Users', 'PATCH'],
+  tags: ['Users'],
   body: {
     type: 'object',
     properties: {
@@ -67,7 +67,7 @@ const patchUserSchema = {
 
 const deleteUserSchema = {
   description: 'Delete an user with his ID',
-  tags: ['Users', 'DELETE'],
+  tags: ['Users'],
   query: {
     id: {
       type: 'number',
@@ -85,7 +85,7 @@ const deleteUserSchema = {
 
 const patchUserVote = {
   description: 'Add vote from an user to a project',
-  tags: ['Users', 'Projects', 'PATCH'],
+  tags: ['Users', 'Projects'],
   body: {
     type: 'object',
     properties: {
@@ -106,7 +106,7 @@ const patchUserVote = {
 
 const getUserProjectsSchema = {
   description: 'Get all the projects of an user',
-  tags: ['Users', 'Projects', 'GET'],
+  tags: ['Users', 'Projects'],
   params: {
     userId: { type: 'number' },
   },

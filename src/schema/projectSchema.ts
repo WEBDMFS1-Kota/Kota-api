@@ -19,7 +19,7 @@ const Project = {
 };
 
 const getProjectsSchema = {
-  tags: ['projects', 'GET'],
+  tags: ['Projects'],
   response: {
     200: {
       type: 'array',
@@ -30,7 +30,7 @@ const getProjectsSchema = {
 
 const getProjectByIdSchema = {
   description: 'Get project with his ID',
-  tags: ['projects', 'GET'],
+  tags: ['Projects'],
   params: {
     id: {
       type: 'number',
@@ -57,7 +57,7 @@ const getProjectByIdSchema = {
 };
 
 const addProjectSchema = {
-  tags: ['projects', 'POST'],
+  tags: ['Projects'],
   body: {
     type: 'object',
     properties: {
@@ -77,7 +77,7 @@ const addProjectSchema = {
 
 const updateProjectSchema = {
   description: 'Update a project with his ID',
-  tags: ['projects', 'PUT'],
+  tags: ['Projects'],
   body: {
     type: 'object',
     properties: projectProperties,
@@ -106,7 +106,7 @@ const updateProjectSchema = {
 
 const deleteProjectSchema = {
   description: 'Delete a project with his ID',
-  tags: ['projects', 'DELETE'],
+  tags: ['Projects'],
   params: {
     id: {
       type: 'number',
@@ -133,7 +133,7 @@ const deleteProjectSchema = {
 
 const getTopProjectsSchema = {
   description: 'Get top projects',
-  tags: ['projects', 'GET'],
+  tags: ['Projects'],
   response: {
     200: {
       description: 'Successful response',
@@ -145,7 +145,7 @@ const getTopProjectsSchema = {
 
 const getHotProjectsSchema = {
   description: 'Get hot projects',
-  tags: ['projects', 'GET'],
+  tags: ['Projects'],
   response: {
     200: {
       description: 'Successful response',

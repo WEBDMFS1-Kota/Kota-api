@@ -1,6 +1,6 @@
 const getTagsSchema = {
   description: 'Get tags by his name',
-  tags: ['Tags', 'GET'],
+  tags: ['Tags'],
   query: {
     name: {
       type: 'string',
@@ -24,7 +24,7 @@ const getTagsSchema = {
 
 const getUserTagsSchema = {
   description: 'Get all tags of an user',
-  tags: ['Tags', 'Users', 'GET'],
+  tags: ['Tags', 'Users'],
   query: {
     userId: {
       type: 'string',
@@ -48,7 +48,7 @@ const getUserTagsSchema = {
 
 const postUserTagsSchema = {
   description: 'Add tags to an user',
-  tags: ['Tags', 'Users', 'POST'],
+  tags: ['Tags', 'Users'],
   query: {
     userId: {
       type: 'string',
@@ -84,7 +84,7 @@ const postUserTagsSchema = {
 
 const deleteUserTagsSchema = {
   description: 'Delete a tag of an user',
-  tags: ['Tags', 'Users', 'DELETE'],
+  tags: ['Tags', 'Users'],
   query: {
     userId: {
       type: 'string',
