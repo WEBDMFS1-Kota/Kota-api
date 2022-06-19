@@ -19,6 +19,7 @@ async function createUser(body: any) {
 async function getUser(query: any) {
   const user = await prisma.users.findMany({
     where: {
+      id: Number(query.userId),
       pseudo: query.pseudo,
       email: query.email,
     },
