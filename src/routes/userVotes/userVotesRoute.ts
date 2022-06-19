@@ -11,28 +11,26 @@ const userVotesRoutes = (server: any, opts: any, done: () => void) => {
   server.patch('/project/vote/:idProject', async (request: any) => {
     const { body, params } = request;
     try {
-      const alreadyVoted = (await checkVote(body, params.idProject))[0];
-      if (alreadyVoted) { // l'utilisateur a déjà voté
-        if (Number(alreadyVoted.voteValue) !== Number(body.value)) { // nouveau vote différent
-          const modifiedVote = await modifVote(body, alreadyVoted); // modif relation
-          if (Number(modifiedVote.voteValue) === 1) { // vote pour
-            const newVote = await modifProjVoteToUp(params.idProject);
+      if (Number(body.value) === 1 || Number(body.value) === -1) {
+        const alreadyVoted = (await checkVote(body, params.idProject))[0];
+        if (alreadyVoted) { // l'utilisateur a déjà voté
+          if (Number(alreadyVoted.voteValue) !== Number(body.value)) { // nouveau vote différent
+            const modifiedVote = await modifVote(body, alreadyVoted); // modif relation
+            if (Number(modifiedVote.voteValue) === 1) { // vote pour
+              const newVote = await modifProjVoteToUp(params.idProject);
+              return newVote;
+            }
+
+            const newVote = await modifProjVoteToDown(params.idProject); // vote contre
             return newVote;
           }
-          if (Number(modifiedVote.voteValue) === -1) { // vote contre
-            const newVote = await modifProjVoteToDown(params.idProject);
-            return newVote;
-          }
-          return 'Invalid vote value';
+          return 'You already voted that.';
         }
-        return 'You already voted that.';
-      }
-      if (Number(body.value) === 1) { // vote pas encore effectué par l'utilisateur // vote pour
-        const vote = await upVoteProject(body, params.idProject);
-        return vote;
-      }
-      if (Number(body.value) === -1) { // vote contre
-        const vote = await downVoteProject(body, params.idProject);
+        if (Number(body.value) === 1) { // vote pas encore effectué par l'utilisateur // vote pour
+          const vote = await upVoteProject(body, params.idProject);
+          return vote;
+        }
+        const vote = await downVoteProject(body, params.idProject); // vote contre
         return vote;
       }
       return 'Invalid vote value';
