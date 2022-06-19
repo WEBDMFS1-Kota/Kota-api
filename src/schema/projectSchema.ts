@@ -155,6 +155,29 @@ const getHotProjectsSchema = {
   },
 };
 
+const getProjectCreatorSchema = {
+  description: 'Get the creator of a project with his ID',
+  tags: ['Users', 'Projects'],
+  params: {
+    projectId: { type: 'number' },
+  },
+  response: {
+    200: {
+      type: 'object',
+      properties: {
+        pseudo: { type: 'string' },
+        avatar: { type: 'string' },
+        firstname: { type: 'string' },
+        lastname: { type: 'string' },
+        password: { type: 'string' },
+        email: { type: 'string' },
+        birthDate: { type: 'string' },
+        githubProfileURL: { type: 'string' },
+      },
+    },
+  },
+};
+
 export {
   getProjectsSchema,
   getProjectByIdSchema,
@@ -163,4 +186,5 @@ export {
   deleteProjectSchema,
   getTopProjectsSchema,
   getHotProjectsSchema,
+  getProjectCreatorSchema,
 };
