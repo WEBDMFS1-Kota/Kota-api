@@ -7,6 +7,8 @@ const addProject = async (record: ProjectType, userId: any) => {
   const project = await prisma.projects.create({
     data: {
       ...record,
+      upVote: 0,
+      downVote: 0,
       publishDate: new Date(),
       projectsUsers: {
         create: {
