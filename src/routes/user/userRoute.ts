@@ -57,7 +57,8 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
         return `User with email "${checkUserEmail.email}" already exists`;
       }
       const newUser = await createUser(body);
-      return `User "${newUser.pseudo}" successfully created`;
+      console.log('route', newUser);
+      return `User "${newUser}" successfully created`;
     } catch (error) {
       return error;
     }
