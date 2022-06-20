@@ -57,6 +57,7 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
       } catch (error) {
         return error;
       }
+    },
   });
 
   server.post('/users', {
