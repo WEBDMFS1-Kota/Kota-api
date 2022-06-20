@@ -1,7 +1,7 @@
 import { getProjectById } from '../../services/project/projectService';
 import { getUserProjectsSchema } from '../../schema/userSchema';
 import { getProjectsUserByUser, getProjectsUserByProject } from '../../services/projectUser/projectUserService';
-import { getUserById, getUsers } from '../../services/user/userService';
+import { getUserById } from '../../services/user/userService';
 import { getProjectCreatorSchema } from '../../schema/projectSchema';
 
 const ProjectUserRoutes = (server: any, opts: any, done: () => void) => {

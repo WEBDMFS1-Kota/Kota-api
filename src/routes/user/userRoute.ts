@@ -36,7 +36,7 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
         }
         return response.status(503).send({ errorMsg: 'User creation errored: newUser is undefined' });
       } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError && error.code == 'P2002') {
+        if (error instanceof PrismaClientKnownRequestError && error.code === 'P2002') {
           return response.status(409).send({ errorMsg: 'Either your pseudo or the email is already taken.' });
         }
         return response.status(503).send({ errorMsg: error });
@@ -92,7 +92,7 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
         }
         return response.status(404).send();
       } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError && error.code == 'P2002') {
+        if (error instanceof PrismaClientKnownRequestError && error.code === 'P2002') {
           return response.status(409).send({ errorMsg: 'Either your pseudo or the email is already taken.' });
         }
         return response.status(503).send({ errorMsg: error });
@@ -112,7 +112,7 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
         }
         return response.status(503).send({ errorMsg: 'User creation errored: newUser is undefined' });
       } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError && error.code == 'P2002') {
+        if (error instanceof PrismaClientKnownRequestError && error.code === 'P2002') {
           return response.status(409).send({ errorMsg: 'Either your pseudo or the email is already taken.' });
         }
         return response.status(503).send({ errorMsg: error });
