@@ -7,6 +7,7 @@ import userTagsRoutes from './routes/userTags/userTagsRoutes';
 import ProjectUserRoutes from './routes/projectUser/projectUserRoute';
 import healthRoutes from './routes/health/healthRoutes';
 import userVotesRoutes from './routes/userVotes/userVotesRoute';
+import forgottenPasswordRoute from './routes/forgottenPassword/forgottenPasswordRoute';
 
 const server = fastify({ logger: true });
 
@@ -54,6 +55,7 @@ server.register(tagRoutes);
 server.register(userTagsRoutes);
 server.register(healthRoutes);
 server.register(userVotesRoutes);
+server.register(forgottenPasswordRoute);
 
 const port = Number(process.env.PORT || 8080);
 const host = process.env.HOST || '0.0.0.0';
