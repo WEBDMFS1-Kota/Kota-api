@@ -24,6 +24,7 @@ const userTagsRoutes = (server: any, opts: any, done: () => void) => {
   });
 
   server.post('/users/tags', {
+    onRequest: [server.authenticate],
     schema: postUserTagsSchema,
     handler: async (request: any) => {
       const { query, body } = request;
@@ -59,6 +60,7 @@ const userTagsRoutes = (server: any, opts: any, done: () => void) => {
   });
 
   server.delete('/users/tags', {
+    onRequest: [server.authenticate],
     schema: deleteUserTagsSchema,
     handler: async (request: any) => {
       const { query, body } = request;

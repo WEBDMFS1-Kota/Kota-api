@@ -41,6 +41,7 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
   });
 
   server.delete('/users', {
+    onRequest: [server.authenticate],
     schema: deleteUserSchema,
     handler: async (request: any) => {
       const { query } = request;
@@ -67,6 +68,7 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
   });
 
   server.patch('/users', {
+    onRequest: [server.authenticate],
     schema: patchUserSchema,
     handler: async (request: any) => {
       const { query, body } = request;
@@ -92,6 +94,7 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
   });
 
   server.post('/users', {
+    onRequest: [server.authenticate],
     schema: postUserSchema,
     handler: async (request: any) => {
       const { body } = request;
