@@ -39,7 +39,7 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
         return `The user "${query.pseudo}" that you try to update doesn't exist`;
       }
       const updatedUser = await updateUser(checkedUser.id, body);
-      return `User "${updatedUser.pseudo}" successfully updated`;
+      return updatedUser;
     } catch (error) {
       return error;
     }
@@ -57,7 +57,7 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
         return `User with email "${checkUserEmail.email}" already exists`;
       }
       const newUser = await createUser(body);
-      return `User "${newUser.pseudo}" successfully created`;
+      return newUser;
     } catch (error) {
       return error;
     }
