@@ -30,7 +30,6 @@ const getProjectById = async (id: number) => {
       include: {
         projectsUsers: {
           include: {
-            userId: true,
             users: true,
           },
         },

@@ -1,3 +1,4 @@
+import { send } from 'process';
 import {
   getProjectsSchema,
   addProjectSchema,
@@ -60,10 +61,12 @@ const ProjectRoutes = (server: any, opts: any, done: () => void) => {
       try {
         const { id } = req.params;
         const project = await getProjectById(id);
-        if (project.projectsUsers.userId === req.user.userId) {
-          console.log('coucou');
+        if (project.projectsUsers[0].userId === req.user.userId) {
+          return res.status(200).send(await updateProject(id, req.body));
         }
-        return await updateProject(id, req.body);
+        return res.status(403).send({
+          errorMessage: "Can't access a resource you don't own.",
+        });
       } catch (error) {
         return formatServiceError(res, error);
       }
