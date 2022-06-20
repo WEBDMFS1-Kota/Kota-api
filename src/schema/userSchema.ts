@@ -38,7 +38,7 @@ const postUserSchema = {
     200: {
       type: 'object',
       properties: {
-        id: { ype: 'number' },
+        id: { type: 'number' },
         pseudo: { type: 'string' },
         avatar: { type: 'string' },
         firstname: { type: 'string' },
