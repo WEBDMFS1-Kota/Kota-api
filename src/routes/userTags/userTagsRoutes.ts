@@ -12,7 +12,7 @@ const userTagsRoutes = (server: any, opts: any, done: () => void) => {
       try {
         const userTagsRelations = await getAllUserTags(query);
         const userTags: any[] = [];
-        await Promise.all(userTagsRelations.map(async (userTagRelation) => {
+        await Promise.all(userTagsRelations.map(async (userTagRelation: any) => {
           const tagId = await getTagsById(userTagRelation);
           userTags.push(tagId);
         }));

@@ -20,8 +20,8 @@ import {
   getTopProjects,
 } from '../../services/project/projectService';
 
-const ProjectRoutes = (fastify: any, opts: any, done: () => void) => {
-  fastify.get('/projects', {
+const ProjectRoutes = (server: any, opts: any, done: () => void) => {
+  server.get('/projects', {
     schema: getProjectsSchema,
     handler: async (req: any, res: any) => {
       try {
@@ -32,7 +32,7 @@ const ProjectRoutes = (fastify: any, opts: any, done: () => void) => {
     },
   });
 
-  fastify.get('/projects/top', {
+  server.get('/projects/top', {
     schema: getTopProjectsSchema,
     handler: async (req: any, res: any) => {
       try {
@@ -43,7 +43,7 @@ const ProjectRoutes = (fastify: any, opts: any, done: () => void) => {
     },
   });
 
-  fastify.get('/projects/hot', {
+  server.get('/projects/hot', {
     schema: getHotProjectsSchema,
     handler: async (req: any, res: any) => {
       try {
@@ -54,7 +54,7 @@ const ProjectRoutes = (fastify: any, opts: any, done: () => void) => {
     },
   });
 
-  fastify.get('/projects/:id', {
+  server.get('/projects/:id', {
     schema: getProjectByIdSchema,
     handler: async (req: any, res: any) => {
       try {
@@ -66,30 +66,39 @@ const ProjectRoutes = (fastify: any, opts: any, done: () => void) => {
     },
   });
 
-  fastify.post('/projects', {
+  server.post('/projects', {
+    onRequest: [server.authenticate],
     schema: addProjectSchema,
     handler: async (req: any, res: any) => {
       try {
-        return await addProject(req.body, req.query.userId);
+        return await addProject(req.body, req.user.userId);
       } catch (error) {
         return formatServiceError(res, error);
       }
     },
   });
 
-  fastify.put('/projects/:id', {
+  server.put('/projects/:id', {
+    onRequest: [server.authenticate],
     schema: updateProjectSchema,
     handler: async (req: any, res: any) => {
       try {
         const { id } = req.params;
-        return await updateProject(id, req.body);
+        const project = await getProjectById(id);
+        if (project.projectsUsers[0].userId === req.user.userId) {
+          return res.status(200).send(await updateProject(id, req.body));
+        }
+        return res.status(403).send({
+          errorMsg: "Can't access a resource you don't own.",
+        });
       } catch (error) {
         return formatServiceError(res, error);
       }
     },
   });
 
-  fastify.delete('/projects/:id', {
+  server.delete('/projects/:id', {
+    onRequest: [server.authenticate],
     schema: deleteProjectSchema,
     handler: async (req: any, res: any) => {
       try {

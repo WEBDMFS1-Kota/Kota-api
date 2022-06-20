@@ -30,7 +30,7 @@ async function createUser(body: any) {
   return newUser;
 }
 
-async function getUser(query: any) {
+async function getUsers(query: any) {
   const user = await prisma.users.findMany({
     where: {
       id: Number(query.userId) || undefined,
@@ -119,5 +119,5 @@ async function deleteUser(query: any) {
 }
 
 export {
-  createUser, updateUser, deleteUser, getUser,
+  createUser, updateUser, deleteUser, getUsers,
 };

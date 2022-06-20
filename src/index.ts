@@ -10,6 +10,10 @@ import userVotesRoutes from './routes/userVotes/userVotesRoute';
 
 const server = fastify({ logger: true });
 
+server.register(require('@fastify/jwt'), {
+  secret: 'supersecret',
+});
+
 server.register(require('@fastify/swagger'), {
   routePrefix: '/docs',
   openapi: {
@@ -33,6 +37,14 @@ server.register(require('@fastify/swagger'), {
 
 server.register(cors, {
   origin: '*',
+});
+
+server.decorate('authenticate', async (request: any, reply: any) => {
+  try {
+    await request.jwtVerify();
+  } catch (err) {
+    reply.send(err);
+  }
 });
 
 server.register(projectRoutes);
