@@ -43,7 +43,6 @@ const ProjectRoutes = (server: any, opts: any, done: () => void) => {
 
   server.post('/projects', {
     onRequest: [server.authenticate],
-  }, {
     schema: addProjectSchema,
     handler: async (req: any, res: any) => {
       try {
