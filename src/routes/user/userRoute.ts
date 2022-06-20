@@ -70,7 +70,7 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
       try {
         const user = await getUsers(query);
         if (user) {
-          return response.status(200).send({ user });
+          return response.status(200).send(user);
         }
         return response.status(404).send();
       } catch (error) {
