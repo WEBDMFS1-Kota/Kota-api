@@ -15,7 +15,7 @@ function sendEmail(sendTo: any) {
         Name: 'Kota Forgotten Password Service',
       },
       To: [{
-        Email: 'plducar2@gmail.com',
+        Email: sendTo.email,
         Name: sendTo.lastname + sendTo.firstname,
       },
       ],
