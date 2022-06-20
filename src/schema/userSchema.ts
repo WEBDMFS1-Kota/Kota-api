@@ -66,6 +66,7 @@ const getUserSchema = {
       items: {
         type: 'object',
         properties: {
+          id: { type: 'number' },
           pseudo: { type: 'string' },
           avatar: { type: 'string' },
           firstname: { type: 'string' },
