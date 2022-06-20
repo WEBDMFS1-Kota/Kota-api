@@ -43,7 +43,7 @@ server.decorate('authenticate', async (request: any, reply: any) => {
   try {
     await request.jwtVerify();
   } catch (err) {
-    reply.status(401).send({errorMsg: err});
+    reply.status(401).send({ errorMsg: err });
   }
 });
 

@@ -60,12 +60,12 @@ const ProjectRoutes = (server: any, opts: any, done: () => void) => {
       try {
         const { id } = request.params;
         const project = await getProjectById(id);
-        if(project){
+        if (project) {
           return response.status(200).send(project);
         }
         return response.status(404).send();
       } catch (error) {
-        return response.status(503).send({errorMsg: error});
+        return response.status(503).send({ errorMsg: error });
       }
     },
   });
@@ -89,9 +89,9 @@ const ProjectRoutes = (server: any, opts: any, done: () => void) => {
       try {
         const { id } = request.params;
         const project = await getProjectById(id);
-        if(!project) {
+        if (!project) {
           return response.status(404).send();
-        } else if (project.projectsUsers[0].userId === request.user.userId) {
+        } if (project.projectsUsers[0].userId === request.user.userId) {
           return response.status(200).send(await updateProject(id, request.body));
         }
         return response.status(403).send({
@@ -110,13 +110,13 @@ const ProjectRoutes = (server: any, opts: any, done: () => void) => {
       try {
         const { id } = request.params;
         const project = await getProjectById(id);
-        if(project){
+        if (project) {
           await deleteProject(id);
           return response.status(204).send();
         }
         return response.status(404).send();
       } catch (error) {
-        return response.status(503).send({errorMsg: error});
+        return response.status(503).send({ errorMsg: error });
       }
     },
   });

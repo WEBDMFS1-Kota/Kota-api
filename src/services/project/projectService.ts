@@ -44,10 +44,10 @@ const getTopProjects = async () => {
 };
 
 async function getProjectById(id: number) {
-  return await prisma.projects.findUnique(
+  return prisma.projects.findUnique(
     {
-      where: { 
-        id: id
+      where: {
+        id,
       },
       include: {
         projectsUsers: {
@@ -75,11 +75,9 @@ const updateProject = async (id: number, record: ProjectType) => {
   }
 };
 
-const deleteProject = async (id: number) => {
-  return await prisma.projects.delete({
-    where: { id },
-  });
-};
+const deleteProject = async (id: number) => prisma.projects.delete({
+  where: { id },
+});
 
 export {
   addProject,

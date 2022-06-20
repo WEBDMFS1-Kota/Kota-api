@@ -1,5 +1,6 @@
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import {
-  createUser, updateUser, deleteUser, getUsers, getUserByEmailAndPassword, getUserById
+  createUser, updateUser, deleteUser, getUsers, getUserByEmailAndPassword, getUserById,
 } from '../../services/user/userService';
 import {
   deleteUserSchema,
@@ -8,7 +9,6 @@ import {
   postUserSchema,
   signInSchema,
 } from '../../schema/userSchema';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 
 const userRoutes = (server: any, opts: any, done: () => void) => {
   server.post('/signin', {
@@ -36,10 +36,10 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
         }
         return response.status(503).send({ errorMsg: 'User creation errored: newUser is undefined' });
       } catch (error) {
-        if(error instanceof PrismaClientKnownRequestError && error.code == "P2002"){
-          return response.status(409).send({ errorMsg: "Either your pseudo or the email is already taken." });
+        if (error instanceof PrismaClientKnownRequestError && error.code == 'P2002') {
+          return response.status(409).send({ errorMsg: 'Either your pseudo or the email is already taken.' });
         }
-        return response.status(503).send({errorMsg: error});
+        return response.status(503).send({ errorMsg: error });
       }
     },
   });
@@ -50,15 +50,15 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
     handler: async (request: any, response: any) => {
       const { query } = request;
       try {
-        const { id } = query.id
+        const { id } = query.id;
         const user = await getUserById(id);
-        if(user) {
+        if (user) {
           await deleteUser(query);
           return response.status(204).send();
         }
         return response.status(404).send();
       } catch (error) {
-        return response.status(503).send({errorMsg: error});
+        return response.status(503).send({ errorMsg: error });
       }
     },
   });
@@ -69,12 +69,12 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
       const { query } = request;
       try {
         const user = await getUsers(query);
-        if(user) {
-          return response.status(200).send({user})
+        if (user) {
+          return response.status(200).send({ user });
         }
         return response.status(404).send();
       } catch (error) {
-        return response.status(503).send({errorMsg: error});
+        return response.status(503).send({ errorMsg: error });
       }
     },
   });
@@ -86,16 +86,16 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
       const { body } = request;
       try {
         const user = await getUserById(request.user.userId);
-        if(user) {
+        if (user) {
           const updatedUser = await updateUser(user.id, body);
           return response.status(200).send(updatedUser);
         }
         return response.status(404).send();
       } catch (error) {
-        if(error instanceof PrismaClientKnownRequestError && error.code == "P2002"){
-          return response.status(409).send({ errorMsg: "Either your pseudo or the email is already taken." });
+        if (error instanceof PrismaClientKnownRequestError && error.code == 'P2002') {
+          return response.status(409).send({ errorMsg: 'Either your pseudo or the email is already taken.' });
         }
-        return response.status(503).send({errorMsg: error});
+        return response.status(503).send({ errorMsg: error });
       }
     },
   });
@@ -112,10 +112,10 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
         }
         return response.status(503).send({ errorMsg: 'User creation errored: newUser is undefined' });
       } catch (error) {
-        if(error instanceof PrismaClientKnownRequestError && error.code == "P2002"){
-          return response.status(409).send({ errorMsg: "Either your pseudo or the email is already taken." });
+        if (error instanceof PrismaClientKnownRequestError && error.code == 'P2002') {
+          return response.status(409).send({ errorMsg: 'Either your pseudo or the email is already taken.' });
         }
-        return response.status(503).send({errorMsg: error});
+        return response.status(503).send({ errorMsg: error });
       }
     },
   });

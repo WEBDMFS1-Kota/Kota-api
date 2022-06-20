@@ -12,7 +12,7 @@ const ProjectUserRoutes = (server: any, opts: any, done: () => void) => {
       try {
         const projectsUser: any[] = [];
         const projectsUserRelations = await getProjectsUserByUser(params.userId, query);
-        if(!projectsUserRelations) {
+        if (!projectsUserRelations) {
           return response.status(404).send();
         }
         await Promise.all(projectsUserRelations.map(async (relation: any) => {
@@ -21,7 +21,7 @@ const ProjectUserRoutes = (server: any, opts: any, done: () => void) => {
         }));
         return response.status(200).send(projectsUser);
       } catch (error) {
-        return response.status(503).send({errorMsg: error});
+        return response.status(503).send({ errorMsg: error });
       }
     },
   });
@@ -36,15 +36,15 @@ const ProjectUserRoutes = (server: any, opts: any, done: () => void) => {
         if (!projectsUserRelations) {
           return response.status(404).send();
         }
-        const userId = projectsUserRelations.userId
+        const { userId } = projectsUserRelations;
         const ownerInfos = (await getUserById(userId));
-        if(ownerInfos){ 
+        if (ownerInfos) {
           ownerInfos.password = null;
           return response.status(200).send(ownerInfos);
         }
         return response.status(404).send();
       } catch (error) {
-        return response.status(503).send({errorMsg: error});
+        return response.status(503).send({ errorMsg: error });
       }
     },
   });

@@ -10,7 +10,7 @@ const tagRoutes = (server: any, opts: any, done: () => void) => {
       const { query } = request;
       try {
         const tags = await getTagsByName(query);
-        if(tags){
+        if (tags) {
           return response.status(200).send(tags);
         }
         return response.status(404).send();
