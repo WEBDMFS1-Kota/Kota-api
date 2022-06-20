@@ -1,10 +1,11 @@
-import { send } from 'process';
 import {
   getProjectsSchema,
   addProjectSchema,
   getProjectByIdSchema,
   updateProjectSchema,
   deleteProjectSchema,
+  getTopProjectsSchema,
+  getHotProjectsSchema,
 } from '../../schema/projectSchema';
 
 import { formatServiceError } from '../../services/error';
@@ -15,6 +16,8 @@ import {
   getProjectById,
   updateProject,
   deleteProject,
+  getHotProjects,
+  getTopProjects,
 } from '../../services/project/projectService';
 
 const ProjectRoutes = (server: any, opts: any, done: () => void) => {
@@ -23,6 +26,28 @@ const ProjectRoutes = (server: any, opts: any, done: () => void) => {
     handler: async (req: any, res: any) => {
       try {
         return await getProjects();
+      } catch (error: any) {
+        return formatServiceError(res, error);
+      }
+    },
+  });
+
+  server.get('/projects/top', {
+    schema: getTopProjectsSchema,
+    handler: async (req: any, res: any) => {
+      try {
+        return await getTopProjects();
+      } catch (error: any) {
+        return formatServiceError(res, error);
+      }
+    },
+  });
+
+  server.get('/projects/hot', {
+    schema: getHotProjectsSchema,
+    handler: async (req: any, res: any) => {
+      try {
+        return await getHotProjects();
       } catch (error: any) {
         return formatServiceError(res, error);
       }
