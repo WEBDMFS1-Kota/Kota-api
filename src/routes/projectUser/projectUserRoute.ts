@@ -1,7 +1,7 @@
 import { getProjectById } from '../../services/project/projectService';
 import { getUserProjectsSchema } from '../../schema/userSchema';
 import { getProjectsUserByUser, getProjectsUserByProject } from '../../services/projectUser/projectUserService';
-import { getUser } from '../../services/user/userService';
+import { getUsers } from '../../services/user/userService';
 import { getProjectCreatorSchema } from '../../schema/projectSchema';
 
 const ProjectUserRoutes = (server: any, opts: any, done: () => void) => {
@@ -12,7 +12,7 @@ const ProjectUserRoutes = (server: any, opts: any, done: () => void) => {
       try {
         const projectsUser: any[] = [];
         const projectsUserRelations = await getProjectsUserByUser(params.userId, query);
-        await Promise.all(projectsUserRelations.map(async (relation) => {
+        await Promise.all(projectsUserRelations.map(async (relation: any) => {
           const project = await getProjectById(Number(relation.projectId));
           projectsUser.push(project);
         }));
@@ -32,7 +32,7 @@ const ProjectUserRoutes = (server: any, opts: any, done: () => void) => {
         if (projectsUserRelations === undefined) {
           return 'Wrong project ID';
         }
-        const ownerInfos = (await getUser(projectsUserRelations))[0];
+        const ownerInfos = (await getUsers(projectsUserRelations))[0];
         return ownerInfos;
       } catch (error) {
         return error;

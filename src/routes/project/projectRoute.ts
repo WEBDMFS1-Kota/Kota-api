@@ -89,7 +89,7 @@ const ProjectRoutes = (server: any, opts: any, done: () => void) => {
           return res.status(200).send(await updateProject(id, req.body));
         }
         return res.status(403).send({
-          errorMessage: "Can't access a resource you don't own.",
+          errorMsg: "Can't access a resource you don't own.",
         });
       } catch (error) {
         return formatServiceError(res, error);
