@@ -79,7 +79,7 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
     handler: async (request: any) => {
       const { body } = request;
       try {
-        const checkUserPseudo = (await getUsers(body))[0]; // On check si un utilisateur avec ce mail
+        const checkUserPseudo = (await getUsers(body))[0];
         if (checkUserPseudo) { // ou ce pseudo existe déjà pour empêcher des duplicatas
           return `User with pseudo "${checkUserPseudo.pseudo}" already exists`;
         }
