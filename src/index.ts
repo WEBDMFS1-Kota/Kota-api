@@ -5,6 +5,7 @@ import tagRoutes from './routes/tag/tagRoute';
 import userRoutes from './routes/user/userRoute';
 import userTagsRoutes from './routes/userTags/userTagsRoutes';
 import ProjectUserRoutes from './routes/projectUser/projectUserRoute';
+import projectTagRoutes from './routes/projectTag/projectTagRoute';
 
 const server = fastify({ logger: true });
 
@@ -13,6 +14,7 @@ server.register(cors, {
 });
 
 server.register(projectRoutes);
+server.register(projectTagRoutes);
 server.register(userRoutes);
 server.register(ProjectUserRoutes);
 server.register(tagRoutes);

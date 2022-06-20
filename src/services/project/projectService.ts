@@ -1,18 +1,13 @@
 import { Prisma } from '@prisma/client';
 import ServiceError from '../error';
 import prisma from '../globalService';
-import ProjectType from '../../types/project/projectType';
+import { ProjectType } from '../../types/project';
 
-const addProject = async (record: ProjectType, userId: any) => {
+const addProject = async (record: ProjectType) => {
   const project = await prisma.projects.create({
     data: {
       ...record,
       publishDate: new Date(),
-      projectsUsers: {
-        create: {
-          userId: Number(userId),
-        },
-      },
     },
   });
   return project;
