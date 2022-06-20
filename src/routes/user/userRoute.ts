@@ -1,25 +1,42 @@
 import {
-  createUser, updateUser, deleteUser, getUsers,
+  createUser, updateUser, deleteUser, getUsers, getUserByEmailAndPassword
 } from '../../services/user/userService';
 import {
   deleteUserSchema,
   getUserSchema,
   patchUserSchema,
   postUserSchema,
+  signInSchema,
 } from '../../schema/userSchema';
 
 const userRoutes = (server: any, opts: any, done: () => void) => {
-  server.post('/signin', async (request: any, response: any) => {
-    const { body } = request;
-    const token = server.jwt.sign({ userId: body.userId });
-    response.send({ token });
+  server.post('/signin', {
+    schema: signInSchema,
+    handler: async (request: any, response: any) => {
+      const { email, password } = request.body;
+      const user = await getUserByEmailAndPassword(email, password);
+      if (user) {
+        const token = server.jwt.sign({ userId: user.id });
+        return response.status(200).send({ token: token });
+      }
+      return response.status(401).send({ errorMsg: "Invalid credentials." })
+    },
   });
 
-  server.post('/signup', async (request: any, response: any) => {
-    const { body } = request;
-    // CREATE USER
-    const token = server.jwt.sign({ userId: body.userId });
-    response.send({ token });
+  server.post('/signup', {
+    schema: postUserSchema,
+    handler: async (request: any, response: any) => {
+      const { body } = request;
+      try {
+        const newUser = await createUser(body);
+        if (newUser) {
+          const token = server.jwt.sign({ userId: newUser.id });
+          return response.status(201).send({ token: token });
+        }
+      } catch (error) {
+        return response.status(503).send({ errorMsg: error });
+      }
+    }
   });
 
   server.delete('/users', {
@@ -40,7 +57,7 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
     handler: async (request: any) => {
       const { query } = request;
       try {
-        const [user] = await getUsers(query);
+        const user = await getUsers(query);
         console.log(user);
         return user;
       } catch (error) {
@@ -54,7 +71,7 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
     handler: async (request: any) => {
       const { query, body } = request;
       try {
-      // Checking if user pseudo/mail already exists to avoid duplication
+        // Checking if user pseudo/mail already exists to avoid duplication
         if (body.pseudo || body.email) {
           const checkUser = (await getUsers(body))[0];
           if (checkUser) {
@@ -79,7 +96,7 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
     handler: async (request: any) => {
       const { body } = request;
       try {
-        const checkUserPseudo = (await getUsers(body))[0];
+        const checkUserPseudo = (await getUsers(body))[0]; // On check si un utilisateur avec ce mail
         if (checkUserPseudo) { // ou ce pseudo existe déjà pour empêcher des duplicatas
           return `User with pseudo "${checkUserPseudo.pseudo}" already exists`;
         }

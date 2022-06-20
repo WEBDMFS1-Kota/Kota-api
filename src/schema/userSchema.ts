@@ -1,3 +1,23 @@
+const signInSchema = {
+  description: 'Sign in',
+  tags: ['Users'],
+  body: {
+    type: 'object',
+    properties: {
+      email: { type: 'string' },
+      password: { type: 'string' }
+    },
+  },
+  response: {
+    200: {
+      type: 'object',
+      properties: {
+        token: { type: 'string' }
+      }
+    }
+  }
+}
+
 const postUserSchema = {
   description: 'Add an user',
   tags: ['Users'],
@@ -178,4 +198,5 @@ export {
   deleteUserSchema,
   patchUserVote,
   getUserProjectsSchema,
+  signInSchema,
 };

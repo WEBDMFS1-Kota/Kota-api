@@ -54,12 +54,12 @@ model tags {
 
 model users {
   id               Int             @id @default(autoincrement())
-  pseudo           String?         @db.VarChar
+  pseudo           String?         @db.VarChar @unique
   avatar           String?         @db.VarChar
   firstname        String?         @db.VarChar
   lastname         String?         @db.VarChar
   password         String?         @db.VarChar
-  email            String?         @db.VarChar
+  email            String?         @db.VarChar @unique
   birthDate        DateTime?       @db.Date
   githubProfileURL String?         @db.VarChar
   projectsUsers    projectsUsers[]
