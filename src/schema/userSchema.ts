@@ -159,7 +159,7 @@ const patchUserVote = {
   response: {
     200: {
       description: 'Unsuccessful response',
-      type: 'object',
+      type: 'string',
       default: 'You already voted that.',
     },
   },
