@@ -104,6 +104,17 @@ async function deleteUser(query: any) {
     where: {
       id: Number(query.id),
     },
+    select: {
+      id: true,
+      pseudo: true,
+      avatar: true,
+      firstname: true,
+      lastname: true,
+      email: true,
+      birthDate: true,
+      githubProfileURL: true,
+      password: false,
+    },
   });
 }
 
