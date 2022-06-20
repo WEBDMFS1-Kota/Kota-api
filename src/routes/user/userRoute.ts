@@ -15,7 +15,7 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
       const { query } = request;
       try {
         const user = await deleteUser(query);
-        return `User "${user.pseudo}" successfully deleted`;
+        return user;
       } catch (error) {
         return error;
       }
@@ -28,6 +28,7 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
       const { query } = request;
       try {
         const user = await getUser(query);
+        console.log(user);
         return user;
       } catch (error) {
         return error;
