@@ -5,7 +5,7 @@ const forgottenPasswordRoute = (server: any, opts: any, done: () => void) => {
     try {
       const { query } = request;
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const options = { emailID: 'test' };
+      const options = { emailID: '4018828' };
       const sendResetmail = await sendEmail(query, options);
       return sendResetmail;
     } catch (error) {
