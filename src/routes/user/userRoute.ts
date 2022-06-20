@@ -22,6 +22,19 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
     response.send({ token });
   });
 
+  server.delete('/users', {
+    schema: deleteUserSchema,
+    handler: async (request: any) => {
+      const { query } = request;
+      try {
+        const user = await deleteUser(query);
+        return user;
+      } catch (error) {
+        return error;
+      }
+    },
+  });
+
   server.get('/users', {
     schema: getUserSchema,
     handler: async (request: any) => {
@@ -30,6 +43,31 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
         const [user] = await getUsers(query);
         console.log(user);
         return user;
+      } catch (error) {
+        return error;
+      }
+    },
+  });
+
+  server.patch('/users', {
+    schema: patchUserSchema,
+    handler: async (request: any) => {
+      const { query, body } = request;
+      try {
+      // Checking if user pseudo/mail already exists to avoid duplication
+        if (body.pseudo || body.email) {
+          const checkUser = (await getUsers(body))[0];
+          if (checkUser) {
+            return `User with pseudo "${checkUser.pseudo}" and mail "${checkUser.email}" already exists`;
+          }
+        }
+        // Fetching userId to update the right one
+        const checkedUser = (await getUsers(query))[0];
+        if (checkedUser === undefined) {
+          return `The user "${query.pseudo}" that you try to update doesn't exist`;
+        }
+        const updatedUser = await updateUser(checkedUser.id, body);
+        return updatedUser;
       } catch (error) {
         return error;
       }
@@ -51,44 +89,6 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
         }
         const newUser = await createUser(body);
         return newUser;
-      } catch (error) {
-        return error;
-      }
-    },
-  });
-
-  server.patch('/users', {
-    schema: patchUserSchema,
-    handler: async (request: any) => {
-      const { query, body } = request;
-      try {
-        // Checking if user pseudo/mail already exists to avoid duplication
-        if (body.pseudo || body.email) {
-          const checkUser = (await getUsers(body))[0];
-          if (checkUser) {
-            return `User with pseudo "${checkUser.pseudo}" and mail "${checkUser.email}" already exists`;
-          }
-        }
-        // Fetching userId to update the right one
-        const checkedUser = (await getUsers(query))[0];
-        if (checkedUser === undefined) {
-          return `The user "${query.pseudo}" that you try to update doesn't exist`;
-        }
-        const updatedUser = await updateUser(checkedUser.id, body);
-        return updatedUser;
-      } catch (error) {
-        return error;
-      }
-    },
-  });
-
-  server.delete('/users', {
-    schema: deleteUserSchema,
-    handler: async (request: any) => {
-      const { query } = request;
-      try {
-        const user = await deleteUser(query);
-        return user;
       } catch (error) {
         return error;
       }

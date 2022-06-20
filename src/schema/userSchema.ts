@@ -16,8 +16,18 @@ const postUserSchema = {
   },
   response: {
     200: {
-      type: 'string',
-      default: 'User {pseudo} successfully created',
+      type: 'object',
+      properties: {
+        id: { ype: 'number' },
+        pseudo: { type: 'string' },
+        avatar: { type: 'string' },
+        firstname: { type: 'string' },
+        lastname: { type: 'string' },
+        password: { type: 'string' },
+        email: { type: 'string' },
+        birthDate: { type: 'string' },
+        githubProfileURL: { type: 'string' },
+      },
     },
   },
 };
@@ -31,16 +41,19 @@ const getUserSchema = {
   },
   response: {
     200: {
-      type: 'object',
-      properties: {
-        pseudo: { type: 'string' },
-        avatar: { type: 'string' },
-        firstname: { type: 'string' },
-        lastname: { type: 'string' },
-        password: { type: 'string' },
-        email: { type: 'string' },
-        birthDate: { type: 'string' },
-        githubProfileURL: { type: 'string' },
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          pseudo: { type: 'string' },
+          avatar: { type: 'string' },
+          firstname: { type: 'string' },
+          lastname: { type: 'string' },
+          password: { type: 'string' },
+          email: { type: 'string' },
+          birthDate: { type: 'string' },
+          githubProfileURL: { type: 'string' },
+        },
       },
     },
   },
@@ -69,7 +82,16 @@ const patchUserSchema = {
     200: {
       description: 'Successful response',
       type: 'object',
-      default: 'User "pseudo" successfully updated',
+      properties: {
+        pseudo: { type: 'string' },
+        avatar: { type: 'string' },
+        firstname: { type: 'string' },
+        lastname: { type: 'string' },
+        password: { type: 'string' },
+        email: { type: 'string' },
+        birthDate: { type: 'string' },
+        githubProfileURL: { type: 'string' },
+      },
     },
   },
 };
@@ -85,9 +107,18 @@ const deleteUserSchema = {
   },
   response: {
     200: {
-      type: 'string',
       description: 'Successful response',
-      default: 'User "pseudo" successfully deleted',
+      type: 'object',
+      properties: {
+        pseudo: { type: 'string' },
+        avatar: { type: 'string' },
+        firstname: { type: 'string' },
+        lastname: { type: 'string' },
+        password: { type: 'string' },
+        email: { type: 'string' },
+        birthDate: { type: 'string' },
+        githubProfileURL: { type: 'string' },
+      },
     },
   },
 };

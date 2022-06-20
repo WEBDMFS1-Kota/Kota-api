@@ -15,6 +15,17 @@ async function createUser(body: any) {
       birthDate: birthdate,
       githubProfileURL: body.githubProfileURL,
     },
+    select: {
+      id: true,
+      pseudo: true,
+      avatar: true,
+      firstname: true,
+      lastname: true,
+      email: true,
+      birthDate: true,
+      githubProfileURL: true,
+      password: false,
+    },
   });
   return newUser;
 }
@@ -74,6 +85,17 @@ async function updateUser(userCheckedId: any, body: any) {
       birthDate: birthdate,
       githubProfileURL: body.githubProfileURL,
     },
+    select: {
+      id: true,
+      pseudo: true,
+      avatar: true,
+      firstname: true,
+      lastname: true,
+      email: true,
+      birthDate: true,
+      githubProfileURL: true,
+      password: false,
+    },
   });
 }
 
@@ -81,6 +103,17 @@ async function deleteUser(query: any) {
   return prisma.users.delete({
     where: {
       id: Number(query.id),
+    },
+    select: {
+      id: true,
+      pseudo: true,
+      avatar: true,
+      firstname: true,
+      lastname: true,
+      email: true,
+      birthDate: true,
+      githubProfileURL: true,
+      password: false,
     },
   });
 }
