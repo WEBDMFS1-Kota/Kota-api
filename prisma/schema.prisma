@@ -28,7 +28,7 @@ model projects {
   title         String?         @db.VarChar
   projectUrl    String?         @db.VarChar
   description   String?         @db.VarChar
-  publishDate   DateTime?       @db.Date
+  publishDate   DateTime?       @db.Timestamp(6)
   image         String?         @db.VarChar
   upVote        Int?
   downVote      Int?

@@ -26,6 +26,17 @@ async function getUser(query: any) {
       pseudo: query.pseudo,
       email: query.email,
     },
+    select: {
+      id: true,
+      pseudo: true,
+      avatar: true,
+      firstname: true,
+      lastname: true,
+      password: false,
+      email: true,
+      birthDate: true,
+      githubProfileURL: true,
+    },
   });
   return user;
 }

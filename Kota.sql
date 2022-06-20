@@ -15,7 +15,7 @@ CREATE TABLE "projects" (
   "title" varchar,
   "projectUrl" varchar,
   "description" varchar,
-  "publishDate" date,
+  "publishDate" timestamp,
   "image" varchar,
   "upVote" int,
   "downVote" int
