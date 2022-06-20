@@ -1,11 +1,10 @@
-import bcrypt, { hash } from 'bcrypt';
+import bcrypt from 'bcrypt';
 import prisma from '../globalService';
 
 const saltRounds = 10;
 
 async function createUser(body: any) {
   const birthdate = new Date(body.birthDate);
-  const saltRounds = 10;
   const newUser = prisma.users.create({
     data: {
       pseudo: body.pseudo,
@@ -54,18 +53,18 @@ async function getUsers(query: any) {
   return user;
 }
 
-async function getUserByEmailAndPassword(email: string, password: string) {  
+async function getUserByEmailAndPassword(email: string, password: string) {
   const user = await prisma.users.findUnique({
     where: {
-      email: email,
-    }
-  })
-  if(user?.password && await bcrypt.compare(password, user.password)) {
+      email,
+    },
+  });
+  if (user?.password && await bcrypt.compare(password, user.password)) {
     user.password = null;
     return user;
   }
   return null;
-} 
+}
 
 async function updateUser(userCheckedId: any, body: any) {
   const birthdate = new Date(body.birthDate);
@@ -133,5 +132,5 @@ async function deleteUser(query: any) {
 }
 
 export {
-  createUser, updateUser, deleteUser, getUsers, getUserByEmailAndPassword
+  createUser, updateUser, deleteUser, getUsers, getUserByEmailAndPassword,
 };

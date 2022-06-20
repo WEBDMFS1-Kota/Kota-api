@@ -5,18 +5,18 @@ const signInSchema = {
     type: 'object',
     properties: {
       email: { type: 'string' },
-      password: { type: 'string' }
+      password: { type: 'string' },
     },
   },
   response: {
     200: {
       type: 'object',
       properties: {
-        token: { type: 'string' }
-      }
-    }
-  }
-}
+        token: { type: 'string' },
+      },
+    },
+  },
+};
 
 const postUserSchema = {
   description: 'Add an user',

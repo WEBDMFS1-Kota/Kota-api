@@ -1,5 +1,5 @@
 import {
-  createUser, updateUser, deleteUser, getUsers, getUserByEmailAndPassword
+  createUser, updateUser, deleteUser, getUsers, getUserByEmailAndPassword,
 } from '../../services/user/userService';
 import {
   deleteUserSchema,
@@ -17,9 +17,9 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
       const user = await getUserByEmailAndPassword(email, password);
       if (user) {
         const token = server.jwt.sign({ userId: user.id });
-        return response.status(200).send({ token: token });
+        return response.status(200).send({ token });
       }
-      return response.status(401).send({ errorMsg: "Invalid credentials." })
+      return response.status(401).send({ errorMsg: 'Invalid credentials.' });
     },
   });
 
@@ -31,12 +31,13 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
         const newUser = await createUser(body);
         if (newUser) {
           const token = server.jwt.sign({ userId: newUser.id });
-          return response.status(201).send({ token: token });
+          return response.status(201).send({ token });
         }
+        return response.status(503).send({ errorMsg: 'Internal Server Error' });
       } catch (error) {
         return response.status(503).send({ errorMsg: error });
       }
-    }
+    },
   });
 
   server.delete('/users', {
@@ -96,8 +97,8 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
     handler: async (request: any) => {
       const { body } = request;
       try {
-        const checkUserPseudo = (await getUsers(body))[0]; // On check si un utilisateur avec ce mail
-        if (checkUserPseudo) { // ou ce pseudo existe déjà pour empêcher des duplicatas
+        const checkUserPseudo = (await getUsers(body))[0];
+        if (checkUserPseudo) {
           return `User with pseudo "${checkUserPseudo.pseudo}" already exists`;
         }
         const checkUserEmail = (await getUsers(body))[0];
