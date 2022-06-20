@@ -1,5 +1,6 @@
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import {
-  createUser, updateUser, deleteUser, getUsers, getUserByEmailAndPassword,
+  createUser, updateUser, deleteUser, getUsers, getUserByEmailAndPassword, getUserById,
 } from '../../services/user/userService';
 import {
   deleteUserSchema,
@@ -33,81 +34,88 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
           const token = server.jwt.sign({ userId: newUser.id });
           return response.status(201).send({ token });
         }
-        return response.status(503).send({ errorMsg: 'Internal Server Error' });
+        return response.status(503).send({ errorMsg: 'User creation errored: newUser is undefined' });
       } catch (error) {
+        if (error instanceof PrismaClientKnownRequestError && error.code === 'P2002') {
+          return response.status(409).send({ errorMsg: 'Either your pseudo or the email is already taken.' });
+        }
         return response.status(503).send({ errorMsg: error });
       }
     },
   });
 
   server.delete('/users', {
+    onRequest: [server.authenticate],
     schema: deleteUserSchema,
-    handler: async (request: any) => {
+    handler: async (request: any, response: any) => {
       const { query } = request;
       try {
-        const user = await deleteUser(query);
-        return user;
+        const { id } = query.id;
+        const user = await getUserById(id);
+        if (user) {
+          await deleteUser(query);
+          return response.status(204).send();
+        }
+        return response.status(404).send();
       } catch (error) {
-        return error;
+        return response.status(503).send({ errorMsg: error });
       }
     },
   });
 
   server.get('/users', {
     schema: getUserSchema,
-    handler: async (request: any) => {
+    handler: async (request: any, response: any) => {
       const { query } = request;
       try {
         const user = await getUsers(query);
-        return user;
+        if (user) {
+          return response.status(200).send(user);
+        }
+        return response.status(404).send();
       } catch (error) {
-        return error;
+        return response.status(503).send({ errorMsg: error });
       }
     },
   });
 
   server.patch('/users', {
+    onRequest: [server.authenticate],
     schema: patchUserSchema,
-    handler: async (request: any) => {
-      const { query, body } = request;
+    handler: async (request: any, response: any) => {
+      const { body } = request;
       try {
-        // Checking if user pseudo/mail already exists to avoid duplication
-        if (body.pseudo || body.email) {
-          const checkUser = (await getUsers(body))[0];
-          if (checkUser) {
-            return `User with pseudo "${checkUser.pseudo}" and mail "${checkUser.email}" already exists`;
-          }
+        const user = await getUserById(request.user.userId);
+        if (user) {
+          const updatedUser = await updateUser(user.id, body);
+          return response.status(200).send(updatedUser);
         }
-        // Fetching userId to update the right one
-        const checkedUser = (await getUsers(query))[0];
-        if (checkedUser === undefined) {
-          return `The user "${query.pseudo}" that you try to update doesn't exist`;
-        }
-        const updatedUser = await updateUser(checkedUser.id, body);
-        return updatedUser;
+        return response.status(404).send();
       } catch (error) {
-        return error;
+        if (error instanceof PrismaClientKnownRequestError && error.code === 'P2002') {
+          return response.status(409).send({ errorMsg: 'Either your pseudo or the email is already taken.' });
+        }
+        return response.status(503).send({ errorMsg: error });
       }
     },
   });
 
   server.post('/users', {
     schema: postUserSchema,
-    handler: async (request: any) => {
+    handler: async (request: any, response: any) => {
       const { body } = request;
       try {
-        const checkUserPseudo = (await getUsers(body))[0];
-        if (checkUserPseudo) {
-          return `User with pseudo "${checkUserPseudo.pseudo}" already exists`;
-        }
-        const checkUserEmail = (await getUsers(body))[0];
-        if (checkUserEmail) {
-          return `User with email "${checkUserEmail.email}" already exists`;
-        }
         const newUser = await createUser(body);
-        return newUser;
+        if (newUser) {
+          const token = server.jwt.sign({ userId: newUser.id });
+          return response.status(201).send({ token });
+        }
+        return response.status(503).send({ errorMsg: 'User creation errored: newUser is undefined' });
       } catch (error) {
-        return error;
+        if (error instanceof PrismaClientKnownRequestError && error.code === 'P2002') {
+          return response.status(409).send({ errorMsg: 'Either your pseudo or the email is already taken.' });
+        }
+        return response.status(503).send({ errorMsg: error });
       }
     },
   });

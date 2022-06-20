@@ -10,7 +10,6 @@ const projectProperties = {
   image: typeString,
   upVote: typeNumber,
   downVote: typeNumber,
-  usersVotes: typeNumber,
 };
 
 const Project = {

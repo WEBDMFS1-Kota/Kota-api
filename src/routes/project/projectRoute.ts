@@ -23,89 +23,100 @@ import {
 const ProjectRoutes = (server: any, opts: any, done: () => void) => {
   server.get('/projects', {
     schema: getProjectsSchema,
-    handler: async (req: any, res: any) => {
+    handler: async (request: any, response: any) => {
       try {
         return await getProjects();
       } catch (error: any) {
-        return formatServiceError(res, error);
+        return formatServiceError(response, error);
       }
     },
   });
 
   server.get('/projects/top', {
     schema: getTopProjectsSchema,
-    handler: async (req: any, res: any) => {
+    handler: async (request: any, response: any) => {
       try {
         return await getTopProjects();
       } catch (error: any) {
-        return formatServiceError(res, error);
+        return formatServiceError(response, error);
       }
     },
   });
 
   server.get('/projects/hot', {
     schema: getHotProjectsSchema,
-    handler: async (req: any, res: any) => {
+    handler: async (request: any, response: any) => {
       try {
         return await getHotProjects();
       } catch (error: any) {
-        return formatServiceError(res, error);
+        return formatServiceError(response, error);
       }
     },
   });
 
   server.get('/projects/:id', {
     schema: getProjectByIdSchema,
-    handler: async (req: any, res: any) => {
+    handler: async (request: any, response: any) => {
       try {
-        const { id } = req.params;
-        return await getProjectById(id);
+        const { id } = request.params;
+        const project = await getProjectById(id);
+        if (project) {
+          return response.status(200).send(project);
+        }
+        return response.status(404).send();
       } catch (error) {
-        return formatServiceError(res, error);
+        return response.status(503).send({ errorMsg: error });
       }
     },
   });
 
   server.post('/projects', {
-    onRequest: [server.authenticate],
+    onrequestuest: [server.authenticate],
     schema: addProjectSchema,
-    handler: async (req: any, res: any) => {
+    handler: async (request: any, response: any) => {
       try {
-        return await addProject(req.body, req.user.userId);
+        return await addProject(request.body, request.user.userId);
       } catch (error) {
-        return formatServiceError(res, error);
+        return formatServiceError(response, error);
       }
     },
   });
 
   server.put('/projects/:id', {
-    onRequest: [server.authenticate],
+    onrequestuest: [server.authenticate],
     schema: updateProjectSchema,
-    handler: async (req: any, res: any) => {
+    handler: async (request: any, response: any) => {
       try {
-        const { id } = req.params;
+        const { id } = request.params;
         const project = await getProjectById(id);
-        if (project.projectsUsers[0].userId === req.user.userId) {
-          return res.status(200).send(await updateProject(id, req.body));
+        if (!project) {
+          return response.status(404).send();
+        } if (project.projectsUsers[0].userId === request.user.userId) {
+          return response.status(200).send(await updateProject(id, request.body));
         }
-        return res.status(403).send({
+        return response.status(403).send({
           errorMsg: "Can't access a resource you don't own.",
         });
       } catch (error) {
-        return formatServiceError(res, error);
+        return formatServiceError(response, error);
       }
     },
   });
 
   server.delete('/projects/:id', {
-    onRequest: [server.authenticate],
+    onrequestuest: [server.authenticate],
     schema: deleteProjectSchema,
-    handler: async (req: any, res: any) => {
+    handler: async (request: any, response: any) => {
       try {
-        const { id } = req.params;
-        return await deleteProject(id);
+        const { id } = request.params;
+        const project = await getProjectById(id);
+        if (project) {
+          await deleteProject(id);
+          return response.status(204).send();
+        }
+        return response.status(404).send();
       } catch (error) {
-        return formatServiceError(res, error);
+        return response.status(503).send({ errorMsg: error });
       }
     },
   });

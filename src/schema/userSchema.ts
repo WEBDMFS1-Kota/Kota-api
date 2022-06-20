@@ -7,6 +7,7 @@ const signInSchema = {
       email: { type: 'string' },
       password: { type: 'string' },
     },
+    required: ['email', 'password'],
   },
   response: {
     200: {
@@ -38,7 +39,7 @@ const postUserSchema = {
     200: {
       type: 'object',
       properties: {
-        id: { ype: 'number' },
+        id: { type: 'number' },
         pseudo: { type: 'string' },
         avatar: { type: 'string' },
         firstname: { type: 'string' },
@@ -65,6 +66,7 @@ const getUserSchema = {
       items: {
         type: 'object',
         properties: {
+          id: { type: 'number' },
           pseudo: { type: 'string' },
           avatar: { type: 'string' },
           firstname: { type: 'string' },
@@ -158,7 +160,7 @@ const patchUserVote = {
   response: {
     200: {
       description: 'Unsuccessful response',
-      type: 'object',
+      type: 'string',
       default: 'You already voted that.',
     },
   },
