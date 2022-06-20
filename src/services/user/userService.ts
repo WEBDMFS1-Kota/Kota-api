@@ -131,6 +131,14 @@ async function deleteUser(query: any) {
   });
 }
 
+async function getUserById(id: any) {
+  return await prisma.users.findUnique({
+    where: {
+      id: Number(id),
+    }
+  })
+}
+
 export {
-  createUser, updateUser, deleteUser, getUsers, getUserByEmailAndPassword,
+  createUser, updateUser, deleteUser, getUsers, getUserByEmailAndPassword, getUserById,
 };
