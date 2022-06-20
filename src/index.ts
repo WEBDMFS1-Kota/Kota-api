@@ -7,7 +7,7 @@ import userTagsRoutes from './routes/userTags/userTagsRoutes';
 import ProjectUserRoutes from './routes/projectUser/projectUserRoute';
 import healthRoutes from './routes/health/healthRoutes';
 import userVotesRoutes from './routes/userVotes/userVotesRoute';
-import forgottenPasswordRoute from './routes/forgottenPassword/forgottenPasswordRoute';
+import forgottenPasswordRoute from './routes/resetPassword/resetPasswordRoute';
 
 const server = fastify({ logger: true });
 
