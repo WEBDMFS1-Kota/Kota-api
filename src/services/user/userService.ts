@@ -15,6 +15,17 @@ async function createUser(body: any) {
       birthDate: birthdate,
       githubProfileURL: body.githubProfileURL,
     },
+    select: {
+      id: true,
+      pseudo: true,
+      avatar: true,
+      firstname: true,
+      lastname: true,
+      email: true,
+      birthDate: true,
+      githubProfileURL: true,
+      password: false,
+    },
   });
   return newUser;
 }
@@ -73,6 +84,17 @@ async function updateUser(userCheckedId: any, body: any) {
       email: body.email,
       birthDate: birthdate,
       githubProfileURL: body.githubProfileURL,
+    },
+    select: {
+      id: true,
+      pseudo: true,
+      avatar: true,
+      firstname: true,
+      lastname: true,
+      email: true,
+      birthDate: true,
+      githubProfileURL: true,
+      password: false,
     },
   });
 }
