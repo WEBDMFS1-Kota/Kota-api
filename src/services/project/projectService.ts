@@ -43,10 +43,12 @@ const getTopProjects = async () => {
   return projects;
 };
 
-const getProjectById = async (id: number) => {
-  const projectById = await prisma.projects.findUnique(
+async function getProjectById(id: any) {
+  return await prisma.projects.findUnique(
     {
-      where: { id },
+      where: { 
+        id: Number(id) 
+      },
       include: {
         projectsUsers: {
           include: {
@@ -56,11 +58,7 @@ const getProjectById = async (id: number) => {
       },
     },
   );
-  if (!projectById) {
-    throw new ServiceError(404, `Project not found with id ${id}`);
-  }
-  return projectById;
-};
+}
 
 const updateProject = async (id: number, record: ProjectType) => {
   try {

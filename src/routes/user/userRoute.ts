@@ -54,9 +54,9 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
         const user = await getUserById(id);
         if(user) {
           await deleteUser(query);
-          return response.status(204);
+          return response.status(204).send();
         }
-        return response.status(404);
+        return response.status(404).send();
       } catch (error) {
         return response.status(503).send({errorMsg: error});
       }
@@ -72,7 +72,7 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
         if(user) {
           return response.status(200).send({user})
         }
-        return response.status(404);
+        return response.status(404).send();
       } catch (error) {
         return response.status(503).send({errorMsg: error});
       }
@@ -90,7 +90,7 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
           const updatedUser = await updateUser(user.id, body);
           return response.status(200).send(updatedUser);
         }
-        return response.status(404);
+        return response.status(404).send();
       } catch (error) {
         if(error instanceof PrismaClientKnownRequestError && error.code == "P2002"){
           return response.status(409).send({ errorMsg: "Either your pseudo or the email is already taken." });
