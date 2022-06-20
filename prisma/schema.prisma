@@ -9,8 +9,8 @@ datasource db {
 
 model projectTag {
   id        Int       @id @default(autoincrement())
-  projectId Int?
   tagId     Int?
+  projectId Int?
   projects  projects? @relation(fields: [projectId], references: [id], onDelete: Cascade)
   tags      tags?     @relation(fields: [tagId], references: [id], onDelete: Cascade)
 }
@@ -54,12 +54,12 @@ model tags {
 
 model users {
   id               Int             @id @default(autoincrement())
-  pseudo           String?         @db.VarChar @unique
+  pseudo           String?         @unique @db.VarChar
   avatar           String?         @db.VarChar
   firstname        String?         @db.VarChar
   lastname         String?         @db.VarChar
   password         String?         @db.VarChar
-  email            String?         @db.VarChar @unique
+  email            String?         @unique @db.VarChar
   birthDate        DateTime?       @db.Date
   githubProfileURL String?         @db.VarChar
   projectsUsers    projectsUsers[]

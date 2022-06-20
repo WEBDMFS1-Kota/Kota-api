@@ -59,7 +59,6 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
       const { query } = request;
       try {
         const user = await getUsers(query);
-        console.log(user);
         return user;
       } catch (error) {
         return error;
