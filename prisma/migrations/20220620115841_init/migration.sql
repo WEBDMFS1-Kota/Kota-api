@@ -1,36 +1,76 @@
-/*
-  Warnings:
+-- CreateTable
+CREATE TABLE "projectTag" (
+    "id" SERIAL NOT NULL,
+    "tagId" INTEGER,
+    "projectId" INTEGER,
 
-  - A unique constraint covering the columns `[pseudo]` on the table `users` will be added. If there are existing duplicate values, this will fail.
-  - A unique constraint covering the columns `[email]` on the table `users` will be added. If there are existing duplicate values, this will fail.
+    CONSTRAINT "projectTag_pkey" PRIMARY KEY ("id")
+);
 
-*/
--- DropForeignKey
-ALTER TABLE "projectTag" DROP CONSTRAINT "projectTag_projectId_fkey";
+-- CreateTable
+CREATE TABLE "userTag" (
+    "id" SERIAL NOT NULL,
+    "userId" INTEGER,
+    "tagId" INTEGER,
 
--- DropForeignKey
-ALTER TABLE "projectTag" DROP CONSTRAINT "projectTag_tagId_fkey";
+    CONSTRAINT "userTag_pkey" PRIMARY KEY ("id")
+);
 
--- DropForeignKey
-ALTER TABLE "projectsUsers" DROP CONSTRAINT "projectsUsers_projectId_fkey";
+-- CreateTable
+CREATE TABLE "projects" (
+    "id" SERIAL NOT NULL,
+    "title" VARCHAR,
+    "projectUrl" VARCHAR,
+    "description" VARCHAR,
+    "publishDate" TIMESTAMP(6),
+    "image" VARCHAR,
+    "upVote" INTEGER,
+    "downVote" INTEGER,
 
--- DropForeignKey
-ALTER TABLE "projectsUsers" DROP CONSTRAINT "projectsUsers_userId_fkey";
+    CONSTRAINT "projects_pkey" PRIMARY KEY ("id")
+);
 
--- DropForeignKey
-ALTER TABLE "userTag" DROP CONSTRAINT "userTag_tagId_fkey";
+-- CreateTable
+CREATE TABLE "projectsUsers" (
+    "id" SERIAL NOT NULL,
+    "userId" INTEGER,
+    "projectId" INTEGER,
 
--- DropForeignKey
-ALTER TABLE "userTag" DROP CONSTRAINT "userTag_userId_fkey";
+    CONSTRAINT "projectsUsers_pkey" PRIMARY KEY ("id")
+);
 
--- DropForeignKey
-ALTER TABLE "usersVotes" DROP CONSTRAINT "usersVotes_projectId_fkey";
+-- CreateTable
+CREATE TABLE "tags" (
+    "id" SERIAL NOT NULL,
+    "name" VARCHAR,
 
--- DropForeignKey
-ALTER TABLE "usersVotes" DROP CONSTRAINT "usersVotes_userId_fkey";
+    CONSTRAINT "tags_pkey" PRIMARY KEY ("id")
+);
 
--- AlterTable
-ALTER TABLE "projects" ALTER COLUMN "publishDate" SET DATA TYPE TIMESTAMP(6);
+-- CreateTable
+CREATE TABLE "users" (
+    "id" SERIAL NOT NULL,
+    "pseudo" VARCHAR,
+    "avatar" VARCHAR,
+    "firstname" VARCHAR,
+    "lastname" VARCHAR,
+    "password" VARCHAR,
+    "email" VARCHAR,
+    "birthDate" DATE,
+    "githubProfileURL" VARCHAR,
+
+    CONSTRAINT "users_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "usersVotes" (
+    "id" SERIAL NOT NULL,
+    "userId" INTEGER,
+    "projectId" INTEGER,
+    "voteValue" INTEGER,
+
+    CONSTRAINT "usersVotes_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateIndex
 CREATE UNIQUE INDEX "users_pseudo_key" ON "users"("pseudo");
