@@ -65,7 +65,7 @@ const ProjectRoutes = (server: any, opts: any, done: () => void) => {
         }
         return response.status(404).send();
       } catch (error) {
-        return formatServiceError(response, error);
+        return response.status(503).send({errorMsg: error});
       }
     },
   });
@@ -89,11 +89,13 @@ const ProjectRoutes = (server: any, opts: any, done: () => void) => {
       try {
         const { id } = request.params;
         const project = await getProjectById(id);
-        if (project && project.projectsUsers[0].userId === request.user.userId) {
+        if(!project) {
+          return response.status(404).send();
+        } else if (project.projectsUsers[0].userId === request.user.userId) {
           return response.status(200).send(await updateProject(id, request.body));
         }
         return response.status(403).send({
-          errorMsg: "Can't access a responseource you don't own.",
+          errorMsg: "Can't access a resource you don't own.",
         });
       } catch (error) {
         return formatServiceError(response, error);
@@ -107,9 +109,14 @@ const ProjectRoutes = (server: any, opts: any, done: () => void) => {
     handler: async (request: any, response: any) => {
       try {
         const { id } = request.params;
-        return await deleteProject(id);
+        const project = await getProjectById(id);
+        if(project){
+          await deleteProject(id);
+          return response.status(204).send();
+        }
+        return response.status(404).send();
       } catch (error) {
-        return formatServiceError(response, error);
+        return response.status(503).send({errorMsg: error});
       }
     },
   });
