@@ -24,7 +24,6 @@ server.register(require('@fastify/swagger'), {
     servers: [{
       url: `http://localhost:${process.env.PORT || 8080}`,
       description: 'Local API',
-      port: 8080,
     },
     {
       url: 'https://kota-api-prod.herokuapp.com/',
