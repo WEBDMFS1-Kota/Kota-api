@@ -16,25 +16,14 @@ const signInSchema = {
         token: { type: 'string' },
       },
     },
-  },
-};
-
-const signUpSchema = {
-  description: 'Sign in',
-  tags: ['Users'],
-  body: {
-    type: 'object',
-    properties: {
-      email: { type: 'string' },
-      password: { type: 'string' },
-    },
-    required: ['email', 'password', 'pseudo'],
-  },
-  response: {
-    201: {
+    404: {
+      description: 'Sign error response',
       type: 'object',
       properties: {
-        token: { type: 'string' },
+        errorMsg: {
+          type: 'string',
+          default: 'Sign failed',
+        },
       },
     },
   },
@@ -71,6 +60,16 @@ const postUserSchema = {
         githubProfileURL: { type: 'string' },
       },
     },
+    404: {
+      description: 'Post User error response',
+      type: 'object',
+      properties: {
+        errorMsg: {
+          type: 'string',
+          default: 'Post failed',
+        },
+      },
+    },
   },
 };
 
@@ -100,12 +99,21 @@ const getUserSchema = {
         },
       },
     },
+    404: {
+      description: 'Get User error response',
+      type: 'object',
+      properties: {
+        errorMsg: {
+          type: 'string',
+          default: 'Get user failed',
+        },
+      },
+    },
   },
 };
 
 const patchUserSchema = {
   description: 'Update user data with his ID',
-  security: [{ bearerAuth: [] }],
   tags: ['Users'],
   body: {
     type: 'object',
@@ -138,12 +146,21 @@ const patchUserSchema = {
         githubProfileURL: { type: 'string' },
       },
     },
+    404: {
+      description: 'Patch User error response',
+      type: 'object',
+      properties: {
+        errorMsg: {
+          type: 'string',
+          default: 'Patch failed',
+        },
+      },
+    },
   },
 };
 
 const deleteUserSchema = {
   description: 'Delete an user with his ID',
-  security: [{ bearerAuth: [] }],
   tags: ['Users'],
   query: {
     id: {
@@ -166,12 +183,21 @@ const deleteUserSchema = {
         githubProfileURL: { type: 'string' },
       },
     },
+    404: {
+      description: 'Delete User failed response',
+      type: 'object',
+      properties: {
+        errorMsg: {
+          type: 'string',
+          default: 'Delete user failed',
+        },
+      },
+    },
   },
 };
 
 const patchUserVote = {
   description: 'Add vote from an user to a project',
-  security: [{ bearerAuth: [] }],
   tags: ['Users', 'Projects'],
   body: {
     type: 'object',
@@ -187,6 +213,16 @@ const patchUserVote = {
       description: 'Unsuccessful response',
       type: 'string',
       default: 'You already voted that.',
+    },
+    404: {
+      description: 'Adding vote from an user failed response',
+      type: 'string',
+      properties: {
+        errorMsg: {
+          type: 'string',
+          default: 'Adding vote failed',
+        },
+      },
     },
   },
 };
@@ -215,6 +251,16 @@ const getUserProjectsSchema = {
         },
       },
     },
+    404: {
+      description: 'Get User projects failed response',
+      type: 'array',
+      properties: {
+        errorMsg: {
+          type: 'string',
+          default: 'No projects found',
+        },
+      },
+    },
   },
 };
 
@@ -226,5 +272,4 @@ export {
   patchUserVote,
   getUserProjectsSchema,
   signInSchema,
-  signUpSchema,
 };

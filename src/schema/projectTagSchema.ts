@@ -1,6 +1,5 @@
 const typeNumber = { type: 'number' };
 
-// Common
 const projectTagProperties = {
   id: typeNumber,
   projectId: typeNumber,
@@ -12,12 +11,21 @@ const ProjectTag = {
   properties: projectTagProperties,
 };
 
-// Schema
 const getProjectTagsSchema = {
   response: {
     200: {
       type: 'array',
       items: ProjectTag,
+    },
+    404: {
+      type: 'array',
+      description: 'Project Tag list not found response',
+      properties: {
+        errorMsg: {
+          type: 'string',
+          default: 'No Project Tag List found',
+        },
+      },
     },
   },
 };
@@ -28,14 +36,24 @@ const getProjectTagsByProjetSchema = {
   },
   response: {
     200: {
+      description: 'Get Project Tag by id',
       type: 'array',
       items: ProjectTag,
+    },
+    404: {
+      description: 'Get Project Tag by id not found response',
+      type: 'array',
+      properties: {
+        errorMsg: {
+          type: 'string',
+          default: 'Project Tag by not found with id {id}',
+        },
+      },
     },
   },
 };
 
 const addProjectTagSchema = {
-  security: [{ bearerAuth: [] }],
   body: [{
     type: 'object',
     properties: {
@@ -57,11 +75,20 @@ const addProjectTagSchema = {
       type: 'object',
       properties: projectTagProperties,
     },
+    404: {
+      description: 'Add Project Tag failed response',
+      type: 'object',
+      properties: {
+        errorMsg: {
+          type: 'string',
+          default: 'Add failed',
+        },
+      },
+    },
   },
 };
 
 const deleteProjectTagSchema = {
-  security: [{ bearerAuth: [] }],
   params: {
     projectId: { type: 'number' },
   },
@@ -75,6 +102,16 @@ const deleteProjectTagSchema = {
     204: {
       type: 'null',
       description: 'No Content',
+    },
+    404: {
+      type: 'null',
+      description: 'Delete Project Tag response',
+      properties: {
+        errorMsg: {
+          type: 'string',
+          default: 'Delete failed',
+        },
+      },
     },
   },
 };

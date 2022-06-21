@@ -24,6 +24,14 @@ const getProjectsSchema = {
       type: 'array',
       items: Project,
     },
+    404: {
+      description: 'No Projects found response',
+      type: 'object',
+      errorMsg: {
+        type: 'string',
+        default: 'Projects not found',
+      },
+    },
   },
 };
 
@@ -56,7 +64,6 @@ const getProjectByIdSchema = {
 };
 
 const addProjectSchema = {
-  security: [{ bearerAuth: [] }],
   tags: ['Projects'],
   body: {
     type: 'object',
@@ -67,12 +74,21 @@ const addProjectSchema = {
       type: 'object',
       properties: projectProperties,
     },
+    404: {
+      description: 'Adding project failed response',
+      type: 'object',
+      properties: {
+        errorMsg: {
+          type: 'string',
+          default: 'Adding project failed',
+        },
+      },
+    },
   },
 };
 
 const updateProjectSchema = {
   description: 'Update a project with his ID',
-  security: [{ bearerAuth: [] }],
   tags: ['Projects'],
   body: {
     type: 'object',
@@ -102,7 +118,6 @@ const updateProjectSchema = {
 
 const deleteProjectSchema = {
   description: 'Delete a project with his ID',
-  security: [{ bearerAuth: [] }],
   tags: ['Projects'],
   params: {
     id: {
@@ -116,7 +131,7 @@ const deleteProjectSchema = {
       description: 'Successful response',
     },
     404: {
-      type: 'object',
+      type: 'null',
       description: 'Project not found response',
       properties: {
         errorMsg: {
@@ -137,6 +152,16 @@ const getTopProjectsSchema = {
       type: 'array',
       items: Project,
     },
+    404: {
+      type: 'array',
+      description: 'Top Project not found response',
+      properties: {
+        errorMsg: {
+          type: 'string',
+          default: 'No Top project found',
+        },
+      },
+    },
   },
 };
 
@@ -148,6 +173,16 @@ const getHotProjectsSchema = {
       description: 'Successful response',
       type: 'array',
       items: Project,
+    },
+    404: {
+      type: 'array',
+      description: 'Hot Project not found response',
+      properties: {
+        errorMsg: {
+          type: 'string',
+          default: 'Hot project not found',
+        },
+      },
     },
   },
 };
@@ -170,6 +205,16 @@ const getProjectCreatorSchema = {
         email: { type: 'string' },
         birthDate: { type: 'string' },
         githubProfileURL: { type: 'string' },
+      },
+    },
+    404: {
+      type: 'object',
+      description: 'Project Creator by Id not found response',
+      properties: {
+        errorMsg: {
+          type: 'string',
+          default: 'Get the creator failed',
+        },
       },
     },
   },
