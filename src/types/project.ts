@@ -6,6 +6,8 @@ interface ProjectType {
   publishDate?: Date;
   image?: string;
   upVote?: number;
+  projectsUsers?: any[];
+  projectTags?: any[];
 }
 
 interface ProjectsUserType {
