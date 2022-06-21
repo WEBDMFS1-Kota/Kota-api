@@ -84,6 +84,7 @@ const getUserSchema = {
 
 const patchUserSchema = {
   description: 'Update user data with his ID',
+  security: [{ bearerAuth: [] }],
   tags: ['Users'],
   body: {
     type: 'object',
@@ -121,6 +122,7 @@ const patchUserSchema = {
 
 const deleteUserSchema = {
   description: 'Delete an user with his ID',
+  security: [{ bearerAuth: [] }],
   tags: ['Users'],
   query: {
     id: {
@@ -148,6 +150,7 @@ const deleteUserSchema = {
 
 const patchUserVote = {
   description: 'Add vote from an user to a project',
+  security: [{ bearerAuth: [] }],
   tags: ['Users', 'Projects'],
   body: {
     type: 'object',

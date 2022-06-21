@@ -56,6 +56,7 @@ const getProjectByIdSchema = {
 };
 
 const addProjectSchema = {
+  security: [{ bearerAuth: [] }],
   tags: ['Projects'],
   body: {
     type: 'object',
@@ -71,6 +72,7 @@ const addProjectSchema = {
 
 const updateProjectSchema = {
   description: 'Update a project with his ID',
+  security: [{ bearerAuth: [] }],
   tags: ['Projects'],
   body: {
     type: 'object',
@@ -100,6 +102,7 @@ const updateProjectSchema = {
 
 const deleteProjectSchema = {
   description: 'Delete a project with his ID',
+  security: [{ bearerAuth: [] }],
   tags: ['Projects'],
   params: {
     id: {
