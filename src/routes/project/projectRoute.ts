@@ -74,8 +74,9 @@ const ProjectRoutes = (server: any, opts: any, done: () => void) => {
     onrequestuest: [server.authenticate],
     schema: addProjectSchema,
     handler: async (request: any, response: any) => {
+      const { userId } = server.jwt.decode(request.headers.authorization.replace('Bearer ', ''));
       try {
-        return await addProject(request.body, request.user.userId);
+        return await addProject(request.body, userId);
       } catch (error) {
         return formatServiceError(response, error);
       }

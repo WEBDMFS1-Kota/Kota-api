@@ -7,6 +7,7 @@ interface ProjectType {
   upVote?: number;
   usersVotes?: number;
   projectsUsers?: any[];
+  projectTags?: any[];
 }
 
 export default ProjectType;
