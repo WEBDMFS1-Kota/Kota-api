@@ -83,14 +83,19 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
     onRequest: [server.authenticate],
     schema: patchUserSchema,
     handler: async (request: any, response: any) => {
-      const { body } = request;
       try {
+        const { query, body } = request;
         const user = await getUserById(request.user.userId);
-        if (user) {
-          const updatedUser = await updateUser(user.id, body);
+        if (!user) {
+          return response.status(404).send();
+        }
+        if (Number(query.id) === Number(user.id)) {
+          const updatedUser = await updateUser(query.id, body);
           return response.status(200).send(updatedUser);
         }
-        return response.status(404).send();
+        return response.status(403).send({
+          errorMsg: "Can't access a resource you don't own.",
+        });
       } catch (error) {
         if (error instanceof PrismaClientKnownRequestError && error.code === 'P2002') {
           return response.status(409).send({ errorMsg: 'Either your pseudo or the email is already taken.' });
