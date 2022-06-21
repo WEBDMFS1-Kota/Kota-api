@@ -47,6 +47,7 @@ const getUserTagsSchema = {
 };
 
 const postUserTagsSchema = {
+  security: [{ bearerAuth: [] }],
   description: 'Add tags to an user',
   tags: ['Tags', 'Users'],
   query: {
@@ -83,6 +84,7 @@ const postUserTagsSchema = {
 };
 
 const deleteUserTagsSchema = {
+  security: [{ bearerAuth: [] }],
   description: 'Delete a tag of an user',
   tags: ['Tags', 'Users'],
   query: {

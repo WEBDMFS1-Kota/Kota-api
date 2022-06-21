@@ -31,6 +31,18 @@ server.register(require('@fastify/swagger'), {
       url: 'https://kota-api-prod.herokuapp.com/',
       description: 'Production API',
     }],
+    schemes: ['http'],
+    consumes: ['application/json'],
+    produces: ['application/json'],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
   },
   hideUntagged: true,
   exposeRoute: true,

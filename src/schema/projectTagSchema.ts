@@ -35,6 +35,7 @@ const getProjectTagsByProjetSchema = {
 };
 
 const addProjectTagSchema = {
+  security: [{ bearerAuth: [] }],
   body: [{
     type: 'object',
     properties: {
@@ -60,6 +61,7 @@ const addProjectTagSchema = {
 };
 
 const deleteProjectTagSchema = {
+  security: [{ bearerAuth: [] }],
   params: {
     projectId: { type: 'number' },
   },
