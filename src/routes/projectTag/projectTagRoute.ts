@@ -57,6 +57,8 @@ const projectTagRoutes = (server: any, opts: any, done: () => void) => {
     },
   });
 
+  // TODO delete TAGS
+
   done();
 };
 export default projectTagRoutes;
