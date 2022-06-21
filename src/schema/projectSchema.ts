@@ -166,7 +166,6 @@ const getProjectCreatorSchema = {
         avatar: { type: 'string' },
         firstname: { type: 'string' },
         lastname: { type: 'string' },
-        password: { type: 'string' },
         email: { type: 'string' },
         birthDate: { type: 'string' },
         githubProfileURL: { type: 'string' },
