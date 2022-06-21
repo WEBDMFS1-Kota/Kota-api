@@ -57,6 +57,7 @@ const getUserSchema = {
   description: 'Get an user with his ID',
   tags: ['Users'],
   query: {
+    id: { type: 'number' },
     pseudo: { type: 'string' },
     email: { type: 'string' },
   },
