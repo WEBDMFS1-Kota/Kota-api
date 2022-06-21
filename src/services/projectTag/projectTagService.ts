@@ -1,117 +1,42 @@
 import prisma from '../globalService';
-import { ProjectTagType } from '../../types/project';
-import { getTagsByName, getTagsById } from '../tag/tagService';
-import ServiceError from '../error';
 
-const getProjectTags = async () => {
-  const projectTags = await prisma.projectTag.findMany();
-  const projectTagsIncludeName: any[] = [];
-  await Promise.all(projectTags.map(async (projectTagDescription: any) => {
-    const tag: any = (await getTagsById(projectTagDescription));
-    projectTagsIncludeName.push({
-      ...projectTagDescription,
-      tag,
-    });
-  }));
-  return projectTagsIncludeName;
-};
-
-const getProjectTagsByProject = async (projectId: ProjectTagType) => {
-  const projectTagsByProject = await prisma.projectTag.findMany({
+async function getProjectTagsByProjectId(projectId: number) {
+  return prisma.projectTag.findMany({
     where: {
-      projectId: Number(projectId),
+      projectId,
+    },
+    include: {
+      projects: true,
+      tags: true,
     },
   });
-  // Get the name of the tag
-  const projectTagsIncludeName: any[] = [];
-  await Promise.all(projectTagsByProject.map(async (projectTagDescription: any) => {
-    const tag: any = (await getTagsById(projectTagDescription));
-    projectTagsIncludeName.push({
-      ...projectTagDescription,
-      tag,
-    });
-  }));
-  return projectTagsIncludeName;
-};
+}
 
-const getProjectTagsByProjectAndTag = async (projectId: ProjectTagType, tagId: any) => {
-  const projectTagsByProjectAndTag = await prisma.projectTag.findMany({
+async function getProjectTagByProjectIdAndTagId(projectId: number, tagId: number) {
+  return prisma.projectTag.findMany({
     where: {
-      projectId: Number(projectId),
-      tagId: Number(tagId),
+      projectId, tagId,
     },
   });
-  return projectTagsByProjectAndTag;
-};
+}
 
-const addProjectTag = async (projectTagDescs: any) => {
-  const addedProjectTags: any[] = [];
-  const alreadyExistsProjectTags: any[] = [];
-
-  try {
-    await Promise.all(projectTagDescs.map(async (projectTagDesc: any) => {
-      const { projectId } = projectTagDesc;
-      const tags: any = (await getTagsByName(projectTagDesc));
-
-      const tag = tags[0];
-      const existingProjectTags: any = await getProjectTagsByProjectAndTag(
-        projectId,
-        tag.id,
-      );
-      if (!tags.length) {
-        throw (new Error('Tag non inexistant'));
-      }
-
-      if (existingProjectTags.length) {
-        // Add new tag in same project
-        alreadyExistsProjectTags.push(tag.name);
-      } else {
-        await prisma.projects.update({
-          where: { id: projectId },
-          data: {
-            projectTag: {
-              create: {
-                tagId: Number(tag.id),
-              },
-            },
-          },
-        });
-        addedProjectTags.push(projectTagDesc.name);
-      }
-    }));
-    return {
-      added: addedProjectTags,
-      alreadyExists: [...new Set(alreadyExistsProjectTags)], // Suppression des doublons au cas où
-    };
-  } catch (error: any) {
-    throw new ServiceError(500, error.message);
-  }
-};
-
-const findProjectTagRelation = async (params: any, body: any) => {
-  const projectTagsByProjectAndTag = await prisma.projectTag.findMany({
+async function addProjectTag(projectId: number, tagId: number) {
+  return prisma.projects.update({
     where: {
-      projectId: Number(params.projectId),
-      tagId: Number(body.id),
+      id: projectId,
+    },
+    data: {
+      projectTag: {
+        create: {
+          tagId,
+        },
+      },
     },
   });
-  return projectTagsByProjectAndTag;
-};
-
-const deleteProjectTag = async (relation: any) => {
-  const projectTag = await prisma.projectTag.delete({
-    where: {
-      id: Number(relation.id),
-    },
-  });
-  return projectTag;
-};
+}
 
 export {
+  getProjectTagsByProjectId,
   addProjectTag,
-  getProjectTags,
-  getProjectTagsByProject,
-  getProjectTagsByProjectAndTag,
-  deleteProjectTag,
-  findProjectTagRelation,
+  getProjectTagByProjectIdAndTagId,
 };
