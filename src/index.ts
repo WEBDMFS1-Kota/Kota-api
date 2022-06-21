@@ -5,6 +5,7 @@ import tagRoutes from './routes/tag/tagRoute';
 import userRoutes from './routes/user/userRoute';
 import userTagsRoutes from './routes/userTags/userTagsRoutes';
 import ProjectUserRoutes from './routes/projectUser/projectUserRoute';
+import projectTagRoutes from './routes/projectTag/projectTagRoute';
 import healthRoutes from './routes/health/healthRoutes';
 import userVotesRoutes from './routes/userVotes/userVotesRoute';
 import forgottenPasswordRoute from './routes/forgottenPassword/forgottenPasswordRoute';
@@ -48,6 +49,7 @@ server.decorate('authenticate', async (request: any, reply: any) => {
 });
 
 server.register(projectRoutes);
+server.register(projectTagRoutes);
 server.register(userRoutes);
 server.register(ProjectUserRoutes);
 server.register(tagRoutes);

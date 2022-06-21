@@ -59,12 +59,7 @@ const addProjectSchema = {
   tags: ['Projects'],
   body: {
     type: 'object',
-    properties: {
-      title: typeString,
-      projectUrl: typeString,
-      description: typeString,
-      image: typeString,
-    },
+    properties: projectProperties,
   },
   response: {
     201: {

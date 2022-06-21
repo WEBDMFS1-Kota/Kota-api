@@ -108,6 +108,9 @@ const ProjectRoutes = (server: any, opts: any, done: () => void) => {
     schema: deleteProjectSchema,
     handler: async (request: any, response: any) => {
       try {
+        const { body } = request;
+        console.log('body', body);
+
         const { id } = request.params;
         const project = await getProjectById(id);
         if (project) {

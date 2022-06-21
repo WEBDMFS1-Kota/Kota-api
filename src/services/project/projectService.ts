@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
 import ServiceError from '../error';
 import prisma from '../globalService';
-import ProjectType from '../../types/project/projectType';
+import { ProjectType } from '../../types/project';
 
 const addProject = async (record: ProjectType, userId: any) => {
   const { projectTags } = record;
