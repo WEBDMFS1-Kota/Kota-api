@@ -78,6 +78,7 @@ const getUserSchema = {
   description: 'Get an user with his ID',
   tags: ['Users'],
   query: {
+    id: { type: 'number' },
     pseudo: { type: 'string' },
     email: { type: 'string' },
   },
@@ -104,6 +105,7 @@ const getUserSchema = {
 
 const patchUserSchema = {
   description: 'Update user data with his ID',
+  security: [{ bearerAuth: [] }],
   tags: ['Users'],
   body: {
     type: 'object',
@@ -141,6 +143,7 @@ const patchUserSchema = {
 
 const deleteUserSchema = {
   description: 'Delete an user with his ID',
+  security: [{ bearerAuth: [] }],
   tags: ['Users'],
   query: {
     id: {
@@ -168,6 +171,7 @@ const deleteUserSchema = {
 
 const patchUserVote = {
   description: 'Add vote from an user to a project',
+  security: [{ bearerAuth: [] }],
   tags: ['Users', 'Projects'],
   body: {
     type: 'object',
@@ -224,3 +228,4 @@ export {
   signInSchema,
   signUpSchema,
 };
+
