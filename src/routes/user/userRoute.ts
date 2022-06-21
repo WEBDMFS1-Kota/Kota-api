@@ -40,8 +40,16 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
       try {
         const newUser = await createUser(body);
         if (newUser) {
+          const { rememberMe } = body;
+          let signOptions = {};
+          if (!rememberMe) {
+            signOptions = {
+              ...signOptions,
+              expiresIn: '7d',
+            };
+          }
           const { pseudo, avatar } = newUser;
-          const token = server.jwt.sign({ userId: newUser.id, pseudo, avatar });
+          const token = server.jwt.sign({ userId: newUser.id, pseudo, avatar }, signOptions);
           return response.status(201).send({ token });
         }
         return response.status(503).send({ errorMsg: 'User creation errored: newUser is undefined' });
