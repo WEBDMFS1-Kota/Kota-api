@@ -4,9 +4,12 @@ import prisma from '../globalService';
 import { ProjectType } from '../../types/project';
 
 const addProject = async (record: ProjectType, userId: any) => {
+  const { projectTags } = record;
+  const sentRecord = record;
+  delete sentRecord.projectTags;
   const project = await prisma.projects.create({
     data: {
-      ...record,
+      ...sentRecord,
       upVote: 0,
       downVote: 0,
       publishDate: new Date(),
@@ -17,6 +20,21 @@ const addProject = async (record: ProjectType, userId: any) => {
       },
     },
   });
+  if (projectTags && project && project.id) {
+    const ProjectTagsPromises: any[] = [];
+    projectTags.forEach((projectTag) => {
+      const ProjectTagPromise = new Promise((resolve) => {
+        prisma.projectTag.create({
+          data: {
+            tagId: projectTag.id,
+            projectId: project.id,
+          },
+        }).then(resolve);
+      });
+      ProjectTagsPromises.push(ProjectTagPromise);
+    });
+    await Promise.all(ProjectTagsPromises);
+  }
   return project;
 };
 

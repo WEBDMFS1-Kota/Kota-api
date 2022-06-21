@@ -83,7 +83,7 @@ const ProjectRoutes = (server: any, opts: any, done: () => void) => {
   });
 
   server.put('/projects/:id', {
-    onrequestuest: [server.authenticate],
+    onRequest: [server.authenticate],
     schema: updateProjectSchema,
     handler: async (request: any, response: any) => {
       try {
@@ -104,7 +104,7 @@ const ProjectRoutes = (server: any, opts: any, done: () => void) => {
   });
 
   server.delete('/projects/:id', {
-    onrequestuest: [server.authenticate],
+    onRequest: [server.authenticate],
     schema: deleteProjectSchema,
     handler: async (request: any, response: any) => {
       try {
