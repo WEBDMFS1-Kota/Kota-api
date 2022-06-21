@@ -3,6 +3,7 @@ import {
   addUserTags, getUserTag, getAllUserTags, deleteUserTag,
 } from '../../services/userTags/usertagsService';
 import { deleteUserTagsSchema, getUserTagsSchema, postUserTagsSchema } from '../../schema/tagsSchema';
+import { getUserById } from '../../services/user/userService';
 
 const userTagsRoutes = (server: any, opts: any, done: () => void) => {
   server.get('/users/tags', {
@@ -31,7 +32,11 @@ const userTagsRoutes = (server: any, opts: any, done: () => void) => {
       const addedTags: any[] = [];
       const nonAddedTags: any[] = [];
       try {
-        if (body[0]) {
+        const user = await getUserById(request.user.userId);
+        if (!user) {
+          return response.status(404).send();
+        }
+        if (Number(query.userId) === Number(user.id)) {
           await Promise.all(body.map(async (tag: any) => {
             const identifiedTag: any = (await getTagsByName(tag))[0];
             const checkUserTags: any = await getUserTag(query, identifiedTag);
@@ -42,16 +47,11 @@ const userTagsRoutes = (server: any, opts: any, done: () => void) => {
               addedTags.push(identifiedTag.name);
             }
           }));
-        } else {
-          const identifiedTag: any = (await getTagsByName(body))[0];
-          const checkUserTags: any = await getUserTag(query, identifiedTag);
-          if (checkUserTags[0]) {
-            return response.status(409).send({ errorMsg: `User already has the "${identifiedTag.name}" tag.` });
-          }
-          const updatedUserTags = await addUserTags(query, identifiedTag);
-          return response.status(201).send(updatedUserTags);
+          return response.status(201).send(addedTags);
         }
-        return response.status(201).send(addedTags);
+        return response.status(403).send({
+          errorMsg: "Can't access a resource you don't own.",
+        });
       } catch (error) {
         return response.status(503).send({ errorMsg: error });
       }
@@ -65,20 +65,22 @@ const userTagsRoutes = (server: any, opts: any, done: () => void) => {
       const { query, body } = request;
       const deletedTags: any[] = [];
       try {
-        if (body[0]) {
+        const user = await getUserById(request.user.userId);
+        if (!user) {
+          return response.status(404).send();
+        }
+        if (Number(query.userId) === Number(user.id)) {
           await Promise.all(body.map(async (tag: any) => {
             const identifiedTag = (await getTagsByName(tag))[0];
             const userTagToDelete = (await getUserTag(query, identifiedTag))[0];
             await deleteUserTag(userTagToDelete);
             deletedTags.push(identifiedTag.name);
           }));
-        } else {
-          const identifiedTag = (await getTagsByName(body))[0];
-          const userTagToDelete = (await getUserTag(query, identifiedTag))[0];
-          await deleteUserTag(userTagToDelete);
-          return response.status(204).send();
+          return response.status(201).send(deletedTags);
         }
-        return response.status(204).send();
+        return response.status(403).send({
+          errorMsg: "Can't access a resource you don't own.",
+        });
       } catch (error) {
         return response.status(503).send({ errorMsg: error });
       }

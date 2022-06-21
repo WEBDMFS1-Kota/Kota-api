@@ -22,6 +22,7 @@ async function getTagsById(query: any) {
 async function getTagsByName(query: any) {
   const tag = await prisma.tags.findMany({
     where: {
+      id: Number(query.id) || undefined,
       name: query.name,
     },
   });
