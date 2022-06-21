@@ -15,11 +15,18 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
   server.post('/signin', {
     schema: signInSchema,
     handler: async (request: any, response: any) => {
-      const { email, password } = request.body;
+      const { email, password, rememberMe } = request.body;
+      let signOptions = {};
+      if (!rememberMe) {
+        signOptions = {
+          ...signOptions,
+          expiresIn: '7d',
+        };
+      }
       const user = await getUserByEmailAndPassword(email, password);
       if (user) {
         const { pseudo, avatar } = user;
-        const token = server.jwt.sign({ userId: user.id, pseudo, avatar });
+        const token = server.jwt.sign({ userId: user.id, pseudo, avatar }, signOptions);
         return response.status(200).send({ token });
       }
       return response.status(401).send({ errorMsg: 'Invalid credentials.' });
