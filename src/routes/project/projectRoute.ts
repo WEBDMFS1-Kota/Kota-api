@@ -71,12 +71,11 @@ const ProjectRoutes = (server: any, opts: any, done: () => void) => {
   });
 
   server.post('/projects', {
-    onrequestuest: [server.authenticate],
+    onRequest: [server.authenticate],
     schema: addProjectSchema,
     handler: async (request: any, response: any) => {
-      const { userId } = server.jwt.decode(request.headers.authorization.replace('Bearer ', ''));
       try {
-        return await addProject(request.body, userId);
+        return await addProject(request.body, request.user.userId);
       } catch (error) {
         return formatServiceError(response, error);
       }
@@ -84,7 +83,7 @@ const ProjectRoutes = (server: any, opts: any, done: () => void) => {
   });
 
   server.put('/projects/:id', {
-    onrequestuest: [server.authenticate],
+    onRequest: [server.authenticate],
     schema: updateProjectSchema,
     handler: async (request: any, response: any) => {
       try {
@@ -105,7 +104,7 @@ const ProjectRoutes = (server: any, opts: any, done: () => void) => {
   });
 
   server.delete('/projects/:id', {
-    onrequestuest: [server.authenticate],
+    onRequest: [server.authenticate],
     schema: deleteProjectSchema,
     handler: async (request: any, response: any) => {
       try {
