@@ -39,7 +39,6 @@ server.register(require('@fastify/swagger'), {
         bearerAuth: {
           type: 'http',
           scheme: 'bearer',
-          name: 'bearer',
           bearerFormat: 'JWT',
         },
       },

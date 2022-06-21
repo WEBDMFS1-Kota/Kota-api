@@ -6,8 +6,9 @@ const signInSchema = {
     properties: {
       email: { type: 'string' },
       password: { type: 'string' },
+      rememberMe: { type: 'boolean' },
     },
-    required: ['email', 'password'],
+    required: ['email', 'password', 'rememberMe'],
   },
   response: {
     200: {
@@ -20,15 +21,22 @@ const signInSchema = {
 };
 
 const signUpSchema = {
-  description: 'Sign in',
+  description: 'Sign up',
   tags: ['Users'],
   body: {
     type: 'object',
     properties: {
-      email: { type: 'string' },
+      pseudo: { type: 'string' },
+      avatar: { type: 'string' },
+      firstname: { type: 'string' },
+      lastname: { type: 'string' },
       password: { type: 'string' },
+      email: { type: 'string' },
+      birthDate: { type: 'string' },
+      githubProfileURL: { type: 'string' },
+      rememberMe: { type: 'boolean' },
     },
-    required: ['email', 'password', 'pseudo'],
+    required: ['email', 'password', 'pseudo', 'rememberMe'],
   },
   response: {
     201: {
