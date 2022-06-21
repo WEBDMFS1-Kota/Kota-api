@@ -88,10 +88,20 @@ const addProjectTag = async (projectTagDescs: any) => {
   }
 };
 
-const deleteProjectTag = async (projectTagId: number) => {
-  const projectTag = prisma.projectTag.delete({
+const findProjectTagRelation = async (params: any, body: any) => {
+  const projectTagsByProjectAndTag = await prisma.projectTag.findMany({
     where: {
-      id: Number(projectTagId),
+      projectId: Number(params.projectId),
+      tagId: Number(body.id),
+    },
+  });
+  return projectTagsByProjectAndTag;
+};
+
+const deleteProjectTag = async (relation: any) => {
+  const projectTag = await prisma.projectTag.delete({
+    where: {
+      id: Number(relation.id),
     },
   });
   return projectTag;
@@ -103,4 +113,5 @@ export {
   getProjectTagsByProject,
   getProjectTagsByProjectAndTag,
   deleteProjectTag,
+  findProjectTagRelation,
 };

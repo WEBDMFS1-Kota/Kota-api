@@ -3,6 +3,7 @@ import {
   getProjectTags,
   getProjectTagsByProject,
   deleteProjectTag,
+  findProjectTagRelation,
 } from '../../services/projectTag/projectTagService';
 import {
   addProjectTagSchema, getProjectTagsSchema,
@@ -47,11 +48,16 @@ const projectTagRoutes = (fastify: any, opts: any, done: () => void) => {
   fastify.delete('/projects/tags/:projectId', {
     shema: deleteProjectTagSchema,
     handler: async (req: any, res: any) => {
-      const { projectId } = req.params;
+      const { body, params } = req;
       try {
-        return await deleteProjectTag(projectId);
+        const relation = (await findProjectTagRelation(params, body))[0];
+        if (relation) {
+          await deleteProjectTag(relation);
+          return res.status(204).send();
+        }
+        return res.status(404).send();
       } catch (error) {
-        return res.status(404).send('Tag non existant');
+        return res.status(503).send({ errorMsg: error });
       }
     },
   });

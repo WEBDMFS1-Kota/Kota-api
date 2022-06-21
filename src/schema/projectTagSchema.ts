@@ -61,7 +61,13 @@ const addProjectTagSchema = {
 
 const deleteProjectTagSchema = {
   params: {
-    id: typeNumber,
+    projectId: { type: 'number' },
+  },
+  body: {
+    type: 'object',
+    properties: {
+      id: { type: 'number' },
+    },
   },
   response: {
     204: {
