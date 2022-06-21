@@ -3,11 +3,18 @@ import ServiceError from '../error';
 import prisma from '../globalService';
 import { ProjectType } from '../../types/project';
 
-const addProject = async (record: ProjectType) => {
+const addProject = async (record: ProjectType, userId: any) => {
   const project = await prisma.projects.create({
     data: {
       ...record,
+      upVote: 0,
+      downVote: 0,
       publishDate: new Date(),
+      projectsUsers: {
+        create: {
+          userId: Number(userId),
+        },
+      },
     },
   });
   return project;
@@ -18,17 +25,40 @@ const getProjects = async () => {
   return projects;
 };
 
-const getProjectById = async (id: number) => {
-  const projectById = await prisma.projects.findUnique(
+const getHotProjects = async () => {
+  const projects = await prisma.projects.findMany({
+    orderBy: {
+      publishDate: 'desc',
+    },
+  });
+  return projects;
+};
+
+const getTopProjects = async () => {
+  const projects = await prisma.projects.findMany({
+    orderBy: {
+      upVote: 'desc',
+    },
+  });
+  return projects;
+};
+
+async function getProjectById(id: number) {
+  return prisma.projects.findUnique(
     {
-      where: { id },
+      where: {
+        id,
+      },
+      include: {
+        projectsUsers: {
+          include: {
+            users: true,
+          },
+        },
+      },
     },
   );
-  if (!projectById) {
-    throw new ServiceError(404, `Project not found with id ${id}`);
-  }
-  return projectById;
-};
+}
 
 const updateProject = async (id: number, record: ProjectType) => {
   try {
@@ -45,15 +75,9 @@ const updateProject = async (id: number, record: ProjectType) => {
   }
 };
 
-const deleteProject = async (id: number) => {
-  const deleted = await prisma.projects.delete({
-    where: { id },
-  });
-  if (!deleted) {
-    throw new ServiceError(404, 'Delete failed');
-  }
-  return deleted;
-};
+const deleteProject = async (id: number) => prisma.projects.delete({
+  where: { id },
+});
 
 export {
   addProject,
@@ -61,4 +85,6 @@ export {
   getProjectById,
   updateProject,
   deleteProject,
+  getHotProjects,
+  getTopProjects,
 };

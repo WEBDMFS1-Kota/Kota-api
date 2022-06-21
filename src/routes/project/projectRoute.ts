@@ -4,6 +4,8 @@ import {
   getProjectByIdSchema,
   updateProjectSchema,
   deleteProjectSchema,
+  getTopProjectsSchema,
+  getHotProjectsSchema,
 } from '../../schema/projectSchema';
 
 import { formatServiceError } from '../../services/error';
@@ -14,63 +16,107 @@ import {
   getProjectById,
   updateProject,
   deleteProject,
+  getHotProjects,
+  getTopProjects,
 } from '../../services/project/projectService';
 
-const ProjectRoutes = (fastify: any, opts: any, done: () => void) => {
-  fastify.get('/projects', {
+const ProjectRoutes = (server: any, opts: any, done: () => void) => {
+  server.get('/projects', {
     schema: getProjectsSchema,
-    handler: async (req: any, res: any) => {
+    handler: async (request: any, response: any) => {
       try {
         return await getProjects();
       } catch (error: any) {
-        return formatServiceError(res, error);
+        return formatServiceError(response, error);
       }
     },
   });
 
-  fastify.get('/projects/:id', {
+  server.get('/projects/top', {
+    schema: getTopProjectsSchema,
+    handler: async (request: any, response: any) => {
+      try {
+        return await getTopProjects();
+      } catch (error: any) {
+        return formatServiceError(response, error);
+      }
+    },
+  });
+
+  server.get('/projects/hot', {
+    schema: getHotProjectsSchema,
+    handler: async (request: any, response: any) => {
+      try {
+        return await getHotProjects();
+      } catch (error: any) {
+        return formatServiceError(response, error);
+      }
+    },
+  });
+
+  server.get('/projects/:id', {
     schema: getProjectByIdSchema,
-    handler: async (req: any, res: any) => {
+    handler: async (request: any, response: any) => {
       try {
-        const { id } = req.params;
-        return await getProjectById(id);
+        const { id } = request.params;
+        const project = await getProjectById(id);
+        if (project) {
+          return response.status(200).send(project);
+        }
+        return response.status(404).send();
       } catch (error) {
-        return formatServiceError(res, error);
+        return response.status(503).send({ errorMsg: error });
       }
     },
   });
 
-  fastify.post('/projects', {
+  server.post('/projects', {
+    onRequest: [server.authenticate],
     schema: addProjectSchema,
-    handler: async (req: any, res: any) => {
+    handler: async (request: any, response: any) => {
       try {
-        return await addProject(req.body);
+        return await addProject(request.body, request.user.userId);
       } catch (error) {
-        return formatServiceError(res, error);
+        return formatServiceError(response, error);
       }
     },
   });
 
-  fastify.put('/projects/:id', {
+  server.put('/projects/:id', {
+    onrequestuest: [server.authenticate],
     schema: updateProjectSchema,
-    handler: async (req: any, res: any) => {
+    handler: async (request: any, response: any) => {
       try {
-        const { id } = req.params;
-        return await updateProject(id, req.body);
+        const { id } = request.params;
+        const project = await getProjectById(id);
+        if (!project) {
+          return response.status(404).send();
+        } if (project.projectsUsers[0].userId === request.user.userId) {
+          return response.status(200).send(await updateProject(id, request.body));
+        }
+        return response.status(403).send({
+          errorMsg: "Can't access a resource you don't own.",
+        });
       } catch (error) {
-        return formatServiceError(res, error);
+        return formatServiceError(response, error);
       }
     },
   });
 
-  fastify.delete('/projects/:id', {
+  server.delete('/projects/:id', {
+    onrequestuest: [server.authenticate],
     schema: deleteProjectSchema,
-    handler: async (req: any, res: any) => {
+    handler: async (request: any, response: any) => {
       try {
-        const { id } = req.params;
-        return await deleteProject(id);
+        const { id } = request.params;
+        const project = await getProjectById(id);
+        if (project) {
+          await deleteProject(id);
+          return response.status(204).send();
+        }
+        return response.status(404).send();
       } catch (error) {
-        return formatServiceError(res, error);
+        return response.status(503).send({ errorMsg: error });
       }
     },
   });

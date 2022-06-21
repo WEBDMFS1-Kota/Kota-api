@@ -1,6 +1,6 @@
 import prisma from '../globalService';
 
-async function getProjectsUser(userIdToFind: any, query: any) {
+async function getProjectsUserByUser(userIdToFind: any, query: any) {
   const user = await prisma.projectsUsers.findMany({
     where: {
       id: Number(query.id) || undefined,
@@ -10,7 +10,16 @@ async function getProjectsUser(userIdToFind: any, query: any) {
   return user;
 }
 
+async function getProjectsUserByProject(projectToFindId: number, id: number) {
+  const user = await prisma.projectsUsers.findMany({
+    where: {
+      id: id || undefined,
+      projectId: projectToFindId,
+    },
+  });
+  return user;
+}
+
 export {
-  // eslint-disable-next-line import/prefer-default-export
-  getProjectsUser,
+  getProjectsUserByUser, getProjectsUserByProject,
 };
