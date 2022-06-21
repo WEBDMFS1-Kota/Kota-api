@@ -1,11 +1,9 @@
-const typeString = { type: 'string' };
-
 const sentEmailSchema = {
   tags: ['SentEmail'],
   body: {
     type: 'string',
     properties: {
-      email: typeString,
+      email: { type: 'string' },
     },
   },
   response: {

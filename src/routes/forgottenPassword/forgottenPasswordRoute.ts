@@ -9,6 +9,7 @@ const forgottenPasswordRoute = (server: any, opts: any, done: () => void) => {
       try {
         const { query } = request;
         const userToSend = (await getUsers(query))[0];
+        console.log(userToSend);
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const sendResetmail = await sendEmail(userToSend);
         return response.status(200).send();
