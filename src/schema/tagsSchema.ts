@@ -110,9 +110,9 @@ const patchUserTagsSchema = {
     items: {
       type: 'object',
       properties: {
-        name: {
-          type: 'string',
-          description: 'Name of the tag',
+        id: {
+          type: 'number',
+          description: 'Id of the tag',
         },
       },
     },
@@ -125,7 +125,6 @@ const patchUserTagsSchema = {
         type: 'object',
         properties: {
           id: { type: 'number' },
-          name: { type: 'string' },
         },
       },
     },
