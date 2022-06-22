@@ -5,6 +5,9 @@ import {
   modifVote,
   modifProjVoteToUp,
   modifProjVoteToDown,
+  resetUpVote,
+  resetDownVote,
+  resetUserVoteRelation,
 } from '../../services/userVotes/userVotesService';
 import { patchUserVote } from '../../schema/userSchema';
 
@@ -17,24 +20,30 @@ const userVotesRoutes = (server: any, opts: any, done: () => void) => {
       try {
         if (Number(body.value) === 1 || Number(body.value) === -1) {
           const alreadyVoted = (await checkVote(body, params.idProject))[0];
-          if (alreadyVoted) { // l'utilisateur a déjà voté
-            if (Number(alreadyVoted.voteValue) !== Number(body.value)) { // nouveau vote différent
-              const modifiedVote = await modifVote(body, alreadyVoted); // modif relation
-              if (Number(modifiedVote.voteValue) === 1) { // vote pour
+          if (alreadyVoted) {
+            if (Number(alreadyVoted.voteValue) !== Number(body.value)) {
+              const modifiedVote = await modifVote(body, alreadyVoted);
+              if (Number(modifiedVote.voteValue) === 1) {
                 const newVote = await modifProjVoteToUp(params.idProject);
                 return response.status(201).send(newVote);
               }
-
-              const newVote = await modifProjVoteToDown(params.idProject); // vote contre
+              const newVote = await modifProjVoteToDown(params.idProject);
               return response.status(201).send(newVote);
             }
-            return response.status(409).send({ errorMsg: 'You already voted that.' });
+            if (Number(body.value) === 1) {
+              await resetUserVoteRelation(alreadyVoted.id);
+              const reset = await resetUpVote(params.idProject);
+              return response.status(201).send(reset);
+            }
+            await resetUserVoteRelation(alreadyVoted.id);
+            const reset = await resetDownVote(params.idProject);
+            return response.status(201).send(reset);
           }
-          if (Number(body.value) === 1) { // vote pas encore effectué par l'utilisateur // vote pour
+          if (Number(body.value) === 1) {
             const vote = await upVoteProject(body, params.idProject);
             return response.status(200).send(vote);
           }
-          const vote = await downVoteProject(body, params.idProject); // vote contre
+          const vote = await downVoteProject(body, params.idProject);
           return response.status(200).send(vote);
         }
         return response.status(400).send({ errorMsg: 'Invalid value for vote' });

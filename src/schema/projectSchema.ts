@@ -197,11 +197,11 @@ const getProjectCreatorSchema = {
     200: {
       type: 'object',
       properties: {
+        id: { type: 'number' },
         pseudo: { type: 'string' },
         avatar: { type: 'string' },
         firstname: { type: 'string' },
         lastname: { type: 'string' },
-        password: { type: 'string' },
         email: { type: 'string' },
         birthDate: { type: 'string' },
         githubProfileURL: { type: 'string' },
