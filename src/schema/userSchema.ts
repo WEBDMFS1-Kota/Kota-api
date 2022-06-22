@@ -17,6 +17,16 @@ const signInSchema = {
         token: { type: 'string' },
       },
     },
+    401: {
+      description: 'Invalid credentials',
+      type: 'object',
+      properties: {
+        errorMsg: {
+          type: 'string',
+          default: 'Invalid credentials.',
+        },
+      },
+    },
   },
 };
 
@@ -43,6 +53,25 @@ const signUpSchema = {
       type: 'object',
       properties: {
         token: { type: 'string' },
+      },
+    },
+    409: {
+      description: 'Pseudo or email already taken.',
+      type: 'object',
+      properties: {
+        errorMsg: {
+          type: 'string',
+          default: 'Either your pseudo or the email is already taken.',
+        },
+      },
+    },
+    503: {
+      description: 'Internal Server Error',
+      type: 'object',
+      properties: {
+        errorMsg: {
+          type: 'string',
+        },
       },
     },
   },
@@ -79,6 +108,10 @@ const postUserSchema = {
         githubProfileURL: { type: 'string' },
       },
     },
+    404: {
+      description: 'Post User error response',
+      type: 'null',
+    },
   },
 };
 
@@ -87,6 +120,7 @@ const getUserSchema = {
   tags: ['Users'],
   query: {
     userId: { type: 'number' },
+    id: { type: 'number' },
     pseudo: { type: 'string' },
     email: { type: 'string' },
   },
@@ -107,6 +141,10 @@ const getUserSchema = {
           githubProfileURL: { type: 'string' },
         },
       },
+    },
+    404: {
+      description: 'Get User error response',
+      type: 'null',
     },
   },
 };
@@ -146,6 +184,10 @@ const patchUserSchema = {
         githubProfileURL: { type: 'string' },
       },
     },
+    404: {
+      description: 'Patch User error response',
+      type: 'null',
+    },
   },
 };
 
@@ -174,6 +216,10 @@ const deleteUserSchema = {
         githubProfileURL: { type: 'string' },
       },
     },
+    404: {
+      description: 'Delete User failed response',
+      type: 'null',
+    },
   },
 };
 
@@ -195,6 +241,10 @@ const patchUserVote = {
       description: 'Unsuccessful response',
       type: 'string',
       default: 'You already voted that.',
+    },
+    404: {
+      description: 'Adding vote from an user failed response',
+      type: 'null',
     },
   },
 };
@@ -222,6 +272,10 @@ const getUserProjectsSchema = {
           usersVotes: { type: 'number' },
         },
       },
+    },
+    404: {
+      description: 'Get User projects failed response',
+      type: 'null',
     },
   },
 };

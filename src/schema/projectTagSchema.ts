@@ -19,6 +19,10 @@ const getProjectTagsByProjectIdSchema = {
         },
       },
     },
+    404: {
+      description: 'Get Project Tag by id not found response',
+      type: 'null',
+    },
   },
 };
 
@@ -52,6 +56,10 @@ const postProjectTagsSchema = {
         type: 'string',
       },
     },
+    404: {
+      description: 'Add Project Tag failed response',
+      type: 'null',
+    },
   },
 };
 
@@ -84,6 +92,10 @@ const deleteProjectTagsSchema = {
       items: {
         type: 'string',
       },
+    },
+    404: {
+      type: 'null',
+      description: 'Delete Project Tag response',
     },
   },
 };
