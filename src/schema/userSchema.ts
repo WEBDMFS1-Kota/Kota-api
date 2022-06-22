@@ -209,6 +209,7 @@ const patchUserSchema = {
 };
 
 const deleteUserSchema = {
+  security: [{ bearerAuth: [] }],
   description: 'Delete an user with his ID',
   tags: ['Users'],
   query: {
@@ -220,7 +221,6 @@ const deleteUserSchema = {
   response: {
     200: {
       description: 'Successful response',
-      security: [{ bearerAuth: [] }],
       type: 'object',
       properties: {
         pseudo: { type: 'string' },
