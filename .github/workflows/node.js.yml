@@ -42,11 +42,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Verify if schema.prisma has been changed
-      uses: tj-actions/verify-changed-files@v9.1
-      id: verify-prisma-schema
     - name: Migrate production database
-      if: contains(steps.verify-prisma-schema.outputs.changed_files, './prisma/schema.prisma')
+      if: github.event_name == 'pull_request' && (!(github.event.action == 'closed' && github.event.pull_request.merged != true))
       id: migrate-database
       run: npx prisma migrate deploy
 

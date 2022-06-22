@@ -24,17 +24,18 @@ model userTag {
 }
 
 model projects {
-  id            Int             @id @default(autoincrement())
-  title         String?         @db.VarChar
-  projectUrl    String?         @db.VarChar
-  description   String?         @db.VarChar
-  publishDate   DateTime?       @db.Timestamp(6)
-  image         String?         @db.VarChar
-  upVote        Int?
-  downVote      Int?
-  projectTag    projectTag[]
-  projectsUsers projectsUsers[]
-  usersVotes    usersVotes[]
+  id               Int             @id @default(autoincrement())
+  title            String?         @db.VarChar
+  projectUrl       String?         @db.VarChar
+  shortDescription String?         @db.VarChar
+  description      String?         @db.VarChar
+  publishDate      DateTime?       @db.Timestamp(6)
+  image            String?         @db.VarChar
+  upVote           Int?
+  downVote         Int?
+  projectTag       projectTag[]
+  projectsUsers    projectsUsers[]
+  usersVotes       usersVotes[]
 }
 
 model projectsUsers {
