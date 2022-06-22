@@ -259,6 +259,7 @@ const getUserProjectsSchema = {
           id: { type: 'number' },
           title: { type: 'string' },
           projectUrl: { type: 'string' },
+          shortDescription: { type: 'string' },
           description: { type: 'string' },
           publishDate: { type: 'string' },
           image: { type: 'string' },
