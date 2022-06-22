@@ -5,6 +5,7 @@ const projectProperties = {
   id: typeNumber,
   title: typeString,
   projectUrl: typeString,
+  shortDescription: typeString,
   description: typeString,
   publishDate: typeString,
   image: typeString,
