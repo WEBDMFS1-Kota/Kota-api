@@ -49,11 +49,7 @@ const postProjectTagsSchema = {
       description: 'Successful response',
       type: 'array',
       items: {
-        type: 'object',
-        properties: {
-          id: { type: 'number' },
-          name: { type: 'string' },
-        },
+        type: 'string',
       },
     },
   },
@@ -86,11 +82,7 @@ const deleteProjectTagsSchema = {
       description: 'Successful response',
       type: 'array',
       items: {
-        type: 'object',
-        properties: {
-          id: { type: 'number' },
-          name: { type: 'string' },
-        },
+        type: 'string',
       },
     },
   },
