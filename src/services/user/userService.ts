@@ -15,6 +15,7 @@ async function createUser(body: any) {
       email: body.email,
       birthDate: birthdate,
       githubProfileURL: body.githubProfileURL,
+      description: body.description,
     },
     select: {
       id: true,
@@ -26,6 +27,7 @@ async function createUser(body: any) {
       birthDate: true,
       githubProfileURL: true,
       password: false,
+      description: true,
     },
   });
   return newUser;
@@ -83,6 +85,7 @@ async function updateUser(userCheckedId: any, body: any) {
         email: body.email,
         birthDate: birthdate,
         githubProfileURL: body.githubProfileURL,
+        description: body.description,
       },
     });
   }
@@ -98,6 +101,7 @@ async function updateUser(userCheckedId: any, body: any) {
       email: body.email,
       birthDate: birthdate,
       githubProfileURL: body.githubProfileURL,
+      description: body.description,
     },
     select: {
       id: true,
@@ -109,6 +113,7 @@ async function updateUser(userCheckedId: any, body: any) {
       birthDate: true,
       githubProfileURL: true,
       password: false,
+      description: true,
     },
   });
 }
@@ -128,6 +133,7 @@ async function deleteUser(query: any) {
       birthDate: true,
       githubProfileURL: true,
       password: false,
+      description: true,
     },
   });
 }
