@@ -42,8 +42,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Migrate deploy
-      id: verify-prisma-schema
     - name: Migrate production database
       if: github.event_name == 'pull_request' && (!(github.event.action == 'closed' && github.event.pull_request.merged != true))
       id: migrate-database
