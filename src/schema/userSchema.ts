@@ -17,9 +17,15 @@ const signInSchema = {
         token: { type: 'string' },
       },
     },
-    404: {
-      description: 'Sign error response',
-      type: 'null',
+    401: {
+      description: 'Invalid credentials',
+      type: 'object',
+      properties: {
+        errorMsg: {
+          type: 'string',
+          default: 'Invalid credentials.',
+        },
+      },
     },
   },
 };
@@ -48,9 +54,24 @@ const signUpSchema = {
       properties: {
         token: { type: 'string' },
       },
-      404: {
-        description: 'Sign error response',
-        type: 'null',
+    },
+    409: {
+      description: 'Pseudo or email already taken.',
+      type: 'object',
+      properties: {
+        errorMsg: {
+          type: 'string',
+          default: 'Either your pseudo or the email is already taken.',
+        },
+      },
+    },
+    503: {
+      description: 'Internal Server Error',
+      type: 'object',
+      properties: {
+        errorMsg: {
+          type: 'string',
+        },
       },
     },
   },
