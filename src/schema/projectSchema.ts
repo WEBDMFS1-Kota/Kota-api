@@ -64,6 +64,7 @@ const getProjectByIdSchema = {
 };
 
 const addProjectSchema = {
+  security: [{ bearerAuth: [] }],
   tags: ['Projects'],
   body: {
     type: 'object',
