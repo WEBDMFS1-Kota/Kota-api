@@ -45,20 +45,14 @@ const projectTagRoutes = (server: any, opts: any, done: () => void) => {
         }
         await Promise.all(body.map(async (tag: any) => {
           const id = Number(tag.id);
-          console.log('FUCKING ID', id);
           const identifiedTag: any = (await getTagById(id));
-          console.log('identifiedTag', identifiedTag);
           const tagId = identifiedTag.id;
           const checkProjectTag = await getProjectTagByProjectIdAndTagId(projectId, tagId);
-          console.table(checkProjectTag);
           if (checkProjectTag[0]) {
             nonAddedTags.push(identifiedTag.name);
-            console.log('nonAddedTags', nonAddedTags);
           } else {
-            console.log('FUCKING ELSE');
             await addProjectTag(projectId, tagId);
             addedTags.push(identifiedTag.name);
-            console.log('addedTags', addedTags);
           }
         }));
         return response.status(201).send(addedTags);
@@ -73,9 +67,7 @@ const projectTagRoutes = (server: any, opts: any, done: () => void) => {
     handler: async (request: any, response: any) => {
       const { body, params } = request;
       const projectId = Number(params.projectId);
-      console.log('projectId', projectId);
       const project = await getProjectById(projectId);
-      console.table(project);
       if (!project) {
         return response.status(404).send();
       }
@@ -87,15 +79,13 @@ const projectTagRoutes = (server: any, opts: any, done: () => void) => {
       const deletedTags: any[] = [];
       await Promise.all(body.map(async (tag: any) => {
         const id = Number(tag.id);
-        console.log('FUCKING ID', id);
         const identifiedTag: any = (await getTagById(id));
-        console.log('identifiedTag', identifiedTag);
         const tagId = Number(identifiedTag.id);
         const projectTagToDelete = (await getProjectTagByProjectIdAndTagId(projectId, tagId))[0];
-        console.log('projectTagToDelete');
-        console.table(projectTagToDelete);
-        await deleteProjectTag(projectTagToDelete.id);
-        deletedTags.push(identifiedTag.name);
+        if (projectTagToDelete) {
+          await deleteProjectTag(projectTagToDelete.id);
+          deletedTags.push(identifiedTag.name);
+        }
       }));
       return response.status(201).send(deletedTags);
     },
