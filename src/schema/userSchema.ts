@@ -6,8 +6,9 @@ const signInSchema = {
     properties: {
       email: { type: 'string' },
       password: { type: 'string' },
+      rememberMe: { type: 'boolean' },
     },
-    required: ['email', 'password'],
+    required: ['email', 'password', 'rememberMe'],
   },
   response: {
     200: {
@@ -19,6 +20,38 @@ const signInSchema = {
     404: {
       description: 'Sign error response',
       type: 'null',
+    },
+  },
+};
+
+const signUpSchema = {
+  description: 'Sign up',
+  tags: ['Users'],
+  body: {
+    type: 'object',
+    properties: {
+      pseudo: { type: 'string' },
+      avatar: { type: 'string' },
+      firstname: { type: 'string' },
+      lastname: { type: 'string' },
+      password: { type: 'string' },
+      email: { type: 'string' },
+      birthDate: { type: 'string' },
+      githubProfileURL: { type: 'string' },
+      rememberMe: { type: 'boolean' },
+    },
+    required: ['email', 'password', 'pseudo', 'rememberMe'],
+  },
+  response: {
+    201: {
+      type: 'object',
+      properties: {
+        token: { type: 'string' },
+      },
+      404: {
+        description: 'Sign error response',
+        type: 'null',
+      },
     },
   },
 };
@@ -65,6 +98,7 @@ const getUserSchema = {
   description: 'Get an user with his ID',
   tags: ['Users'],
   query: {
+    userId: { type: 'number' },
     id: { type: 'number' },
     pseudo: { type: 'string' },
     email: { type: 'string' },
@@ -96,6 +130,7 @@ const getUserSchema = {
 
 const patchUserSchema = {
   description: 'Update user data with his ID',
+  security: [{ bearerAuth: [] }],
   tags: ['Users'],
   body: {
     type: 'object',
@@ -137,6 +172,7 @@ const patchUserSchema = {
 
 const deleteUserSchema = {
   description: 'Delete an user with his ID',
+  security: [{ bearerAuth: [] }],
   tags: ['Users'],
   query: {
     id: {
@@ -168,6 +204,7 @@ const deleteUserSchema = {
 
 const patchUserVote = {
   description: 'Add vote from an user to a project',
+  security: [{ bearerAuth: [] }],
   tags: ['Users', 'Projects'],
   body: {
     type: 'object',
@@ -230,4 +267,5 @@ export {
   patchUserVote,
   getUserProjectsSchema,
   signInSchema,
+  signUpSchema,
 };
