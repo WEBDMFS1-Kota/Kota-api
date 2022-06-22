@@ -169,6 +169,7 @@ const getProjectCreatorSchema = {
         email: { type: 'string' },
         birthDate: { type: 'string' },
         githubProfileURL: { type: 'string' },
+        description: { type: 'string' },
       },
     },
     404: {
