@@ -35,8 +35,17 @@ async function addProjectTag(projectId: number, tagId: number) {
   });
 }
 
+async function deleteProjectTag(projectTagId: number) {
+  return prisma.projectTag.delete({
+    where: {
+      id: projectTagId,
+    },
+  });
+}
+
 export {
   getProjectTagsByProjectId,
   addProjectTag,
   getProjectTagByProjectIdAndTagId,
+  deleteProjectTag,
 };
