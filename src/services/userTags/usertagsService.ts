@@ -1,34 +1,34 @@
 import prisma from '../globalService';
 
-async function addUserTags(query: any, tagToAdd: any) {
+async function addUserTags(userId: any, tagToAddId: any) {
   return prisma.users.update({
     where: {
-      id: Number(query.userId),
+      id: Number(userId),
     },
     data: {
       userTag: {
         create: {
-          tagId: Number(tagToAdd.id),
+          tagId: Number(tagToAddId),
         },
       },
     },
   });
 }
 
-async function getUserTag(query: any, identifiedTag: any) {
+async function getUserTag(userId: any, identifiedTagId: any) {
   const userTagsId = await prisma.userTag.findMany({
     where: {
-      userId: Number(query.userId),
-      tagId: Number(identifiedTag.id),
+      userId: Number(userId),
+      tagId: Number(identifiedTagId),
     },
   });
   return userTagsId;
 }
 
-async function getAllUserTags(query: any) {
+async function getAllUserTags(userId: any) {
   const userTagsId = await prisma.userTag.findMany({
     where: {
-      userId: Number(query.userId),
+      userId: Number(userId),
     },
   });
   return userTagsId;

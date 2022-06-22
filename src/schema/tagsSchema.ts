@@ -95,6 +95,46 @@ const postUserTagsSchema = {
   },
 };
 
+const patchUserTagsSchema = {
+  security: [{ bearerAuth: [] }],
+  description: 'Add tags to an user',
+  tags: ['Tags', 'Users'],
+  query: {
+    userId: {
+      type: 'string',
+      description: 'ID of the user',
+    },
+  },
+  body: {
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: {
+        id: {
+          type: 'number',
+          description: 'Id of the tag',
+        },
+      },
+    },
+  },
+  response: {
+    200: {
+      description: 'Successful response',
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          id: { type: 'number' },
+        },
+      },
+    },
+    404: {
+      description: 'Post User Tag adding failed response',
+      type: 'null',
+    },
+  },
+};
+
 const deleteUserTagsSchema = {
   security: [{ bearerAuth: [] }],
   description: 'Delete a tag of an user',
@@ -141,4 +181,5 @@ export {
   getUserTagsSchema,
   postUserTagsSchema,
   deleteUserTagsSchema,
+  patchUserTagsSchema,
 };
