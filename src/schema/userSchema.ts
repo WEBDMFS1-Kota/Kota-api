@@ -91,6 +91,7 @@ const postUserSchema = {
       email: { type: 'string' },
       birthDate: { type: 'string' },
       githubProfileURL: { type: 'string' },
+      description: { type: 'string' },
     },
   },
   response: {
@@ -106,6 +107,7 @@ const postUserSchema = {
         email: { type: 'string' },
         birthDate: { type: 'string' },
         githubProfileURL: { type: 'string' },
+        description: { type: 'string' },
       },
     },
     404: {
@@ -139,6 +141,7 @@ const getUserSchema = {
           email: { type: 'string' },
           birthDate: { type: 'string' },
           githubProfileURL: { type: 'string' },
+          description: { type: 'string' },
         },
       },
     },
@@ -164,6 +167,7 @@ const patchUserSchema = {
       email: { type: 'string' },
       birthDate: { type: 'string' },
       githubProfileURL: { type: 'string' },
+      description: { type: 'string' },
     },
   },
   params: {
@@ -182,6 +186,7 @@ const patchUserSchema = {
         email: { type: 'string' },
         birthDate: { type: 'string' },
         githubProfileURL: { type: 'string' },
+        description: { type: 'string' },
       },
     },
     404: {

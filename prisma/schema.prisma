@@ -62,6 +62,7 @@ model users {
   password         String?         @db.VarChar
   email            String?         @unique @db.VarChar
   birthDate        DateTime?       @db.Date
+  description      String?         @db.VarChar
   githubProfileURL String?         @db.VarChar
   projectsUsers    projectsUsers[]
   userTag          userTag[]
