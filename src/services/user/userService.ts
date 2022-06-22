@@ -48,6 +48,7 @@ async function getUsers(query: any) {
       email: true,
       birthDate: true,
       githubProfileURL: true,
+      description: true,
     },
   });
   return user;
