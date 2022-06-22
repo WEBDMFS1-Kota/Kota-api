@@ -1,64 +1,97 @@
+import { deleteProjectTagsSchema, getProjectTagsByProjectIdSchema, postProjectTagsSchema } from '../../schema/projectTagSchema';
+import { getProjectById } from '../../services/project/projectService';
 import {
+  getProjectTagsByProjectId,
+  getProjectTagByProjectIdAndTagId,
   addProjectTag,
-  getProjectTags,
-  getProjectTagsByProject,
   deleteProjectTag,
-  findProjectTagRelation,
 } from '../../services/projectTag/projectTagService';
-import {
-  addProjectTagSchema, getProjectTagsSchema,
-  getProjectTagsByProjetSchema, deleteProjectTagSchema,
-} from '../../schema/projectTagSchema';
 
-const projectTagRoutes = (fastify: any, opts: any, done: () => void) => {
-  fastify.get('/projects/tags', {
-    shema: getProjectTagsSchema,
-    handler: async (req: any, res: any) => {
+import { getTagById, getTagsById } from '../../services/tag/tagService';
+
+const projectTagRoutes = (server: any, opts: any, done: () => void) => {
+  server.get('/projects/:projectId/tags', {
+    schema: getProjectTagsByProjectIdSchema,
+    handler: async (request: any, response: any) => {
       try {
-        return await getProjectTags();
+        const { projectId } = request.params.projectId;
+        const projectTagRelations = await getProjectTagsByProjectId(projectId);
+        const projectTags: any[] = [];
+        await Promise.all(projectTagRelations.map(async (projectTagRelation: any) => {
+          const tag = await getTagsById(projectTagRelation);
+          projectTags.push(tag);
+        }));
+        return response.status(200).send(projectTags);
       } catch (error) {
-        return res.status(503).send({ errorMsg: error });
+        return response.status(503).send({ errorMsg: error });
       }
     },
   });
 
-  fastify.get('/projects/tags/:projectId', {
-    shema: getProjectTagsByProjetSchema,
-    handler: async (req: any, res: any) => {
+  server.post('/projects/:projectId/tags', {
+    onRequest: [server.authenticate],
+    schema: postProjectTagsSchema,
+    handler: async (request: any, response: any) => {
       try {
-        return await getProjectTagsByProject(req.params.projectId);
-      } catch (error) {
-        return res.status(404).send('No project found');
-      }
-    },
-  });
-
-  fastify.post('/projects/tags', {
-    shema: addProjectTagSchema,
-    handler: async (req: any, res: any) => {
-      const requestBodies = [].concat(req.body); // Traite une liste dans tous les cas
-      try {
-        return await addProjectTag(requestBodies);
-      } catch (error) {
-        return res.status(503).send({ errorMsg: error });
-      }
-    },
-  });
-
-  fastify.delete('/projects/tags/:projectId', {
-    shema: deleteProjectTagSchema,
-    handler: async (req: any, res: any) => {
-      const { body, params } = req;
-      try {
-        const relation = (await findProjectTagRelation(params, body))[0];
-        if (relation) {
-          await deleteProjectTag(relation);
-          return res.status(204).send();
+        const projectId = Number(request.params.projectId);
+        const { body } = request;
+        const project = await getProjectById(projectId);
+        const addedTags: any[] = [];
+        const nonAddedTags: any[] = [];
+        if (!project) {
+          return response.status(404).send();
         }
-        return res.status(404).send();
+        if (project.projectsUsers[0].userId !== request.user.userId) {
+          return response.status(403).send({
+            errorMsg: "Can't access a resource you don't own.",
+          });
+        }
+        await Promise.all(body.map(async (tag: any) => {
+          const id = Number(tag.id);
+          const identifiedTag: any = (await getTagById(id));
+          const tagId = identifiedTag.id;
+          const checkProjectTag = await getProjectTagByProjectIdAndTagId(projectId, tagId);
+          if (checkProjectTag[0]) {
+            nonAddedTags.push(identifiedTag.name);
+          } else {
+            await addProjectTag(projectId, tagId);
+            addedTags.push(identifiedTag.name);
+          }
+        }));
+        return response.status(201).send(addedTags);
       } catch (error) {
-        return res.status(503).send({ errorMsg: error });
+        return response.status(503).send({ errorMsg: error });
       }
+    },
+  });
+
+  server.delete('/projects/:projectId/tags', {
+    onRequest: [server.authenticate],
+    schema: deleteProjectTagsSchema,
+    handler: async (request: any, response: any) => {
+      const { body, params } = request;
+      const projectId = Number(params.projectId);
+      const project = await getProjectById(projectId);
+      if (!project) {
+        return response.status(404).send();
+      }
+      if (project.projectsUsers[0].userId !== request.user.userId) { // Ah ! je vais regarder
+        return response.status(403).send({
+          errorMsg: "Can't access a resource you don't own.",
+        });
+      }
+      const deletedTags: any[] = [];
+      await Promise.all(body.map(async (tag: any) => {
+        const id = Number(tag.id);
+        const identifiedTag: any = (await getTagById(id));
+        const tagId = Number(identifiedTag.id);
+        const projectTagToDelete = (await getProjectTagByProjectIdAndTagId(projectId, tagId))[0];
+        if (projectTagToDelete) {
+          await deleteProjectTag(projectTagToDelete.id);
+          deletedTags.push(identifiedTag.name);
+        }
+      }));
+      return response.status(201).send(deletedTags);
     },
   });
 
