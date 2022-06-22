@@ -6,7 +6,7 @@ import {
   deleteProjectTag,
 } from '../../services/projectTag/projectTagService';
 
-import { getTagsById, getTagsByName } from '../../services/tag/tagService';
+import { getTagById, getTagsById } from '../../services/tag/tagService';
 
 const projectTagRoutes = (server: any, opts: any, done: () => void) => {
   server.get('/projects/:projectId/tags', {
@@ -30,10 +30,11 @@ const projectTagRoutes = (server: any, opts: any, done: () => void) => {
     onRequest: [server.authenticate],
     handler: async (request: any, response: any) => {
       try {
-        const { projectId } = request.params.projectId;
+        const projectId = Number(request.params.projectId);
         const { body } = request;
         const project = await getProjectById(projectId);
-        const addedTags: any[number] = [];
+        const addedTags: any[] = [];
+        const nonAddedTags: any[] = [];
         if (!project) {
           return response.status(404).send();
         }
@@ -43,12 +44,21 @@ const projectTagRoutes = (server: any, opts: any, done: () => void) => {
           });
         }
         await Promise.all(body.map(async (tag: any) => {
-          const identifiedTag: any = (await getTagsByName(tag))[0];
-          const existingTag = (await
-          getProjectTagByProjectIdAndTagId(projectId, identifiedTag.id)) !== [];
-          if (!existingTag) {
-            await addProjectTag(projectId, identifiedTag.id);
-            addedTags.push(identifiedTag.id);
+          const id = Number(tag.id);
+          console.log('FUCKING ID', id);
+          const identifiedTag: any = (await getTagById(id));
+          console.log('identifiedTag', identifiedTag);
+          const tagId = identifiedTag.id;
+          const checkProjectTag = await getProjectTagByProjectIdAndTagId(projectId, tagId);
+          console.table(checkProjectTag);
+          if (checkProjectTag[0]) {
+            nonAddedTags.push(identifiedTag.name);
+            console.log('nonAddedTags', nonAddedTags);
+          } else {
+            console.log('FUCKING ELSE');
+            await addProjectTag(projectId, tagId);
+            addedTags.push(identifiedTag.name);
+            console.log('addedTags', addedTags);
           }
         }));
         return response.status(201).send(addedTags);
@@ -58,13 +68,14 @@ const projectTagRoutes = (server: any, opts: any, done: () => void) => {
     },
   });
 
-  // TODO delete TAGS
-  server.post('/projects/:projectId/tags', {
+  server.delete('/projects/:projectId/tags', {
     onRequest: [server.authenticate],
     handler: async (request: any, response: any) => {
       const { body, params } = request;
-      const { projectId } = params.projectId;
+      const projectId = Number(params.projectId);
+      console.log('projectId', projectId);
       const project = await getProjectById(projectId);
+      console.table(project);
       if (!project) {
         return response.status(404).send();
       }
@@ -75,9 +86,14 @@ const projectTagRoutes = (server: any, opts: any, done: () => void) => {
       }
       const deletedTags: any[] = [];
       await Promise.all(body.map(async (tag: any) => {
-        const identifiedTag = (await getTagsByName(tag))[0];
-        const tagId = identifiedTag.id;
+        const id = Number(tag.id);
+        console.log('FUCKING ID', id);
+        const identifiedTag: any = (await getTagById(id));
+        console.log('identifiedTag', identifiedTag);
+        const tagId = Number(identifiedTag.id);
         const projectTagToDelete = (await getProjectTagByProjectIdAndTagId(projectId, tagId))[0];
+        console.log('projectTagToDelete');
+        console.table(projectTagToDelete);
         await deleteProjectTag(projectTagToDelete.id);
         deletedTags.push(identifiedTag.name);
       }));
