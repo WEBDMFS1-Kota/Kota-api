@@ -45,7 +45,7 @@ const postProjectTagsSchema = {
     },
   },
   response: {
-    200: {
+    201: {
       description: 'Successful response',
       type: 'array',
       items: {
@@ -82,7 +82,7 @@ const deleteProjectTagsSchema = {
     },
   },
   response: {
-    200: {
+    201: {
       description: 'Successful response',
       type: 'array',
       items: {
