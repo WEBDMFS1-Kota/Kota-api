@@ -6,8 +6,9 @@ const signInSchema = {
     properties: {
       email: { type: 'string' },
       password: { type: 'string' },
+      rememberMe: { type: 'boolean' },
     },
-    required: ['email', 'password'],
+    required: ['email', 'password', 'rememberMe'],
   },
   response: {
     200: {
@@ -16,13 +17,60 @@ const signInSchema = {
         token: { type: 'string' },
       },
     },
-    404: {
-      description: 'Sign error response',
+    401: {
+      description: 'Invalid credentials',
       type: 'object',
       properties: {
         errorMsg: {
           type: 'string',
-          default: 'Sign failed',
+          default: 'Invalid credentials.',
+        },
+      },
+    },
+  },
+};
+
+const signUpSchema = {
+  description: 'Sign up',
+  tags: ['Users'],
+  body: {
+    type: 'object',
+    properties: {
+      pseudo: { type: 'string' },
+      avatar: { type: 'string' },
+      firstname: { type: 'string' },
+      lastname: { type: 'string' },
+      password: { type: 'string' },
+      email: { type: 'string' },
+      birthDate: { type: 'string' },
+      githubProfileURL: { type: 'string' },
+      rememberMe: { type: 'boolean' },
+    },
+    required: ['email', 'password', 'pseudo', 'rememberMe'],
+  },
+  response: {
+    201: {
+      type: 'object',
+      properties: {
+        token: { type: 'string' },
+      },
+    },
+    409: {
+      description: 'Pseudo or email already taken.',
+      type: 'object',
+      properties: {
+        errorMsg: {
+          type: 'string',
+          default: 'Either your pseudo or the email is already taken.',
+        },
+      },
+    },
+    503: {
+      description: 'Internal Server Error',
+      type: 'object',
+      properties: {
+        errorMsg: {
+          type: 'string',
         },
       },
     },
@@ -272,4 +320,5 @@ export {
   patchUserVote,
   getUserProjectsSchema,
   signInSchema,
+  signUpSchema,
 };
