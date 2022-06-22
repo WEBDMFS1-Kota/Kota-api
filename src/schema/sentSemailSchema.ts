@@ -14,11 +14,7 @@ const sentEmailSchema = {
     },
     404: {
       description: 'Send Email error response',
-      type: 'string',
-      errorMsg: {
-        type: 'string',
-        default: 'Error on sending mail',
-      },
+      type: 'null',
     },
   },
 };

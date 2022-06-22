@@ -26,11 +26,7 @@ const getProjectsSchema = {
     },
     404: {
       description: 'No Projects found response',
-      type: 'object',
-      errorMsg: {
-        type: 'string',
-        default: 'Projects not found',
-      },
+      type: 'null',
     },
   },
 };
@@ -52,13 +48,7 @@ const getProjectByIdSchema = {
     },
     404: {
       description: 'Project not found response',
-      type: 'object',
-      properties: {
-        errorMsg: {
-          type: 'string',
-          default: 'Project not found with id {id}',
-        },
-      },
+      type: 'null',
     },
   },
 };
@@ -77,13 +67,7 @@ const addProjectSchema = {
     },
     404: {
       description: 'Adding project failed response',
-      type: 'object',
-      properties: {
-        errorMsg: {
-          type: 'string',
-          default: 'Adding project failed',
-        },
-      },
+      type: 'null',
     },
   },
 };
@@ -107,13 +91,7 @@ const updateProjectSchema = {
     },
     404: {
       description: 'Project not found response',
-      type: 'object',
-      properties: {
-        errorMsg: {
-          type: 'string',
-          default: 'Update failed, record {id} not found',
-        },
-      },
+      type: 'null',
     },
   },
 };
@@ -136,12 +114,6 @@ const deleteProjectSchema = {
     404: {
       type: 'null',
       description: 'Project not found response',
-      properties: {
-        errorMsg: {
-          type: 'string',
-          default: 'Delete failed',
-        },
-      },
     },
   },
 };
@@ -156,14 +128,8 @@ const getTopProjectsSchema = {
       items: Project,
     },
     404: {
-      type: 'array',
+      type: 'null',
       description: 'Top Project not found response',
-      properties: {
-        errorMsg: {
-          type: 'string',
-          default: 'No Top project found',
-        },
-      },
     },
   },
 };
@@ -178,14 +144,8 @@ const getHotProjectsSchema = {
       items: Project,
     },
     404: {
-      type: 'array',
+      type: 'null',
       description: 'Hot Project not found response',
-      properties: {
-        errorMsg: {
-          type: 'string',
-          default: 'Hot project not found',
-        },
-      },
     },
   },
 };
@@ -211,14 +171,8 @@ const getProjectCreatorSchema = {
       },
     },
     404: {
-      type: 'object',
+      type: 'null',
       description: 'Project Creator by Id not found response',
-      properties: {
-        errorMsg: {
-          type: 'string',
-          default: 'Get the creator failed',
-        },
-      },
     },
   },
 };

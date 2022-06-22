@@ -6,9 +6,8 @@ const signInSchema = {
     properties: {
       email: { type: 'string' },
       password: { type: 'string' },
-      rememberMe: { type: 'boolean' },
     },
-    required: ['email', 'password', 'rememberMe'],
+    required: ['email', 'password'],
   },
   response: {
     200: {
@@ -17,62 +16,9 @@ const signInSchema = {
         token: { type: 'string' },
       },
     },
-    401: {
-      description: 'Invalid credentials',
-      type: 'object',
-      properties: {
-        errorMsg: {
-          type: 'string',
-          default: 'Invalid credentials.',
-        },
-      },
-    },
-  },
-};
-
-const signUpSchema = {
-  description: 'Sign up',
-  tags: ['Users'],
-  body: {
-    type: 'object',
-    properties: {
-      pseudo: { type: 'string' },
-      avatar: { type: 'string' },
-      firstname: { type: 'string' },
-      lastname: { type: 'string' },
-      password: { type: 'string' },
-      email: { type: 'string' },
-      birthDate: { type: 'string' },
-      githubProfileURL: { type: 'string' },
-      rememberMe: { type: 'boolean' },
-    },
-    required: ['email', 'password', 'pseudo', 'rememberMe'],
-  },
-  response: {
-    201: {
-      type: 'object',
-      properties: {
-        token: { type: 'string' },
-      },
-    },
-    409: {
-      description: 'Pseudo or email already taken.',
-      type: 'object',
-      properties: {
-        errorMsg: {
-          type: 'string',
-          default: 'Either your pseudo or the email is already taken.',
-        },
-      },
-    },
-    503: {
-      description: 'Internal Server Error',
-      type: 'object',
-      properties: {
-        errorMsg: {
-          type: 'string',
-        },
-      },
+    404: {
+      description: 'Sign error response',
+      type: 'null',
     },
   },
 };
@@ -110,13 +56,7 @@ const postUserSchema = {
     },
     404: {
       description: 'Post User error response',
-      type: 'object',
-      properties: {
-        errorMsg: {
-          type: 'string',
-          default: 'Post failed',
-        },
-      },
+      type: 'null',
     },
   },
 };
@@ -125,7 +65,7 @@ const getUserSchema = {
   description: 'Get an user with his ID',
   tags: ['Users'],
   query: {
-    userId: { type: 'number' },
+    id: { type: 'number' },
     pseudo: { type: 'string' },
     email: { type: 'string' },
   },
@@ -149,19 +89,12 @@ const getUserSchema = {
     },
     404: {
       description: 'Get User error response',
-      type: 'object',
-      properties: {
-        errorMsg: {
-          type: 'string',
-          default: 'Get user failed',
-        },
-      },
+      type: 'null',
     },
   },
 };
 
 const patchUserSchema = {
-  security: [{ bearerAuth: [] }],
   description: 'Update user data with his ID',
   tags: ['Users'],
   body: {
@@ -197,19 +130,12 @@ const patchUserSchema = {
     },
     404: {
       description: 'Patch User error response',
-      type: 'object',
-      properties: {
-        errorMsg: {
-          type: 'string',
-          default: 'Patch failed',
-        },
-      },
+      type: 'null',
     },
   },
 };
 
 const deleteUserSchema = {
-  security: [{ bearerAuth: [] }],
   description: 'Delete an user with his ID',
   tags: ['Users'],
   query: {
@@ -235,20 +161,13 @@ const deleteUserSchema = {
     },
     404: {
       description: 'Delete User failed response',
-      type: 'object',
-      properties: {
-        errorMsg: {
-          type: 'string',
-          default: 'Delete user failed',
-        },
-      },
+      type: 'null',
     },
   },
 };
 
 const patchUserVote = {
   description: 'Add vote from an user to a project',
-  security: [{ bearerAuth: [] }],
   tags: ['Users', 'Projects'],
   body: {
     type: 'object',
@@ -267,13 +186,7 @@ const patchUserVote = {
     },
     404: {
       description: 'Adding vote from an user failed response',
-      type: 'string',
-      properties: {
-        errorMsg: {
-          type: 'string',
-          default: 'Adding vote failed',
-        },
-      },
+      type: 'null',
     },
   },
 };
@@ -304,13 +217,7 @@ const getUserProjectsSchema = {
     },
     404: {
       description: 'Get User projects failed response',
-      type: 'array',
-      properties: {
-        errorMsg: {
-          type: 'string',
-          default: 'No projects found',
-        },
-      },
+      type: 'null',
     },
   },
 };
@@ -323,5 +230,4 @@ export {
   patchUserVote,
   getUserProjectsSchema,
   signInSchema,
-  signUpSchema,
 };

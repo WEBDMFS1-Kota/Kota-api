@@ -21,11 +21,7 @@ const getTagsSchema = {
     },
     404: {
       description: 'Get Tags not found response',
-      type: 'array',
-      errorMsg: {
-        type: 'string',
-        default: 'No Tags found',
-      },
+      type: 'null',
     },
   },
 };
@@ -53,11 +49,7 @@ const getUserTagsSchema = {
     },
     404: {
       description: 'Get User Tag not found response',
-      type: 'array',
-      errorMsg: {
-        type: 'string',
-        default: 'User Tag not found',
-      },
+      type: 'null',
     },
   },
 };
@@ -98,13 +90,7 @@ const postUserTagsSchema = {
     },
     404: {
       description: 'Post User Tag adding failed response',
-      type: 'object',
-      properties: {
-        errorMsg: {
-          type: 'string',
-          default: 'Adding failed',
-        },
-      },
+      type: 'null',
     },
   },
 };
@@ -145,13 +131,7 @@ const deleteUserTagsSchema = {
     },
     404: {
       description: 'Delete User Tag error response',
-      type: 'array',
-      properties: {
-        errorMsg: {
-          type: 'string',
-          default: 'Delete Tag failed',
-        },
-      },
+      type: 'null',
     },
   },
 };

@@ -18,14 +18,8 @@ const getProjectTagsSchema = {
       items: ProjectTag,
     },
     404: {
-      type: 'array',
+      type: 'null',
       description: 'Project Tag list not found response',
-      properties: {
-        errorMsg: {
-          type: 'string',
-          default: 'No Project Tag List found',
-        },
-      },
     },
   },
 };
@@ -42,13 +36,7 @@ const getProjectTagsByProjetSchema = {
     },
     404: {
       description: 'Get Project Tag by id not found response',
-      type: 'array',
-      properties: {
-        errorMsg: {
-          type: 'string',
-          default: 'Project Tag by not found with id {id}',
-        },
-      },
+      type: 'null',
     },
   },
 };
@@ -78,13 +66,7 @@ const addProjectTagSchema = {
     },
     404: {
       description: 'Add Project Tag failed response',
-      type: 'object',
-      properties: {
-        errorMsg: {
-          type: 'string',
-          default: 'Add failed',
-        },
-      },
+      type: 'null',
     },
   },
 };
@@ -108,12 +90,6 @@ const deleteProjectTagSchema = {
     404: {
       type: 'null',
       description: 'Delete Project Tag response',
-      properties: {
-        errorMsg: {
-          type: 'string',
-          default: 'Delete failed',
-        },
-      },
     },
   },
 };
