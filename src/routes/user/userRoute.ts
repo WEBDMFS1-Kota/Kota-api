@@ -73,8 +73,8 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
           return response.status(404).send();
         }
         if (Number(query.id) === Number(request.user.userId)) {
-          const updatedUser = await deleteUser(query);
-          return response.status(200).send(updatedUser);
+          await deleteUser(query);
+          return response.status(204).send();
         }
         return response.status(403).send({
           errorMsg: "Can't access a resource you don't own.",

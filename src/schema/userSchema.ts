@@ -207,20 +207,9 @@ const deleteUserSchema = {
     },
   },
   response: {
-    200: {
+    204: {
       description: 'Successful response',
-      type: 'object',
-      properties: {
-        pseudo: { type: 'string' },
-        avatar: { type: 'string' },
-        firstname: { type: 'string' },
-        lastname: { type: 'string' },
-        password: { type: 'string' },
-        email: { type: 'string' },
-        birthDate: { type: 'string' },
-        githubProfileURL: { type: 'string' },
-        description: { type: 'string' },
-      },
+      type: 'null',
     },
     404: {
       description: 'Delete User failed response',
