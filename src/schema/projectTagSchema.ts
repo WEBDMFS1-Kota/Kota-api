@@ -1,87 +1,95 @@
-const typeNumber = { type: 'number' };
-
-// Common
-const projectTagProperties = {
-  id: typeNumber,
-  projectId: typeNumber,
-  tagId: typeNumber,
-};
-
-const ProjectTag = {
-  type: 'object',
-  properties: projectTagProperties,
-};
-
-// Schema
-const getProjectTagsSchema = {
-  response: {
-    200: {
-      type: 'array',
-      items: ProjectTag,
-    },
-  },
-};
-
-const getProjectTagsByProjetSchema = {
+const getProjectTagsByProjectIdSchema = {
+  description: 'Get all tags of a Project',
+  tags: ['ProjectTags'],
   params: {
-    projectId: typeNumber,
+    projectId: {
+      type: 'number',
+      description: 'ID of the project',
+    },
   },
   response: {
     200: {
+      description: 'Successful response',
       type: 'array',
-      items: ProjectTag,
+      items: {
+        type: 'object',
+        properties: {
+          id: { type: 'number' },
+          name: { type: 'string' },
+        },
+      },
     },
   },
 };
 
-const addProjectTagSchema = {
+const postProjectTagsSchema = {
   security: [{ bearerAuth: [] }],
-  body: [{
-    type: 'object',
-    properties: {
-      name: 'string',
-      projectId: typeNumber,
+  description: 'Add tags to a Project',
+  tags: ['ProjectTags'],
+  params: {
+    projectId: {
+      type: 'number',
+      description: 'ID of the project',
     },
-  }, {
+  },
+  body: {
     type: 'array',
     items: {
       type: 'object',
       properties: {
-        name: 'string',
-        projectId: typeNumber,
+        name: {
+          type: 'string',
+          description: 'Name of the tag',
+        },
       },
     },
-  }],
+  },
   response: {
     201: {
-      type: 'object',
-      properties: projectTagProperties,
+      description: 'Successful response',
+      type: 'array',
+      items: {
+        type: 'string',
+      },
     },
   },
 };
 
-const deleteProjectTagSchema = {
+const deleteProjectTagsSchema = {
   security: [{ bearerAuth: [] }],
+  description: 'Delete a tag of an Project',
+  tags: ['ProjectTags'],
   params: {
-    projectId: { type: 'number' },
+    projectId: {
+      type: 'number',
+      description: 'ID of the project',
+    },
   },
   body: {
-    type: 'object',
-    properties: {
-      id: { type: 'number' },
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: {
+        name: {
+          type: 'string',
+          description: 'Name of the tag',
+        },
+      },
     },
   },
   response: {
-    204: {
-      type: 'null',
-      description: 'No Content',
+    201: {
+      description: 'Successful response',
+      type: 'array',
+      items: {
+        type: 'string',
+      },
     },
   },
 };
 
 export {
-  getProjectTagsSchema,
-  getProjectTagsByProjetSchema,
-  addProjectTagSchema,
-  deleteProjectTagSchema,
+  getProjectTagsByProjectIdSchema,
+  postProjectTagsSchema,
+  deleteProjectTagsSchema,
 };
