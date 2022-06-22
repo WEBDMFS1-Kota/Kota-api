@@ -14,7 +14,7 @@ const projectTagRoutes = (server: any, opts: any, done: () => void) => {
     schema: getProjectTagsByProjectIdSchema,
     handler: async (request: any, response: any) => {
       try {
-        const { projectId } = request.params.projectId;
+        const projectId = Number(request.params.projectId);
         const projectTagRelations = await getProjectTagsByProjectId(projectId);
         const projectTags: any[] = [];
         await Promise.all(projectTagRelations.map(async (projectTagRelation: any) => {
