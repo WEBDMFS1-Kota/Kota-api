@@ -19,6 +19,10 @@ const getTagsSchema = {
         },
       },
     },
+    404: {
+      description: 'Get Tags not found response',
+      type: 'null',
+    },
   },
 };
 
@@ -42,6 +46,10 @@ const getUserTagsSchema = {
           name: { type: 'string' },
         },
       },
+    },
+    404: {
+      description: 'Get User Tag not found response',
+      type: 'null',
     },
   },
 };
@@ -80,6 +88,10 @@ const postUserTagsSchema = {
         },
       },
     },
+    404: {
+      description: 'Post User Tag adding failed response',
+      type: 'null',
+    },
   },
 };
 
@@ -116,6 +128,10 @@ const deleteUserTagsSchema = {
           name: { type: 'string' },
         },
       },
+    },
+    404: {
+      description: 'Delete User Tag error response',
+      type: 'null',
     },
   },
 };

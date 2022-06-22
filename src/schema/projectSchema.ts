@@ -24,6 +24,10 @@ const getProjectsSchema = {
       type: 'array',
       items: Project,
     },
+    404: {
+      description: 'No Projects found response',
+      type: 'null',
+    },
   },
 };
 
@@ -44,13 +48,7 @@ const getProjectByIdSchema = {
     },
     404: {
       description: 'Project not found response',
-      type: 'object',
-      properties: {
-        errorMsg: {
-          type: 'string',
-          default: 'Project not found with id {id}',
-        },
-      },
+      type: 'null',
     },
   },
 };
@@ -66,6 +64,10 @@ const addProjectSchema = {
     201: {
       type: 'object',
       properties: projectProperties,
+    },
+    404: {
+      description: 'Adding project failed response',
+      type: 'null',
     },
   },
 };
@@ -89,20 +91,14 @@ const updateProjectSchema = {
     },
     404: {
       description: 'Project not found response',
-      type: 'object',
-      properties: {
-        errorMsg: {
-          type: 'string',
-          default: 'Update failed, record {id} not found',
-        },
-      },
+      type: 'null',
     },
   },
 };
 
 const deleteProjectSchema = {
-  description: 'Delete a project with his ID',
   security: [{ bearerAuth: [] }],
+  description: 'Delete a project with his ID',
   tags: ['Projects'],
   params: {
     id: {
@@ -116,14 +112,8 @@ const deleteProjectSchema = {
       description: 'Successful response',
     },
     404: {
-      type: 'object',
+      type: 'null',
       description: 'Project not found response',
-      properties: {
-        errorMsg: {
-          type: 'string',
-          default: 'Delete failed',
-        },
-      },
     },
   },
 };
@@ -137,6 +127,10 @@ const getTopProjectsSchema = {
       type: 'array',
       items: Project,
     },
+    404: {
+      type: 'null',
+      description: 'Top Project not found response',
+    },
   },
 };
 
@@ -148,6 +142,10 @@ const getHotProjectsSchema = {
       description: 'Successful response',
       type: 'array',
       items: Project,
+    },
+    404: {
+      type: 'null',
+      description: 'Hot Project not found response',
     },
   },
 };
@@ -171,6 +169,10 @@ const getProjectCreatorSchema = {
         birthDate: { type: 'string' },
         githubProfileURL: { type: 'string' },
       },
+    },
+    404: {
+      type: 'null',
+      description: 'Project Creator by Id not found response',
     },
   },
 };
