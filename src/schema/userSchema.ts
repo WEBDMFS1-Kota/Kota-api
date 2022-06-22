@@ -161,6 +161,7 @@ const getUserSchema = {
 };
 
 const patchUserSchema = {
+  security: [{ bearerAuth: [] }],
   description: 'Update user data with his ID',
   tags: ['Users'],
   body: {
@@ -219,6 +220,7 @@ const deleteUserSchema = {
   response: {
     200: {
       description: 'Successful response',
+      security: [{ bearerAuth: [] }],
       type: 'object',
       properties: {
         pseudo: { type: 'string' },
@@ -246,6 +248,7 @@ const deleteUserSchema = {
 
 const patchUserVote = {
   description: 'Add vote from an user to a project',
+  security: [{ bearerAuth: [] }],
   tags: ['Users', 'Projects'],
   body: {
     type: 'object',
