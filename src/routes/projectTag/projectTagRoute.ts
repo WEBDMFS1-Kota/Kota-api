@@ -1,4 +1,7 @@
-import { deleteProjectTagsSchema, getProjectTagsByProjectIdSchema, postProjectTagsSchema } from '../../schema/projectTagSchema';
+import {
+  deleteProjectTagsSchema, getProjectTagsByProjectIdSchema, postProjectTagsSchema,
+  patchProjectTagsSchema,
+} from '../../schema/projectTagSchema';
 import { getProjectById } from '../../services/project/projectService';
 import {
   getProjectTagsByProjectId,
@@ -22,6 +25,65 @@ const projectTagRoutes = (server: any, opts: any, done: () => void) => {
           projectTags.push(tag);
         }));
         return response.status(200).send(projectTags);
+      } catch (error) {
+        return response.status(503).send({ errorMsg: error });
+      }
+    },
+  });
+
+  server.patch('/projects/:projectId/tags', {
+    onRequest: [server.authenticate],
+    schema: patchProjectTagsSchema,
+    handler: async (request: any, response: any) => {
+      try {
+        const projectId = Number(request.params.projectId);
+        const { body } = request;
+        const project = await getProjectById(projectId);
+        const setTags: any[] = [];
+        if (!project) {
+          return response.status(404).send();
+        }
+        if (project.projectsUsers[0].userId !== request.user.userId) {
+          return response.status(403).send({
+            errorMsg: "Can't access a resource you don't own.",
+          });
+        }
+        const projectTagRelations = await getProjectTagsByProjectId(projectId);
+        const projectTagsId: any[] = [];
+        projectTagRelations.forEach((tag: any) => {
+          projectTagsId.push(tag.tagId);
+        });
+        const bodyTagsId: any[] = [];
+        body.forEach((tag: any) => {
+          bodyTagsId.push(tag.id);
+        });
+        const tagsToBeHere: any[] = [];
+        const tagsNotToBeHere: any[] = [];
+        projectTagsId.forEach(async (tagId: any) => {
+          if (bodyTagsId.includes(tagId) === true) {
+            tagsToBeHere.push(tagId);
+            setTags.push(Number(tagId));
+          } else {
+            tagsNotToBeHere.push(tagId);
+          }
+        });
+        tagsToBeHere.forEach((tagId) => {
+          const index = bodyTagsId.indexOf(tagId);
+          if (index !== -1) {
+            bodyTagsId.splice(index, index + 1);
+          }
+        });
+        await Promise.all(bodyTagsId.map(async (remainingTagId: any) => {
+          if (await getTagById(remainingTagId)) {
+            setTags.push(Number(remainingTagId));
+            await addProjectTag(projectId, remainingTagId);
+          }
+        }));
+        await Promise.all(tagsNotToBeHere.map(async (extraTagId:any) => {
+          const relation = (await getProjectTagByProjectIdAndTagId(projectId, extraTagId))[0];
+          await deleteProjectTag(relation.id);
+        }));
+        return response.status(201).send(setTags);
       } catch (error) {
         return response.status(503).send({ errorMsg: error });
       }

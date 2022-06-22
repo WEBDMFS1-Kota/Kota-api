@@ -26,6 +26,43 @@ const getProjectTagsByProjectIdSchema = {
   },
 };
 
+const patchProjectTagsSchema = {
+  security: [{ bearerAuth: [] }],
+  description: 'Set project tags',
+  tags: ['ProjectTags'],
+  params: {
+    projectId: {
+      type: 'number',
+      description: 'ID of the project',
+    },
+  },
+  body: {
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: {
+        id: {
+          type: 'number',
+          description: 'Id of the tag',
+        },
+      },
+    },
+  },
+  response: {
+    201: {
+      description: 'Successful response',
+      type: 'array',
+      items: {
+        type: 'number',
+      },
+    },
+    404: {
+      description: 'Add Project Tag failed response',
+      type: 'null',
+    },
+  },
+};
+
 const postProjectTagsSchema = {
   security: [{ bearerAuth: [] }],
   description: 'Add tags to a Project',
@@ -104,4 +141,5 @@ export {
   getProjectTagsByProjectIdSchema,
   postProjectTagsSchema,
   deleteProjectTagsSchema,
+  patchProjectTagsSchema,
 };
