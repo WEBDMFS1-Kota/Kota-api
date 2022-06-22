@@ -1,3 +1,4 @@
+import { deleteProjectTagsSchema, getProjectTagsByProjectIdSchema, postProjectTagsSchema } from '../../schema/projectTagSchema';
 import { getProjectById } from '../../services/project/projectService';
 import {
   getProjectTagsByProjectId,
@@ -10,6 +11,7 @@ import { getTagById, getTagsById } from '../../services/tag/tagService';
 
 const projectTagRoutes = (server: any, opts: any, done: () => void) => {
   server.get('/projects/:projectId/tags', {
+    schema: getProjectTagsByProjectIdSchema,
     handler: async (request: any, response: any) => {
       try {
         const { projectId } = request.params.projectId;
@@ -28,6 +30,7 @@ const projectTagRoutes = (server: any, opts: any, done: () => void) => {
 
   server.post('/projects/:projectId/tags', {
     onRequest: [server.authenticate],
+    schema: postProjectTagsSchema,
     handler: async (request: any, response: any) => {
       try {
         const projectId = Number(request.params.projectId);
@@ -64,6 +67,7 @@ const projectTagRoutes = (server: any, opts: any, done: () => void) => {
 
   server.delete('/projects/:projectId/tags', {
     onRequest: [server.authenticate],
+    schema: deleteProjectTagsSchema,
     handler: async (request: any, response: any) => {
       const { body, params } = request;
       const projectId = Number(params.projectId);
