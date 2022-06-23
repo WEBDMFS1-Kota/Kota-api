@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISC",
   "prisma": {
-    "seed": "ts-node prisma/seed.ts"
+    "seed": "ts-node src/data/seed.ts"
   },
   "dependencies": {
     "@fastify/cors": "^8.0.0",
