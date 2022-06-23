@@ -21,7 +21,8 @@
     "dotenv": "^16.0.1",
     "fastify": "^4.0.0",
     "node-mailjet": "^4.0.1",
-    "prisma": "^3.14.0"
+    "prisma": "^3.14.0",
+    "ts-md5": "^1.2.11"
   },
   "devDependencies": {
     "@tsconfig/node18": "^1.0.0",

@@ -5,24 +5,24 @@ const mailjet = new Mailjet({
   apiSecret: process.env.MAILJET_SECRET || 'your-api-secret',
 });
 
-function sendEmail(sendTo: any) {
+function sendEmail(sendTo: any, variables: any, emailConfig: any) {
   const request = mailjet.post('send', {
     version: 'v3.1',
   }).request({
     Messages: [{
       From: {
         Email: process.env.MAILJET_EMAIL,
-        Name: 'Kota Forgotten Password Service',
+        Name: 'Kota Noreply',
       },
       To: [{
         Email: sendTo.email,
         Name: sendTo.lastname + sendTo.firstname,
       },
       ],
-      TemplateID: Number(process.env.MAILJET_RESET_TEMPLATEID),
+      TemplateID: Number(emailConfig.emailID),
       TemplateLanguage: true,
-      Variables: { pseudo: sendTo.pseudo, resetToken: sendTo.id },
-      Subject: 'Reset Password',
+      Variables: variables,
+      Subject: emailConfig.subject,
       'Mj-campaign': 'Coinplaces',
     },
     ],

@@ -1,10 +1,8 @@
-const sentEmailSchema = {
+const forgotPasswordSchema = {
   tags: ['SentEmail'],
   body: {
-    type: 'string',
-    properties: {
-      email: { type: 'string' },
-    },
+    email: { type: 'string' },
+    pseudo: { type: 'string' },
   },
   response: {
     200: {
@@ -19,7 +17,34 @@ const sentEmailSchema = {
   },
 };
 
+const resetPasswordSchema = {
+  tags: ['SentEmail'],
+  body: {
+    token: { type: 'string' },
+    password: { type: 'string' },
+  },
+  response: {
+    200: {
+      description: 'Successful response',
+      type: 'string',
+      default: '',
+    },
+    401: {
+      description: 'Bad user response',
+      type: 'null',
+    },
+    403: {
+      description: 'Bad token response',
+      type: 'null',
+    },
+    503: {
+      description: 'Error when sending email',
+      type: 'null',
+    },
+  },
+};
+
 export {
-  // eslint-disable-next-line import/prefer-default-export
-  sentEmailSchema,
+  forgotPasswordSchema,
+  resetPasswordSchema,
 };
