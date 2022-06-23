@@ -10,7 +10,7 @@
     "lint": "npx eslint \"src/**/*\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "BOUZON CONDE Alexandre, CARRIERES Adrian-Paul, HIRON Alice, LEROY DUCARDONNOY Paul, MAILLY Elouan",
   "license": "ISC",
   "prisma": {
     "seed": "ts-node src/data/seed.ts"
