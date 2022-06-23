@@ -11,6 +11,7 @@
     "project": "./tsconfig.json"
   },
   "plugins": ["@typescript-eslint", "import"],
+  "ignorePatterns": ["**/*.json"],
   "rules": {
     "eol-last": ["error", "always"],
     "no-console": 0,

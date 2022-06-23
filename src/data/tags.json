@@ -1,215 +1,215 @@
 [
     {
-        "name":"Python"
+        "name": "Python"
     },
     {
-        "name":"Microsoft Azure"
+        "name": "Microsoft Azure"
     },
     {
-        "name":"IOT"
+        "name": "IOT"
     },
     {
-        "name":"AWS"
+        "name": "AWS"
     },
     {
-        "name":"PHP"
+        "name": "PHP"
     },
     {
-        "name":"C#"
+        "name": "C#"
     },
     {
-        "name":"HTML"
+        "name": "HTML"
     },
     {
-        "name":"CSS"
+        "name": "CSS"
     },
     {
-        "name":"Javascript"
+        "name": "Javascript"
     },
     {
-        "name":"Elixir"
+        "name": "Elixir"
     },
     {
-        "name":"Rust"
+        "name": "Rust"
     },
     {
-        "name":"C++"
+        "name": "C++"
     },
     {
-        "name":"SQL"
+        "name": "SQL"
     },
     {
-        "name":"PostgresQL"
+        "name": "PostgresQL"
     },
     {
-        "name":"Firebase"
+        "name": "Firebase"
     },
     {
-        "name":"Soupabase"
+        "name": "Soupabase"
     },
     {
-        "name":"Angular"
+        "name": "Angular"
     },
     {
-        "name":"Java"
+        "name": "Java"
     },
     {
-        "name":"Typescript"
+        "name": "Typescript"
     },
     {
-        "name":"Swift"
+        "name": "Swift"
     },
     {
-        "name":"Golang"
+        "name": "Golang"
     },
     {
-        "name":"R"
+        "name": "R"
     },
     {
-        "name":"Basic"
+        "name": "Basic"
     },
     {
-        "name":"Bash"
+        "name": "Bash"
     },
     {
-        "name":"COBOL"
+        "name": "COBOL"
     },
     {
-        "name":"Powershell"
+        "name": "Powershell"
     },
     {
-        "name":"Shell"
+        "name": "Shell"
     },
     {
-        "name":"RPG"
+        "name": "RPG"
     },
     {
-        "name":"Squirrel"
+        "name": "Squirrel"
     },
     {
-        "name":"SPARK"
+        "name": "SPARK"
     },
     {
-        "name":"MongoDb"
+        "name": "MongoDb"
     },
     {
-        "name":"Node4j"
+        "name": "Node4j"
     },
     {
-        "name":"DynamoDb"
+        "name": "DynamoDb"
     },
     {
-        "name":"Suite Elastic"
+        "name": "Suite Elastic"
     },
     {
-        "name":"Microsoft SQL Server"
+        "name": "Microsoft SQL Server"
     },
     {
-        "name":"Namo"
+        "name": "Namo"
     },
     {
-        "name":"Apache Spark"
+        "name": "Apache Spark"
     },
     {
-        "name":"Tynker"
+        "name": "Tynker"
     },
     {
-        "name":"Brainfuck"
+        "name": "Brainfuck"
     },
     {
-        "name":"Assembler"
+        "name": "Assembler"
     },
     {
-        "name":"Haskell"
+        "name": "Haskell"
     },
     {
-        "name":"Unrealscript"
+        "name": "Unrealscript"
     },
     {
-        "name":"Docker"
+        "name": "Docker"
     },
     {
-        "name":"Visual Studio Code"
+        "name": "Visual Studio Code"
     },
     {
-        "name":"Terraform"
+        "name": "Terraform"
     },
     {
-        "name":"IntelliJ"
+        "name": "IntelliJ"
     },
     {
-        "name":"Eclipse"
+        "name": "Eclipse"
     },
     {
-        "name":"Bash shell"
+        "name": "Bash shell"
     },
     {
-        "name":"GraphQL"
+        "name": "GraphQL"
     },
     {
-        "name":"DTDL"
+        "name": "DTDL"
     },
     {
-        "name":"R"
+        "name": "R"
     },
     {
-        "name":"Ruby"
+        "name": "Ruby"
     },
     {
-        "name":"Android Studio"
+        "name": "Android Studio"
     },
     {
-        "name":"React"
+        "name": "React"
     },
     {
-        "name":"React Native"
+        "name": "React Native"
     },
     {
-        "name":"Kotlin"
+        "name": "Kotlin"
     },
     {
-        "name":"C"
+        "name": "C"
     },
     {
-        "name":"Mailjet"
+        "name": "Mailjet"
     },
     {
-        "name":"ASP"
+        "name": "ASP"
     },
     {
-        "name":"Bootstrap"
+        "name": "Bootstrap"
     },
     {
-        "name":"jQuery"
+        "name": "jQuery"
     },
     {
-        "name":"Pascal"
+        "name": "Pascal"
     },
     {
-        "name":"XML"
+        "name": "XML"
     },
     {
-        "name":"Git"
+        "name": "Git"
     },
     {
-        "name":"JSON"
+        "name": "JSON"
     },
     {
-        "name":"Raspberry Pi"
+        "name": "Raspberry Pi"
     },
     {
-        "name":"Assambly"
+        "name": "Assambly"
     },
     {
-        "name":"Groovy"
+        "name": "Groovy"
     },
     {
-        "name":"Perl"
+        "name": "Perl"
     },
     {
-        "name":"Lua"
+        "name": "Lua"
     },
     {
-        "name":"Prolog"
+        "name": "Prolog"
     }
 ]
