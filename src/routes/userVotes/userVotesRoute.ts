@@ -9,9 +9,27 @@ import {
   resetDownVote,
   resetUserVoteRelation,
 } from '../../services/userVotes/userVotesService';
-import { patchUserVote } from '../../schema/userSchema';
+import { patchUserVote, getUserVote } from '../../schema/userSchema';
 
 const userVotesRoutes = (server: any, opts: any, done: () => void) => {
+  server.get('/projects/vote/:projectID', {
+    onRequest: [server.authenticate],
+    schema: getUserVote,
+    handler: async (request: any, response: any) => {
+      const { query, params } = request;
+      try {
+        const userVote = (await checkVote({ voterId: query.id }, params.projectID))[0];
+        if (!userVote) {
+          return response.status(204).send();
+        } if (request.user.userId !== userVote.userId) {
+          return response.status(403).send();
+        }
+        return response.status(200).send(userVote);
+      } catch (error) {
+        return response.status(503).send({ errorMsg: error });
+      }
+    },
+  });
   server.patch('/projects/vote/:idProject', {
     onRequest: [server.authenticate],
     schema: patchUserVote,

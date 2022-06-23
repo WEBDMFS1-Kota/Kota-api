@@ -244,6 +244,48 @@ const patchUserVote = {
   },
 };
 
+const getUserVote = {
+  description: 'Get vote on a project for a specific user',
+  security: [{ bearerAuth: [] }],
+  tags: ['Users', 'Projects'],
+  required: {
+    id: { type: 'number' },
+  },
+  query: {
+    id: { type: 'number' },
+  },
+  params: {
+    projectID: { type: 'number' },
+  },
+  response: {
+    200: {
+      description: 'Unsuccessful response',
+      properties: {
+        id: { type: 'number' },
+        userId: { type: 'number' },
+        projectId: { type: 'number' },
+        voteValue: { type: 'number' },
+      },
+    },
+    204: {
+      description: 'No vote response',
+      type: 'null',
+    },
+    403: {
+      description: 'Unauthorized user response',
+      type: 'null',
+    },
+    503: {
+      description: 'Server error response',
+      properties: {
+        errorMsg: {
+          type: 'string',
+        },
+      },
+    },
+  },
+};
+
 const getUserProjectsSchema = {
   description: 'Get all the projects of an user',
   tags: ['Users', 'Projects'],
@@ -282,6 +324,7 @@ export {
   patchUserSchema,
   deleteUserSchema,
   patchUserVote,
+  getUserVote,
   getUserProjectsSchema,
   signInSchema,
   signUpSchema,
