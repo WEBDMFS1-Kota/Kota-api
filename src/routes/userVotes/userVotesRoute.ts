@@ -59,10 +59,10 @@ const userVotesRoutes = (server: any, opts: any, done: () => void) => {
           }
           if (Number(body.value) === 1) {
             const vote = await upVoteProject(body, params.idProject);
-            return response.status(200).send(vote);
+            return response.status(201).send(vote);
           }
           const vote = await downVoteProject(body, params.idProject);
-          return response.status(200).send(vote);
+          return response.status(201).send(vote);
         }
         return response.status(400).send({ errorMsg: 'Invalid value for vote' });
       } catch (error) {

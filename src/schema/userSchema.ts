@@ -232,11 +232,6 @@ const patchUserVote = {
     idProject: { type: 'number' },
   },
   response: {
-    200: {
-      description: 'Unsuccessful response',
-      type: 'string',
-      default: 'You already voted that.',
-    },
     404: {
       description: 'Adding vote from an user failed response',
       type: 'null',
