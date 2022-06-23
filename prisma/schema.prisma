@@ -48,7 +48,7 @@ model projectsUsers {
 
 model tags {
   id         Int          @id @default(autoincrement())
-  name       String?      @db.VarChar
+  name       String?      @db.VarChar @unique
   projectTag projectTag[]
   userTag    userTag[]
 }
