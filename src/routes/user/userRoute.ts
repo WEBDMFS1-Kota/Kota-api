@@ -10,6 +10,7 @@ import {
   signInSchema,
   signUpSchema,
 } from '../../schema/userSchema';
+import { sendEmail } from '../../services/mailjetService';
 
 const userRoutes = (server: any, opts: any, done: () => void) => {
   server.post('/signin', {
@@ -50,6 +51,19 @@ const userRoutes = (server: any, opts: any, done: () => void) => {
           }
           const { pseudo, avatar } = newUser;
           const token = server.jwt.sign({ userId: newUser.id, pseudo, avatar }, signOptions);
+
+          const variables = {
+            pseudo,
+            avatar,
+          };
+
+          const emailConfig = {
+            subject: 'Welcome to Kota',
+            emailID: process.env.MAILJET_CONFIRM_REGISTER_TEMPLATEID || '',
+          };
+
+          await sendEmail(newUser, variables, emailConfig);
+
           return response.status(201).send({ token });
         }
         return response.status(503).send({ errorMsg: 'User creation errored: newUser is undefined' });
