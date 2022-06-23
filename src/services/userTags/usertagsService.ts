@@ -31,7 +31,6 @@ async function getAllUserTags(userId: any) {
       userId: Number(userId),
     },
   });
-  console.log(userTagsId);
   return userTagsId;
 }
 
