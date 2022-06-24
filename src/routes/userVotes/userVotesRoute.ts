@@ -10,6 +10,7 @@ import {
   resetUserVoteRelation,
 } from '../../services/userVotes/userVotesService';
 import { patchUserVote, getUserVote } from '../../schema/userSchema';
+import { getUserById } from '../../services/user/userService';
 
 const userVotesRoutes = (server: any, opts: any, done: () => void) => {
   server.get('/projects/vote/:projectID', {
@@ -36,6 +37,15 @@ const userVotesRoutes = (server: any, opts: any, done: () => void) => {
     handler: async (request: any, response: any) => {
       const { body, params } = request;
       try {
+        const user = await getUserById(request.user.userId);
+        if (!user) {
+          return response.status(404).send();
+        }
+        if (Number(body.voterId) !== Number(user.id)) {
+          return response.status(403).send({
+            errorMsg: "Can't access a resource you don't own.",
+          });
+        }
         if (Number(body.value) === 1 || Number(body.value) === -1) {
           const alreadyVoted = (await checkVote(body, params.idProject))[0];
           if (alreadyVoted) {
